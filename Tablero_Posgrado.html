@@ -1,0 +1,592 @@
+<!doctype html>
+<html lang="es">
+<head>
+<style>
+:root{
+  --navy:#0d2d5a;--royal:#1a56db;--sky:#3b82f6;--light:#93c5fd;--pale:#eff6ff;
+  --text:#1e293b;--muted:#64748b;--bg:#f1f5f9;--card:#fff;
+  --border:#e2e8f0;--shadow:0 2px 14px rgba(13,45,90,.09);--r:12px;
+  --font:"Segoe UI",system-ui,-apple-system,sans-serif;
+  --go:#059669;--stop:#dc2626;--amber:#d97706;--sunken:#e2e8f0;
+  --c1:#1a56db;--c2:#059669;--c3:#d97706;--c4:#dc2626;
+  --r1:#0d2d5a;--r2:#1a56db;--r3:#3b82f6;--r4:#93c5fd;--r5:#bfdbfe;--r6:#dbeafe;
+  --go-soft:#d1fae5;--stop-soft:#fee2e2;--amber-soft:#fef3c7;
+  --rule:#e2e8f0;--rule-2:#cbd5e1;--ink:#1e293b;--ink-2:#475569;--ink-3:#64748b;
+  --surface:#fff;--surface-2:#f8fafc;
+  --blue:#1a56db;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:100vh;font-size:15px;line-height:1.55}
+img{max-width:100%}
+[hidden]{display:none!important}
+@media print{nav{display:none!important}section{page-break-inside:avoid}body{background:#fff!important}}
+
+/* ── HEADER ── */
+.hdr{background:linear-gradient(135deg,#091e42 0%,#0d2d5a 40%,#163a80 70%,#1a56db 100%);
+  color:#fff;position:relative;overflow:hidden;padding:28px 20px 56px}
+.hdr-geo{position:absolute;top:0;right:0;opacity:.07;pointer-events:none}
+.hdr-circ{position:absolute;bottom:-90px;left:-60px;width:280px;height:280px;
+  border-radius:50%;background:rgba(255,255,255,.04);pointer-events:none}
+.hdr-inner{max-width:1280px;margin:0 auto;display:flex;align-items:center;gap:22px;
+  position:relative;z-index:1;flex-wrap:wrap}
+.hdr-logo{width:155px;height:82px;border-radius:14px;
+  background:rgba(255,255,255,.90);display:flex;align-items:center;
+  justify-content:center;overflow:hidden;flex-shrink:0;
+  backdrop-filter:blur(24px);border:2px solid rgba(255,255,255,.55);
+  box-shadow:0 6px 28px rgba(0,0,0,.20);padding:10px}
+.hdr-logo img{width:100%;height:100%;object-fit:contain}
+.hdr-txt{flex:1;min-width:200px}
+.hdr-txt h1{font-size:clamp(1.05rem,2.8vw,1.5rem);font-weight:800;letter-spacing:-.02em;line-height:1.2}
+.hdr-txt p{margin-top:5px;font-size:.84rem;opacity:.72;line-height:1.45}
+.hdr-stats{display:flex;gap:10px;flex-shrink:0}
+.stat{background:rgba(255,255,255,.12);border:1.5px solid rgba(255,255,255,.22);
+  border-radius:50px;padding:8px 18px;text-align:center;backdrop-filter:blur(10px)}
+.stat .n{font-size:1.4rem;font-weight:800;display:block;line-height:1}
+.stat .l{font-size:.63rem;opacity:.76;text-transform:uppercase;letter-spacing:.07em}
+.hdr-wave{position:absolute;bottom:0;left:0;right:0;height:40px}
+
+/* ── HOME BUTTON ── */
+.home-btn{
+  position:fixed;top:14px;right:18px;z-index:9999;
+  display:inline-flex;align-items:center;gap:7px;
+  padding:7px 16px 7px 12px;border-radius:50px;
+  background:#fff;border:2px solid #e2e8f0;
+  color:#0d2d5a;font-size:.78rem;font-weight:800;
+  text-decoration:none;letter-spacing:.04em;text-transform:uppercase;
+  box-shadow:0 4px 16px rgba(13,45,90,.20);
+  transition:background .18s,box-shadow .18s,border-color .18s;
+  cursor:pointer;
+}
+.home-btn:hover{
+  background:#eff6ff;border-color:#93c5fd;
+  box-shadow:0 6px 24px rgba(13,45,90,.28);
+}
+.home-btn svg{width:15px;height:15px;flex-shrink:0}
+
+/* ── NAV ── */
+nav{position:sticky;top:0;z-index:100;background:#fff;
+  border-bottom:1px solid var(--border);box-shadow:0 3px 12px rgba(0,0,0,.07)}
+.flt-nav{max-width:1280px;margin:0 auto;padding:10px 20px;
+  display:flex;gap:6px;overflow-x:auto;scrollbar-width:thin}
+.flt-nav a{flex:0 0 auto;text-decoration:none;color:var(--muted);font-size:.82rem;font-weight:600;
+  padding:6px 16px;border-radius:50px;border:1.5px solid var(--border);
+  background:#fff;white-space:nowrap;transition:all .18s}
+.flt-nav a:hover{border-color:var(--sky);color:var(--royal)}
+.flt-nav a:focus-visible{outline:2px solid var(--royal);outline-offset:2px}
+
+/* ── WRAP ── */
+.wrap{max-width:1280px;margin:0 auto;padding:0 20px 72px}
+h1,h2,h3{margin:0}
+.mono{font-family:"SFMono-Regular",Consolas,"Liberation Mono",Menlo,monospace}
+.num{font-variant-numeric:tabular-nums}
+
+/* ── SECTIONS ── */
+section{padding-top:44px}
+.axis-hdr{display:flex;align-items:center;gap:14px;padding:16px 24px;
+  background:linear-gradient(135deg,var(--navy) 0%,#163a80 100%);
+  border-radius:var(--r);color:#fff;margin-bottom:20px;
+  box-shadow:0 4px 16px rgba(13,45,90,.18)}
+.axis-icon{font-size:1.4rem;font-family:var(--font);font-weight:800;
+  padding:0 6px 0 0;opacity:.9;flex-shrink:0}
+.axis-title{font-size:1.02rem;font-weight:800;line-height:1.3}
+.axis-sub{font-size:.79rem;opacity:.72;margin-top:2px}
+
+/* ── CARDS ── */
+.card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);
+  padding:20px 22px 22px;box-shadow:var(--shadow)}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(330px,1fr));gap:16px}
+.grid2.wide{grid-template-columns:repeat(auto-fit,minmax(430px,1fr))}
+.cardtitle{font-size:1rem;font-weight:700;margin-bottom:4px;color:var(--text)}
+.cardsub{font-size:.8rem;color:var(--muted);margin-bottom:18px;line-height:1.45}
+p.intro{max-width:68ch;color:var(--ink-2);margin:0 0 22px}
+
+/* ── STACKED ROWS ── */
+.rows{display:flex;flex-direction:column;gap:13px}
+.row{display:grid;grid-template-columns:minmax(84px,auto) 1fr minmax(74px,auto);gap:12px;align-items:center}
+.row .lbl{font-size:13px;color:var(--ink-2);font-weight:500}
+.row .lbl small{display:block;font-size:11px;color:var(--ink-3);font-weight:400}
+.track{height:20px;background:var(--sunken);border-radius:4px;display:flex;gap:2px;overflow:hidden;position:relative}
+.seg{height:100%;border-radius:4px;min-width:3px;transition:filter .13s}
+.seg:hover{filter:brightness(1.12)}
+.seg.go{background:var(--go)}
+.seg.stop{background:var(--stop)}
+.seg.pend{background:repeating-linear-gradient(135deg,var(--rule-2),var(--rule-2) 3px,transparent 3px,transparent 6px);border:1px solid var(--rule-2)}
+.row .val{font-size:13px;font-weight:600;text-align:right;font-variant-numeric:tabular-nums;font-family:var(--mono)}
+.bar1{height:20px;background:var(--sunken);border-radius:4px;overflow:hidden}
+.bar1 i{display:block;height:100%;border-radius:4px;background:var(--blue)}
+.bar1.amber i{background:var(--amber)}
+
+/* ── LEGEND ── */
+.legend{display:flex;gap:16px;flex-wrap:wrap;margin-top:18px;padding-top:14px;border-top:1px solid var(--border)}
+.legend span{display:inline-flex;align-items:center;gap:7px;font-size:12.5px;color:var(--ink-2)}
+.swatch{width:11px;height:11px;border-radius:3px;flex:0 0 auto}
+.swatch.go{background:var(--go)}.swatch.stop{background:var(--stop)}
+.swatch.pend{background:repeating-linear-gradient(135deg,var(--rule-2),var(--rule-2) 3px,transparent 3px,transparent 6px);border:1px solid var(--rule-2)}
+.swatch.blue{background:var(--blue)}.swatch.amber{background:var(--amber)}
+
+/* ── DONUT ── */
+.donut{display:flex;gap:22px;align-items:center;flex-wrap:wrap}
+.donut svg{flex:0 0 auto}
+.donut .dlegend{flex:1 1 190px;display:flex;flex-direction:column;gap:9px;min-width:190px}
+.dl{display:grid;grid-template-columns:12px 1fr auto auto;gap:9px;align-items:baseline;font-size:13px}
+.dl i{width:12px;height:12px;border-radius:3px;display:block;transform:translateY(2px)}
+.dl .n{color:var(--ink);font-weight:500}
+.dl .q{color:var(--ink-2);font-variant-numeric:tabular-nums}
+.dl .p{color:var(--ink-3);font-variant-numeric:tabular-nums;min-width:46px;text-align:right}
+.dcenter{font-family:var(--font);font-weight:700;fill:var(--ink)}
+.dcenter-s{font-family:var(--font);fill:var(--ink-3)}
+
+/* ── FINDINGS ── */
+.finding{border-left:3px solid var(--royal);background:var(--pale);padding:13px 16px;
+  margin-top:18px;border-radius:0 var(--r) var(--r) 0;font-size:13.5px;color:var(--ink-2);line-height:1.5}
+.finding b{color:var(--text);font-weight:700}
+.method{border-left:3px solid var(--border);background:var(--surface-2);padding:13px 16px;
+  border-radius:0 5px 5px 0;font-size:13px;color:var(--ink-2);line-height:1.5;margin-top:16px}
+.method b{color:var(--ink);font-weight:600}
+
+/* ── TABLE ── */
+.tablewrap{overflow-x:auto;border:1px solid var(--border);border-radius:var(--r);background:var(--card)}
+table{border-collapse:collapse;width:100%;font-size:13px;min-width:640px}
+th{text-align:left;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--muted);font-weight:700;padding:11px 14px;
+  border-bottom:1px solid var(--rule-2);background:var(--surface-2);position:sticky;top:0}
+td{padding:10px 14px;border-bottom:1px solid var(--border);vertical-align:top;color:var(--ink-2)}
+tr:last-child td{border-bottom:0}
+td.prog{color:var(--text);font-weight:600}
+tbody tr:hover td{background:var(--pale)}
+.pill-badge{display:inline-block;font-size:10.5px;font-weight:700;
+  letter-spacing:.06em;padding:2px 8px;border-radius:50px;white-space:nowrap;text-transform:uppercase}
+.pill-badge.never{background:var(--stop-soft);color:var(--stop)}
+.pill-badge.old{background:var(--amber-soft);color:var(--amber)}
+.filters{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px}
+.filters button{font-size:.82rem;font-weight:600;padding:5px 13px;border-radius:50px;
+  border:1.5px solid var(--border);background:#fff;color:var(--muted);cursor:pointer;transition:all .18s}
+.filters button:hover{border-color:var(--sky);color:var(--royal)}
+.filters button[aria-pressed="true"]{background:var(--royal);color:#fff;border-color:var(--royal)}
+.filters button:focus-visible{outline:2px solid var(--royal);outline-offset:2px}
+
+/* ── ENV CARDS ── */
+.envgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px}
+.env{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:17px 18px}
+.env .v{font-weight:800;font-size:30px;letter-spacing:-.02em;font-variant-numeric:tabular-nums;color:var(--royal);margin-bottom:5px}
+.env .k{font-size:13px;color:var(--ink-2);line-height:1.4}
+
+/* ── FOOTER ── */
+footer{background:var(--navy);color:rgba(255,255,255,.72);padding:28px 20px;font-size:.77rem;line-height:1.75}
+.fi{max-width:1280px;margin:0 auto}
+footer p+p{margin-top:8px}
+footer strong,footer b{color:rgba(255,255,255,.94)}
+footer a{color:rgba(255,255,255,.8)}
+footer .warn{color:#fff;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);
+  border-radius:8px;padding:13px 16px;margin-bottom:16px}
+
+/* ── RESPONSIVE ── */
+@media(max-width:560px){
+  .row{grid-template-columns:1fr;gap:5px}
+  .row .val{text-align:left}
+  .hdr-stats{display:none}
+}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Tablero de datos de posgrado de la Universidad de Cuenca para el taller de coordinadores del 31 de agosto de 2026.">
+
+<title>Tablero de posgrados UC-2031</title>
+
+
+</head>
+<body>
+<a href="index.html" class="home-btn" aria-label="Volver al inicio">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z"/>
+    <path d="M9 21V12h6v9"/>
+  </svg>
+  INICIO
+</a>
+<header class="hdr">
+  <svg class="hdr-geo" width="520" height="420" viewBox="0 0 520 420" aria-hidden="true">
+    <circle cx="420" cy="60" r="130" fill="none" stroke="white" stroke-width="1.5"/>
+    <circle cx="420" cy="60" r="90" fill="none" stroke="white" stroke-width="1"/>
+    <circle cx="420" cy="60" r="50" fill="none" stroke="white" stroke-width=".7"/>
+    <polygon points="390,20 450,20 480,70 450,120 390,120 360,70" fill="none" stroke="white" stroke-width="1.2"/>
+    <line x1="290" y1="60" x2="520" y2="60" stroke="white" stroke-width=".8"/>
+    <line x1="420" y1="-70" x2="420" y2="190" stroke="white" stroke-width=".8"/>
+  </svg>
+  <div class="hdr-circ"></div>
+  <div class="hdr-inner">
+    <div class="hdr-logo">
+      <img src="https://i.postimg.cc/CMJQpYVF/Logotipo-UCuenca.png" alt="Logo Universidad de Cuenca">
+    </div>
+    <div class="hdr-txt">
+      <h1>Tablero de Posgrados &middot; UC&nbsp;2031</h1>
+      <p>Universidad de Cuenca &middot; Dirección de Posgrados &middot; corte julio 2026</p>
+    </div>
+    <div class="hdr-stats">
+      <div class="stat"><span class="n">63</span><span class="l">En ejecución</span></div>
+      <div class="stat"><span class="n">27</span><span class="l">Sin despegar</span></div>
+      <div class="stat"><span class="n">46,7&#8202;%</span><span class="l">Despegue 2026</span></div>
+    </div>
+  </div>
+  <svg class="hdr-wave" viewBox="0 0 1440 40" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M0,20L80,24C160,28,320,36,480,36C640,36,800,28,960,22C1120,16,1280,10,1360,7L1440,4L1440,40L0,40Z" fill="#f1f5f9"/>
+  </svg>
+</header>
+
+<nav><div class="flt-nav">
+  <a href="#despegue">Tasa de despegue</a>
+  <a href="#facultad">Por facultad</a>
+  <a href="#maleta">El peso de la maleta</a>
+  <a href="#tamano">Tamaño de cohorte</a>
+  <a href="#tierra">Los 27 en tierra</a>
+  <a href="#cielo">El cielo está lleno</a>
+</div></nav>
+
+<div class="wrap">
+
+<section id="despegue">
+  <div class="axis-hdr">
+    <span class="axis-icon">📊</span>
+    <div>
+      <div class="axis-title">La tasa de despegue cayó veinte puntos en dos años</div>
+      <div class="axis-sub">Pista 1</div>
+    </div>
+  </div>
+  <p class="intro">De cada diez cohortes que la Universidad anuncia, hoy arrancan menos de cinco. No es un problema de un período suelto: la proporción bajó de 2024 a 2025 y no se recuperó.</p>
+  <div class="grid2">
+    <div class="card">
+      <div class="cardtitle">Qué proporción de lo ofertado llegó a abrir</div>
+      <div class="cardsub">Cada barra es el 100&#8202;% de las cohortes ofertadas de ese año. Consolidados anuales 2024 y 2025; 2026 solo con los períodos ya resueltos, enero a julio.</div>
+      <div class="rows" id="anual"></div>
+      <div class="legend">
+        <span><i class="swatch go"></i> Abrió cohorte</span>
+        <span><i class="swatch stop"></i> No abrió</span>
+      </div>
+      <div class="finding"><b>63,0&#8202;% → 42,9&#8202;% → 46,7&#8202;%.</b> Quedan 16 cohortes previstas para octubre de 2026, todavía sin resultado: si repiten el patrón del año, abrirán entre 7 y 9.</div>
+    </div>
+    <div class="card">
+      <div class="cardtitle">Volatilidad entre períodos de 2026</div>
+      <div class="cardsub">Cada barra es el 100&#8202;% de lo ofertado en ese período. Entre la mejor fecha y la peor hay 75 puntos de diferencia.</div>
+      <div class="rows" id="periodo"></div>
+      <div class="legend">
+        <span><i class="swatch go"></i> Abrió cohorte</span>
+        <span><i class="swatch stop"></i> No abrió</span>
+        <span><i class="swatch pend"></i> Sin resultado aún</span>
+      </div>
+      <div class="finding">La demanda no sigue un patrón estable y la planificación no tiene un mecanismo de ajuste ágil frente a la respuesta real del mercado.</div>
+    </div>
+  </div>
+</section>
+
+<section id="facultad">
+  <div class="axis-hdr">
+    <span class="axis-icon">📊</span>
+    <div>
+      <div class="axis-title">Quien más oferta es quien menos abre</div>
+      <div class="axis-sub">Pista 2 · enero–julio 2026 · 30 cohortes resueltas</div>
+    </div>
+  </div>
+  <p class="intro">Economía concentra casi una cuarta parte de la oferta del semestre y convirtió una sola cohorte. Medicina y Odontología abrieron todo lo que ofertaron, pero ofertaron poco.</p>
+  <div class="card">
+    <div class="cardtitle">Qué proporción abrió cada facultad</div>
+    <div class="cardsub">Cada barra es el 100&#8202;% de lo que ofertó esa facultad. A la derecha, abiertas sobre ofertadas. Las diez suman las 30 cohortes del período.</div>
+    <div class="rows" id="facs"></div>
+    <div class="legend">
+      <span><i class="swatch go"></i> Abrió cohorte</span>
+      <span><i class="swatch stop"></i> No abrió</span>
+    </div>
+    <div class="finding"><b>Economía: 1 de 7.</b> Y vuelve a concentrar 4 de las 16 cohortes previstas para octubre. El riesgo de baja apertura del último período está concentrado ahí. Filosofía y Agropecuarias no abrieron ninguna.</div>
+  </div>
+</section>
+
+<section id="maleta">
+  <div class="axis-hdr">
+    <span class="axis-icon">📊</span>
+    <div>
+      <div class="axis-title">La maleta presencial pesa el doble y lleva la mitad</div>
+      <div class="axis-sub">Pista 3 · 130 cohortes con matrícula, 2021–2026</div>
+    </div>
+  </div>
+  <p class="intro">Tres de cada cuatro cohortes se dictan en aula. Son también las que menos estudiantes reúnen: las modalidades no presenciales duplican la matrícula media y apenas llegan a una de cada cuatro cohortes.</p>
+  <div class="grid2 wide">
+    <div class="card">
+      <div class="cardtitle">Cuántas cohortes de cada modalidad</div>
+      <div class="cardsub">Distribución de las 130 cohortes con matrícula registrada, 2021–2026.</div>
+      <div class="donut"><div id="d-mod"></div></div>
+    </div>
+    <div class="card">
+      <div class="cardtitle">Cuántos estudiantes reúne cada modalidad</div>
+      <div class="cardsub">Promedio de estudiantes matriculados por cohorte. Debajo de cada modalidad, sobre cuántas cohortes se calcula.</div>
+      <div class="rows" id="modal"></div>
+      <div class="finding"><b>23,4 en línea frente a 11,4 presencial.</b> Y de las 63 cohortes en ejecución hoy, 46 son presenciales, 11 híbridas, 4 en línea y 2 semipresenciales.</div>
+    </div>
+    <div class="card">
+      <div class="cardtitle">Cuántas cohortes de cada tipo de programa</div>
+      <div class="cardsub">Mismas 130 cohortes. Las maestrías profesionales son el bloque más grande del período.</div>
+      <div class="donut"><div id="d-tipo"></div></div>
+    </div>
+    <div class="card">
+      <div class="cardtitle">Cuántos estudiantes reúne cada tipo</div>
+      <div class="cardsub">Promedio de estudiantes matriculados por cohorte. Las especializaciones médicas tienen cupo regulado; las maestrías de investigación, no.</div>
+      <div class="rows" id="tipo"></div>
+      <div class="finding">Las <b>maestrías de investigación promedian 7,8 estudiantes</b> en 24 cohortes, y las <b>especializaciones médicas 6,5</b> en 21. En el otro extremo, las maestrías académicas promedian 22,0.</div>
+    </div>
+  </div>
+  <div class="method"><b>Cómo se calculan estos dos gráficos.</b> La base tiene <b>135 registros de cohorte</b>. Dos no traen dato de matrícula y tres están registradas con cero matriculados, de modo que los promedios y la distribución se calculan sobre las <b>130 restantes</b>. Si se incluyen las de cero, la media global baja de 13,6 a 13,3 y la de las maestrías profesionales de 17,0 a 16,2.</div>
+</section>
+
+<section id="tamano">
+  <div class="axis-hdr">
+    <span class="axis-icon">📊</span>
+    <div>
+      <div class="axis-title">Casi cuatro de cada diez cohortes abren con menos de diez estudiantes</div>
+      <div class="axis-sub">Pista 4</div>
+    </div>
+  </div>
+  <p class="intro">Abrir no es lo mismo que llenar. La cohorte mediana de los últimos seis años tuvo once matriculados.</p>
+  <div class="card">
+    <div class="cardtitle">Distribución del tamaño de cohorte, 2021–2026</div>
+    <div class="cardsub">130 cohortes con matrícula registrada. Total de 1.765 estudiantes en el período.</div>
+    <div class="rows" id="dist"></div>
+    <div class="legend"><span><i class="swatch amber"></i> Número de cohortes en el rango</span></div>
+    <div class="finding"><b>Media 13,6 · mediana 11 · mínimo 1 · máximo 41.</b> Doce cohortes arrancaron con tres estudiantes o menos. En el otro extremo, las maestrías de <b>Administración de Empresas</b> y de <b>Finanzas mención Gestión de Riesgos Financieros</b> abrieron con 40 y 41 estudiantes respectivamente.</div>
+  </div>
+</section>
+
+<section id="tierra">
+  <div class="axis-hdr">
+    <span class="axis-icon">📊</span>
+    <div>
+      <div class="axis-title">Veintisiete programas con permiso para volar que no vuelan</div>
+      <div class="axis-sub">Pista 5</div>
+    </div>
+  </div>
+  <p class="intro">Tienen aprobación vigente del CES y no registran cohorte en cinco años. Veintiuno nunca abrieron una sola. Son el equipaje que quedó facturado y nunca subió al avión: cada uno lleva sello en la hoja del manifiesto.</p>
+  <div class="filters" id="filters"></div>
+  <div class="tablewrap">
+    <table>
+      <thead><tr><th>Programa</th><th>Tipo</th><th>Modalidad</th><th>Aprobado</th><th>Facultad</th><th>Estado</th></tr></thead>
+      <tbody id="tbody"></tbody>
+    </table>
+  </div>
+  <div class="finding"><b>Filosofía concentra 7 y Ciencias Químicas 5.</b> Veinte de los veintisiete son maestrías profesionales. Cinco de ellos fueron aprobados en 2023 y 2024, ya en modalidad híbrida o en línea, y tampoco abrieron.</div>
+</section>
+
+<section id="cielo">
+  <div class="axis-hdr">
+    <span class="axis-icon">📊</span>
+    <div>
+      <div class="axis-title">El cielo está lleno y casi nadie vuela presencial</div>
+      <div class="axis-sub">Pista 6 · CES, oferta vigente a abril de 2024</div>
+    </div>
+  </div>
+  <p class="intro">La comparación importa para la escena de la aduana: quien elige un posgrado tiene 2.759 maestrías vigentes donde escoger, y más de la mitad no le exigen estar en un aula.</p>
+  <div class="envgrid">
+    <div class="env"><div class="v num">2.759</div><div class="k">maestrías vigentes en el Ecuador</div></div>
+    <div class="env"><div class="v num">51,5&#8202;%</div><div class="k">de esas maestrías <b>no</b> son presenciales</div></div>
+    <div class="env"><div class="v num">54&#8202;%</div><div class="k">de la oferta está en universidades particulares</div></div>
+    <div class="env"><div class="v num">30,7&#8202;%</div><div class="k">se concentra en Administración de Empresas y Derecho</div></div>
+    <div class="env"><div class="v num">2,4&#8202;%</div><div class="k">de la oferta nacional es de Artes y Humanidades</div></div>
+    <div class="env"><div class="v num">~330</div><div class="k">maestrías nuevas aprobadas por año en 2022–2023</div></div>
+  </div>
+</section>
+
+<footer>
+  <div class="warn"><b>Cómo leer este tablero.</b> Las cifras describen oferta, apertura y matrícula. No describen permanencia, titulación ni sostenibilidad financiera de los programas: esos datos no están consolidados y son el primer punto del buzón de datos faltantes del taller. Ningún programa se cierra con este tablero.</div>
+  Fuentes · <span class="mono">Cohortes de programas de posgrado 2021-2026</span>, <span class="mono">Información sobre programas de posgrado a julio 2026</span>, <span class="mono">Programas ofertados y abiertos 2024 / 2025</span>, <span class="mono">Programas ofertados y en oferta 2026</span> y <span class="mono">Diagnóstico actual de la Dirección de Posgrados</span> — Dirección de Posgrados, Universidad de Cuenca.<br>
+  Cifras del entorno nacional: Consejo de Educación Superior, sistema de oferta vigente a abril de 2024, vía el reportaje <a href="https://www.expreso.ec/guayaquil/radiografia-maestrias-ecuador-universidades-ecuador-maestria-211303.html">«Una radiografía de las maestrías vigentes en Ecuador»</a> de diario Expreso.
+</footer>
+</div>
+
+<script>
+const pc = n => n.toFixed(1).replace('.', ',') + ' %';
+
+/* ---- 100% stacked rows ---- */
+function stack(el, data){
+  el.innerHTML = data.map(d => {
+    const tot = d.go + d.stop + (d.pend || 0);
+    const seg = (cls, v, title) => v > 0
+      ? `<i class="seg ${cls}" style="flex:0 0 calc(${(v/tot*100).toFixed(2)}% - 1px)" title="${title}"></i>` : '';
+    return `<div class="row">
+      <div class="lbl">${d.label}${d.sub ? `<small>${d.sub}</small>` : ''}</div>
+      <div class="track">
+        ${seg('go', d.go, `${d.go} de ${tot} abrieron`)}
+        ${seg('stop', d.stop, `${d.stop} de ${tot} no abrieron`)}
+        ${seg('pend', d.pend || 0, `${d.pend} sin resultado`)}
+      </div>
+      <div class="val">${d.right}</div>
+    </div>`;
+  }).join('');
+}
+
+stack(document.getElementById('anual'), [
+  {label:'2024', sub:'46 ofertadas', go:29, stop:17, right:'63,0 %'},
+  {label:'2025', sub:'49 ofertadas', go:21, stop:28, right:'42,9 %'},
+  {label:'2026', sub:'30 resueltas', go:14, stop:16, right:'46,7 %'}
+]);
+
+stack(document.getElementById('periodo'), [
+  {label:'Enero',   sub:'15 ofertadas', go:5,  stop:10, right:'5 / 15'},
+  {label:'Abril',   sub:'10 ofertadas', go:7,  stop:3,  right:'7 / 10'},
+  {label:'Mayo',    sub:'1 ofertada',   go:1,  stop:0,  right:'1 / 1'},
+  {label:'Julio',   sub:'4 ofertadas',  go:1,  stop:3,  right:'1 / 4'},
+  {label:'Octubre', sub:'16 previstas', go:0,  stop:0, pend:16, right:'sin dato'}
+]);
+
+stack(document.getElementById('facs'), [
+  {label:'Economía',       go:1, stop:6, right:'1 / 7'},
+  {label:'Ingeniería',     go:2, stop:2, right:'2 / 4'},
+  {label:'Arquitectura',   go:2, stop:1, right:'2 / 3'},
+  {label:'Artes',          go:2, stop:1, right:'2 / 3'},
+  {label:'Filosofía',      go:0, stop:3, right:'0 / 3'},
+  {label:'Jurisprudencia', go:2, stop:1, right:'2 / 3'},
+  {label:'Medicina',       go:2, stop:0, right:'2 / 2'},
+  {label:'Odontología',    go:2, stop:0, right:'2 / 2'},
+  {label:'Químicas',       go:1, stop:1, right:'1 / 2'},
+  {label:'Agropecuarias',  go:0, stop:1, right:'0 / 1'}
+]);
+
+/* ---- single-series bars ---- */
+function bars(el, data, max, cls){
+  el.innerHTML = data.map(d => `<div class="row">
+    <div class="lbl">${d.label}${d.sub ? `<small>${d.sub}</small>` : ''}</div>
+    <div class="bar1 ${cls || ''}"><i style="width:${(d.v/max*100).toFixed(2)}%" title="${d.label}: ${d.right} estudiantes de media"></i></div>
+    <div class="val">${d.right}</div>
+  </div>`).join('');
+}
+
+bars(document.getElementById('modal'), [
+  {label:'En línea',       sub:'11 cohortes', v:23.4, right:'23,4'},
+  {label:'Híbrida',        sub:'13 cohortes', v:19.8, right:'19,8'},
+  {label:'Semipresencial', sub:'7 cohortes',  v:16.9, right:'16,9'},
+  {label:'Presencial',     sub:'99 cohortes', v:11.4, right:'11,4'}
+], 24);
+
+bars(document.getElementById('tipo'), [
+  {label:'M. académica',      sub:'27 cohortes', v:22.0, right:'22,0'},
+  {label:'M. profesional',    sub:'40 cohortes', v:17.0, right:'17,0'},
+  {label:'Esp. odontológica', sub:'13 cohortes', v:9.4,  right:'9,4'},
+  {label:'Doctorado',         sub:'5 cohortes',  v:8.4,  right:'8,4'},
+  {label:'M. investigación',  sub:'24 cohortes', v:7.8,  right:'7,8'},
+  {label:'Esp. médica',       sub:'21 cohortes', v:6.5,  right:'6,5'}
+], 24);
+
+bars(document.getElementById('dist'), [
+  {label:'1 a 4',    v:18, right:'18'},
+  {label:'5 a 9',    v:31, right:'31'},
+  {label:'10 a 14',  v:29, right:'29'},
+  {label:'15 a 19',  v:28, right:'28'},
+  {label:'20 a 29',  v:16, right:'16'},
+  {label:'30 o más', v:8,  right:'8'}
+], 32, 'amber');
+
+/* ---- donuts ---- */
+function donut(mount, data, centerLabel){
+  const total = data.reduce((a, d) => a + d.v, 0);
+  const R = 62, C = 2 * Math.PI * R, GAP = 3;
+  let off = 0;
+  const arcs = data.map(d => {
+    const len = d.v / total * C;
+    const seg = `<circle r="${R}" cx="80" cy="80" fill="none" stroke="${d.color}" stroke-width="26"
+      stroke-dasharray="${Math.max(len - GAP, 1).toFixed(2)} ${(C - Math.max(len - GAP, 1)).toFixed(2)}"
+      stroke-dashoffset="${(-off).toFixed(2)}" transform="rotate(-90 80 80)"><title>${d.name}: ${d.v} cohortes (${pc(d.v/total*100)})</title></circle>`;
+    off += len;
+    return seg;
+  }).join('');
+  mount.innerHTML =
+    `<svg viewBox="0 0 160 160" width="160" height="160" role="img" aria-label="${centerLabel}">
+       ${arcs}
+       <text x="80" y="76" text-anchor="middle" class="dcenter" font-size="26">${total}</text>
+       <text x="80" y="94" text-anchor="middle" class="dcenter-s" font-size="9.5" letter-spacing="1">COHORTES</text>
+     </svg>
+     <div class="dlegend">${data.map(d => `<div class="dl">
+        <i style="background:${d.color}"></i>
+        <span class="n">${d.name}</span>
+        <span class="q">${d.v}</span>
+        <span class="p">${pc(d.v/total*100)}</span>
+      </div>`).join('')}</div>`;
+  mount.parentElement.classList.add('donut');
+}
+
+const cv = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+function paintDonuts(){
+  donut(document.getElementById('d-mod'), [
+    {name:'Presencial',     v:99, color:cv('--c1')},
+    {name:'Híbrida',        v:13, color:cv('--c2')},
+    {name:'En línea',       v:11, color:cv('--c3')},
+    {name:'Semipresencial', v:7,  color:cv('--c4')},
+  ], 'Distribución de cohortes por modalidad');
+  donut(document.getElementById('d-tipo'), [
+    {name:'Maestría profesional',       v:40, color:cv('--r1')},
+    {name:'Maestría académica',         v:27, color:cv('--r2')},
+    {name:'Maestría de investigación',  v:24, color:cv('--r3')},
+    {name:'Especialización médica',     v:21, color:cv('--r4')},
+    {name:'Especialización odontológica', v:13, color:cv('--r5')},
+    {name:'Doctorado',                  v:5,  color:cv('--r6')},
+  ], 'Distribución de cohortes por tipo de programa');
+}
+paintDonuts();
+if (window.matchMedia) {
+  const mq = window.matchMedia('(prefers-color-scheme: dark)');
+  (mq.addEventListener ? mq.addEventListener.bind(mq, 'change') : mq.addListener.bind(mq))(paintDonuts);
+}
+
+/* ---- the 27 grounded programs ---- */
+const T = [
+["Psicología, mención Sistemas Sociales y Comunitarios","Profesional","Presencial","2022","Psicología","never"],
+["Economía Regional y Urbana","Investigación","Presencial","2022","Económicas","never"],
+["Pedagogía Musical Intercultural","Profesional","Presencial","2022","Artes","never"],
+["Ingeniería en Software","Profesional","Semipresencial","2021","Ingeniería","never"],
+["Agropecuaria, mención Administración Agropecuaria","Profesional","Presencial","2021","Agropecuarias","never"],
+["Agropecuaria, mención Sistemas de Producción de Rumiantes","Profesional","Presencial","2021","Agropecuarias","never"],
+["Educación, mención de Jóvenes y Adultos","Profesional","Semipresencial","2020","Filosofía","never"],
+["Producción Musical","Profesional","Presencial","2020","Artes","never"],
+["Seguridad e Higiene Industrial, mención Minería","Profesional","Semipresencial","2020","Químicas","never"],
+["Interpretación y Pedagogía Musical","Profesional","Presencial","2020","Artes","never"],
+["Catálisis Aplicada en la Industria y el Medio Ambiente","Investigación","Presencial","2020","Químicas","never"],
+["Ingeniería Química","Profesional","Presencial","2020","Químicas","never"],
+["Planificación y Gestión Energética","Profesional","Presencial","2021","Químicas","never"],
+["Historia de la Arquitectura y Arte Latinoamericano","Profesional","Presencial","2018","Arquitectura","never"],
+["Psicología, mención Educación y Desarrollo Humano","Profesional","Presencial","2018","Psicología","never"],
+["Antropología de lo Contemporáneo","Académica","Híbrida","2023","Filosofía","never"],
+["Periodismo, mención Periodismo Digital y Desarrollo de Proyectos","Académica","Híbrida","2023","Filosofía","never"],
+["Toxicología Industrial y Ambiental","Profesional","Semipresencial","2022","Químicas","never"],
+["Arqueología","Académica","Híbrida","2024","Filosofía","never"],
+["Educación Inicial, mención Didácticas Innovadoras para la Infancia","Académica","En línea","2024","Filosofía","never"],
+["Marketing","Académica","Híbrida","2024","Económicas","never"],
+["Enfermería Familiar y Comunitaria","Profesional","Presencial","2020","Médicas","old"],
+["Pedagogía, mención Educación Física","Profesional","Presencial","2020","Filosofía","old"],
+["Gastronomía, mención Administración de Alimentos y Bebidas","Profesional","Presencial","2019","Hospitalidad","old"],
+["Educación, mención Enseñanza de la Matemática","Profesional","Semipresencial","2019","Filosofía","old"],
+["Administración y Gestión de Empresas","Profesional","Presencial","2019","Económicas","old"],
+["Epidemiología","Profesional","Presencial","2018","Médicas","old"]
+];
+
+const tbody = document.getElementById('tbody');
+const facs = [...new Set(T.map(r => r[4]))].sort((a,b) =>
+  T.filter(r=>r[4]===b).length - T.filter(r=>r[4]===a).length || a.localeCompare(b));
+
+function render(f){
+  const rows = f === 'todas' ? T : T.filter(r => r[4] === f);
+  tbody.innerHTML = rows.map(r => `<tr>
+    <td class="prog">${r[0]}</td><td>${r[1]}</td><td>${r[2]}</td>
+    <td class="mono num">${r[3]}</td><td>${r[4]}</td>
+    <td><span class="pill ${r[5]}">${r[5]==='never'?'Nunca abrió':'Última < 2022'}</span></td>
+  </tr>`).join('');
+}
+
+document.getElementById('filters').innerHTML =
+  [`<button data-f="todas" aria-pressed="true">Las 27</button>`]
+  .concat(facs.map(f => `<button data-f="${f}" aria-pressed="false">${f} · ${T.filter(r=>r[4]===f).length}</button>`))
+  .join('');
+
+document.getElementById('filters').addEventListener('click', e => {
+  const b = e.target.closest('button'); if (!b) return;
+  document.querySelectorAll('#filters button').forEach(x => x.setAttribute('aria-pressed', String(x === b)));
+  render(b.dataset.f);
+});
+render('todas');
+</script>
+
+</body>
+</html>

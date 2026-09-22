@@ -1,0 +1,908 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard · Encuesta Prospectiva Eje Académico · PEDI 2026–2031</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-datalabels/2.2.0/chartjs-plugin-datalabels.min.js"></script>
+<style>
+:root{
+  --navy:#0d2d5a;--royal:#1a56db;--sky:#3b82f6;--light:#93c5fd;--pale:#eff6ff;
+  --masc:#2563eb;--fem:#7c3aed;
+  --text:#1e293b;--muted:#64748b;--bg:#f1f5f9;--card:#fff;
+  --border:#e2e8f0;--shadow:0 2px 14px rgba(13,45,90,.09);--r:12px;
+  --font:"Segoe UI",system-ui,-apple-system,sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:100vh}
+
+/* ── HEADER ── */
+.hdr{background:linear-gradient(135deg,#091e42 0%,#0d2d5a 40%,#163a80 70%,#1a56db 100%);
+  color:#fff;position:relative;overflow:hidden;padding:28px 20px 56px}
+.hdr-geo{position:absolute;top:0;right:0;opacity:.07;pointer-events:none}
+.hdr-circ{position:absolute;bottom:-90px;left:-60px;width:280px;height:280px;
+  border-radius:50%;background:rgba(255,255,255,.04);pointer-events:none}
+.hdr-inner{max-width:1280px;margin:0 auto;display:flex;align-items:center;gap:22px;
+  position:relative;z-index:1;flex-wrap:wrap}
+/* Logo: más ancho que alto, fondo blanco difuminado para que se vea bien */
+.hdr-logo{width:155px;height:82px;border-radius:14px;
+  background:rgba(255,255,255,.90);display:flex;align-items:center;
+  justify-content:center;overflow:hidden;flex-shrink:0;
+  backdrop-filter:blur(24px);border:2px solid rgba(255,255,255,.55);
+  box-shadow:0 6px 28px rgba(0,0,0,.20);padding:10px}
+.hdr-logo img{width:100%;height:100%;object-fit:contain}
+.hdr-txt{flex:1;min-width:200px}
+.hdr-txt h1{font-size:clamp(1.05rem,2.8vw,1.5rem);font-weight:800;
+  letter-spacing:-.02em;line-height:1.2}
+.hdr-txt p{margin-top:5px;font-size:.84rem;opacity:.72;line-height:1.45}
+.hdr-stats{display:flex;gap:10px;flex-shrink:0}
+.stat{background:rgba(255,255,255,.12);border:1.5px solid rgba(255,255,255,.22);
+  border-radius:50px;padding:8px 18px;text-align:center;backdrop-filter:blur(10px)}
+.stat .n{font-size:1.4rem;font-weight:800;display:block;line-height:1}
+.stat .l{font-size:.63rem;opacity:.76;text-transform:uppercase;letter-spacing:.07em}
+.hdr-wave{position:absolute;bottom:0;left:0;right:0;height:40px}
+
+/* ── FILTERS ── */
+.flt-wrap{position:sticky;top:0;z-index:100;background:#fff;
+  border-bottom:1px solid var(--border);box-shadow:0 3px 12px rgba(0,0,0,.07)}
+.flt{max-width:1280px;margin:0 auto;padding:10px 20px;
+  display:flex;flex-direction:column;gap:8px}
+.flt-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.flt-lbl{font-size:.67rem;font-weight:800;text-transform:uppercase;
+  letter-spacing:.08em;color:var(--muted);width:54px;flex-shrink:0}
+.pills{display:flex;gap:5px;flex-wrap:wrap}
+.pill{padding:5px 13px;border-radius:50px;font-size:.79rem;font-weight:600;
+  border:1.5px solid var(--border);background:#fff;color:var(--muted);cursor:pointer;
+  transition:all .18s ease;white-space:nowrap;line-height:1.4;
+  -webkit-tap-highlight-color:transparent}
+.pill:hover{border-color:var(--sky);color:var(--royal)}
+.pill.active{background:var(--royal);color:#fff;border-color:var(--royal);
+  box-shadow:0 2px 8px rgba(26,86,219,.3)}
+.pill.pm.active{background:var(--masc);border-color:var(--masc);
+  box-shadow:0 2px 8px rgba(37,99,235,.3)}
+.pill.pf.active{background:var(--fem);border-color:var(--fem);
+  box-shadow:0 2px 8px rgba(124,58,237,.3)}
+.pill.pc.active{background:linear-gradient(90deg,var(--masc),var(--fem));
+  border-color:transparent;box-shadow:0 2px 8px rgba(100,50,200,.3)}
+
+/* ── MAIN ── */
+.main{max-width:1280px;margin:0 auto;padding:24px 20px 52px}
+.axis-sec{display:none;margin-bottom:36px}
+.axis-sec.on{display:block}
+.axis-hdr{display:flex;align-items:center;gap:14px;padding:16px 24px;
+  background:linear-gradient(135deg,var(--navy) 0%,#163a80 100%);
+  border-radius:var(--r);color:#fff;margin-bottom:20px;
+  box-shadow:0 4px 16px rgba(13,45,90,.18)}
+.axis-icon{font-size:1.75rem;width:50px;height:50px;display:flex;align-items:center;
+  justify-content:center;background:rgba(255,255,255,.14);
+  border-radius:10px;flex-shrink:0}
+.axis-title{font-size:1.02rem;font-weight:800;line-height:1.3}
+.axis-sub{font-size:.79rem;opacity:.72;margin-top:2px}
+.qs-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,520px),1fr));gap:20px}
+.qs-grid.wide{grid-template-columns:1fr}
+
+/* ── P0: LAYOUT ESPECIAL 2 COLUMNAS ──
+   Columna izquierda: Facultad (P0.1) — columna derecha: otros 3 gráficos apilados */
+#grid-P0{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  grid-template-rows:auto auto auto;
+  gap:20px;
+  align-items:start;
+}
+[id="card-P0.1"]{grid-column:1;grid-row:1/span 3}
+[id="card-P0.2"]{grid-column:2;grid-row:1}
+[id="card-P0.3"]{grid-column:2;grid-row:2}
+[id="card-P0.4"]{grid-column:2;grid-row:3}
+
+/* ── CARD ── */
+.card{background:var(--card);border-radius:var(--r);
+  box-shadow:var(--shadow);overflow:hidden;border:1px solid var(--border)}
+.card-hdr{padding:14px 18px 10px;border-bottom:1px solid var(--border);
+  background:linear-gradient(to right,#f8fbff,#fff)}
+.q-code{font-size:.67rem;font-weight:800;text-transform:uppercase;
+  letter-spacing:.08em;color:var(--royal);margin-bottom:4px}
+.q-text{font-size:.88rem;font-weight:600;line-height:1.45;color:var(--text)}
+.type-badge{display:inline-flex;align-items:center;gap:4px;margin-top:8px;
+  padding:3px 10px;border-radius:50px;font-size:.67rem;font-weight:700;
+  letter-spacing:.04em}
+.ts{background:#e0f2fe;color:#0369a1}
+.tm{background:#faf5ff;color:#6d28d9}
+.card-body{padding:14px 18px 18px}
+.chart-note{font-size:.7rem;color:var(--muted);margin-bottom:8px;
+  display:flex;align-items:flex-start;gap:5px;line-height:1.45}
+.chart-note svg{flex-shrink:0;margin-top:1px}
+.chart-wrap{position:relative}
+.chart-wrap canvas{display:block!important}
+.multi-note{font-size:.7rem;color:var(--muted);margin-top:8px;text-align:center;
+  font-style:italic}
+
+/* ── FOOTER ── */
+footer{background:var(--navy);color:rgba(255,255,255,.72);
+  padding:28px 20px;font-size:.77rem;line-height:1.75}
+.fi{max-width:1280px;margin:0 auto}
+footer p+p{margin-top:8px}
+footer strong{color:rgba(255,255,255,.94)}
+footer em{font-style:normal;color:rgba(255,255,255,.88);font-weight:600}
+
+/* ── RESPONSIVE ── */
+@media(max-width:640px){
+  .hdr-stats{display:none}
+  .hdr-inner{gap:14px}
+  .hdr-logo{width:130px;height:84px}
+  .flt-lbl{width:46px;font-size:.62rem}
+  .qs-grid,.qs-grid.wide{grid-template-columns:1fr}
+  #grid-P0{display:block}
+  #grid-P0>.card{margin-bottom:20px}
+}
+@media(min-width:641px) and (max-width:1024px){
+  .qs-grid{grid-template-columns:1fr}
+  #grid-P0{display:block}
+  #grid-P0>.card{margin-bottom:20px}
+}
+
+/* ── HOME BUTTON ── */
+.home-btn{
+  position:fixed;top:14px;right:18px;z-index:9999;
+  display:inline-flex;align-items:center;gap:7px;
+  padding:7px 16px 7px 12px;border-radius:50px;
+  background:#fff;border:2px solid #e2e8f0;
+  color:#0d2d5a;font-size:.78rem;font-weight:800;
+  text-decoration:none;letter-spacing:.04em;text-transform:uppercase;
+  box-shadow:0 4px 16px rgba(13,45,90,.20);
+  transition:background .18s,box-shadow .18s,border-color .18s;
+  cursor:pointer;
+}
+.home-btn:hover{
+  background:#eff6ff;border-color:#93c5fd;
+  box-shadow:0 6px 24px rgba(13,45,90,.28);
+}
+.home-btn svg{width:15px;height:15px;flex-shrink:0}
+</style>
+</head>
+<body>
+<a href="index.html" class="home-btn" aria-label="Volver al inicio">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z"/>
+    <path d="M9 21V12h6v9"/>
+  </svg>
+  INICIO
+</a>
+
+<!-- HEADER -->
+<header class="hdr">
+  <svg class="hdr-geo" width="520" height="420" viewBox="0 0 520 420" aria-hidden="true">
+    <circle cx="420" cy="60" r="130" fill="none" stroke="white" stroke-width="1.5"/>
+    <circle cx="420" cy="60" r="90" fill="none" stroke="white" stroke-width="1"/>
+    <circle cx="420" cy="60" r="50" fill="none" stroke="white" stroke-width=".7"/>
+    <polygon points="390,20 450,20 480,70 450,120 390,120 360,70" fill="none" stroke="white" stroke-width="1.2"/>
+    <line x1="290" y1="60" x2="520" y2="60" stroke="white" stroke-width=".8"/>
+    <line x1="420" y1="-70" x2="420" y2="190" stroke="white" stroke-width=".8"/>
+    <circle cx="150" cy="320" r="80" fill="none" stroke="white" stroke-width="1"/>
+    <circle cx="150" cy="320" r="40" fill="none" stroke="white" stroke-width=".6"/>
+  </svg>
+  <div class="hdr-circ"></div>
+  <div class="hdr-inner">
+    <div class="hdr-logo">
+      <img id="logoImg" src="https://i.postimg.cc/CMJQpYVF/Logotipo-UCuenca.png" alt="Logo Universidad de Cuenca">
+    </div>
+    <div class="hdr-txt">
+      <h1>Encuesta Prospectiva &middot; Eje Académico</h1>
+      <p>PEDI 2026&ndash;2031 &middot; Universidad de Cuenca &middot; Resultados y análisis por género</p>
+    </div>
+    <div class="hdr-stats">
+      <div class="stat"><span class="n">480</span><span class="l">Docentes</span></div>
+      <div class="stat"><span class="n">21</span><span class="l">Preguntas</span></div>
+      <div class="stat"><span class="n">Sep 2026</span><span class="l">Levantamiento</span></div>
+    </div>
+  </div>
+  <svg class="hdr-wave" viewBox="0 0 1440 40" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M0,20L80,24C160,28,320,36,480,36C640,36,800,28,960,22C1120,16,1280,10,1360,7L1440,4L1440,40L0,40Z" fill="#f1f5f9"/>
+  </svg>
+</header>
+
+<!-- FILTERS -->
+<div class="flt-wrap" role="navigation" aria-label="Filtros del dashboard">
+  <div class="flt">
+    <div class="flt-row">
+      <span class="flt-lbl">Género</span>
+      <div class="pills" id="gp">
+        <button class="pill active" data-g="all" onclick="setG(this)">Todos</button>
+        <button class="pill pm" data-g="masc" onclick="setG(this)">&#9646; Masculino <small>(n=238)</small></button>
+        <button class="pill pf" data-g="fem" onclick="setG(this)">&#9646; Femenino <small>(n=234)</small></button>
+        <button class="pill pc" data-g="cmp" onclick="setG(this)">&#9646;&#9646; Comparar géneros</button>
+      </div>
+    </div>
+    <div class="flt-row">
+      <span class="flt-lbl">Eje</span>
+      <div class="pills" id="ap">
+        <button class="pill active" data-a="all" onclick="setA(this)">Todos los ejes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN -->
+<main class="main" id="main" role="main"></main>
+
+<!-- FOOTER -->
+<footer>
+  <div class="fi">
+    <p><strong>Nota sobre categorías de género:</strong> Los análisis comparativos por género presentados en este dashboard consideran únicamente las categorías <em>Masculino</em> (n=238, 49.6&nbsp;%) y <em>Femenino</em> (n=234, 48.8&nbsp;%). Las categorías <em>LGBTIQ+</em> (n=4) y <em>Prefiero no responder</em> (n=4) no se incluyen en las comparaciones por género debido al reducido número de observaciones, lo que impediría obtener conclusiones estadísticamente representativas para esos grupos.</p>
+    <p>Para las preguntas de <em>selección múltiple</em>, los porcentajes se calculan sobre el total de encuestados que respondieron la pregunta; la sumatoria de los porcentajes de las categorías puede superar el 100&nbsp;% porque cada persona podía seleccionar más de una opción.</p>
+    <p>PEDI 2026&ndash;2031 &middot; Universidad de Cuenca &middot; Consultoría Eje Académico &middot; Septiembre 2026</p>
+  </div>
+</footer>
+
+<script>
+// ─── Logo fallback ────────────────────────────────────────────────────
+document.getElementById('logoImg').onerror = function(){
+  this.onerror=null;
+  this.parentNode.innerHTML = '<svg viewBox="0 0 186 118" xmlns="http://www.w3.org/2000/svg"><rect width="186" height="118" rx="12" fill="rgba(255,255,255,0.15)"/><circle cx="93" cy="44" r="20" fill="none" stroke="white" stroke-width="2.5"/><path d="M58 90 Q93 72 128 90" fill="none" stroke="white" stroke-width="2.5"/><text x="93" y="110" text-anchor="middle" fill="white" font-size="10" font-family="sans-serif" font-weight="700" letter-spacing="0.4">UCuenca</text></svg>';
+};
+
+Chart.register(ChartDataLabels);
+
+// ─── DATA ────────────────────────────────────────────────────────────
+// Each option: [label, total, masc, fem]
+// nR: [total_resp, masc_resp, fem_resp]
+const DATA = {
+  meta:{total:480,masc:238,fem:234},
+  axes:[
+    {id:'P0',label:'Datos del informante',icon:'👥',sub:'Caracterización de los encuestados'},
+    {id:'P1',label:'IA y Evaluación del Aprendizaje',icon:'🤖',sub:'Escenarios y decisiones frente a la inteligencia artificial en la evaluación'},
+    {id:'P2',label:'Valor del Título Universitario',icon:'🎓',sub:'Legitimidad y relevancia del título hacia el año 2040'},
+    {id:'P3',label:'Oferta Académica',icon:'📚',sub:'Sostenibilidad y transformación de carreras y programas'},
+    {id:'P4',label:'Competencias y Microcredenciales',icon:'📜',sub:'Relación entre microcredenciales y el título universitario'},
+    {id:'P5',label:'Duración y Estructura Curricular',icon:'⏱️',sub:'Evolución de la duración y configuración de las carreras'},
+    {id:'P6',label:'Enfoques Transversales',icon:'🌐',sub:'Derechos, género, interculturalidad, inclusión, territorialidad y sostenibilidad'},
+    {id:'P7',label:'Vinculación con la Sociedad',icon:'🤝',sub:'Respuesta de la docencia a las necesidades de la comunidad y las empresas'},
+    {id:'P8',label:'Visión Integrada de Futuro 2040',icon:'🔭',sub:'Transformaciones clave y decisiones estratégicas 2026–2031'},
+    {id:'P9',label:'Temas Adicionales',icon:'💡',sub:'Temáticas complementarias para la reflexión prospectiva del eje académico'},
+  ],
+  questions:[
+    // ── P0 ───────────────────────────────────────────────
+    {id:'P0.1',ax:'P0',
+     text:'Facultad a la que pertenece',
+     typeL:'Selección única',type:'s',sort:'n',nR:[480,238,234],note:'',
+     opts:[
+       ['Ciencias Médicas',72,27,44],
+       ['Filosofía, Letras y Cs. de la Educación',68,23,43],
+       ['Ciencias Agropecuarias',58,40,18],
+       ['Ciencias Químicas',57,24,33],
+       ['Cs. Económicas y Administrativas',35,21,14],
+       ['Artes',32,16,13],
+       ['Ingeniería',32,24,8],
+       ['Psicología',29,13,16],
+       ['Odontología',24,11,13],
+       ['Arquitectura y Urbanismo',22,12,10],
+       ['Jurisprudencia y CC.PP. y Sociales',21,11,10],
+       ['Cs. de la Hospitalidad',20,8,10],
+       ['Unidad académica/adm. central',10,8,2],
+     ]},
+    {id:'P0.2',ax:'P0',
+     text:'Género',
+     typeL:'Selección única',type:'s',sort:'n',nR:[480,238,234],
+     note:'Este gráfico muestra siempre la distribución total (independiente del filtro de género activo).',
+     special:'gender',
+     opts:[
+       ['Masculino',238,238,0],
+       ['Femenino',234,0,234],
+       ['LGBTIQ+',4,0,0],
+       ['Prefiero no responder',4,0,0],
+     ]},
+    {id:'P0.3',ax:'P0',
+     text:'Años de vinculación con la Universidad de Cuenca',
+     typeL:'Selección única',type:'s',sort:'k',nR:[480,238,234],note:'',
+     opts:[
+       ['Menos de 5 años',110,46,62],
+       ['De 5 a 10 años',110,62,48],
+       ['De 11 a 20 años',186,95,88],
+       ['Más de 20 años',74,35,36],
+     ]},
+    {id:'P0.4',ax:'P0',
+     text:'Tipo de dedicación',
+     typeL:'Selección única',type:'s',sort:'n',nR:[480,238,234],note:'',
+     special:'donut',
+     opts:[
+       ['Tiempo completo',369,182,183],
+       ['Medio tiempo',67,28,37],
+       ['Tiempo parcial',44,28,14],
+     ]},
+    // ── P1 ───────────────────────────────────────────────
+    {id:'P1.1',ax:'P1',
+     text:'Pensando en el año 2040, ¿cuál escenario describe mejor cómo debería evolucionar la evaluación del aprendizaje universitario?',
+     typeL:'Selección única',type:'s',sort:'n',nR:[480,238,234],note:'',
+     opts:[
+       ['Evaluación auténtica con IA declarada',195,86,106],
+       ['Doble régimen (núcleo presencial + IA abierta)',94,49,44],
+       ['Evaluación mayoritariamente presencial',86,38,46],
+       ['Fin de la evaluación por asignatura',46,27,18],
+       ['Evaluación continua asistida por IA',33,26,6],
+       ['Ninguno de los anteriores',26,12,14],
+     ]},
+    {id:'P1.2',ax:'P1',
+     text:'¿Qué decisiones debería tomar la Universidad entre 2026 y 2031 para alcanzar ese escenario?',
+     typeL:'Selección múltiple · máx. 3 opciones',type:'m',sort:'n',nR:[454,226,220],
+     note:'26 encuestados omitieron esta pregunta por lógica de salto (P1.1 = Ninguno de los anteriores). % calculados sobre 454 encuestados.',
+     opts:[
+       ['Normativa de integridad académica y uso de IA',261,127,129],
+       ['Rediseñar instrumentos de evaluación',206,100,105],
+       ['Formación docente en evaluación con IA',180,84,93],
+       ['Licenciar herramientas de IA institucional',149,76,70],
+       ['Invertir en infraestructura de evaluación supervisada',118,70,46],
+       ['Instancia de ética y auditoría de IA',113,46,64],
+       ['Alfabetización en IA en todas las mallas',91,52,38],
+     ]},
+    // ── P2 ───────────────────────────────────────────────
+    {id:'P2.1',ax:'P2',
+     text:'Pensando en el año 2040, ¿cuál escenario describe mejor el valor que se atribuirá a un título universitario?',
+     typeL:'Selección única',type:'s',sort:'n',nR:[480,238,234],note:'',
+     opts:[
+       ['Título con resultados verificables de graduados',161,78,82],
+       ['Coexistencia título + competencias certificadas',143,66,74],
+       ['Título como bien público (ciudadanía, movilidad)',89,48,38],
+       ['Ninguno de los anteriores',36,15,21],
+       ['El título pierde peso ante evidencia directa',29,19,9],
+       ['Diferenciación: valor solo en prof. reguladas',22,12,10],
+     ]},
+    {id:'P2.2',ax:'P2',
+     text:'¿Qué debería hacer la Universidad entre 2026 y 2031 para mantener la relevancia y legitimidad del título?',
+     typeL:'Selección múltiple · máx. 3 opciones',type:'m',sort:'n',nR:[480,238,234],note:'',
+     opts:[
+       ['Sistema de seguimiento a graduados',215,103,107],
+       ['Reformular carreras con baja demanda laboral',202,94,105],
+       ['Prácticas preprofesionales y aprendizaje dual',174,89,83],
+       ['Perfiles de egreso en competencias verificables',169,89,77],
+       ['Acreditación internacional de carreras estratégicas',142,65,76],
+       ['Consejos consultivos empleadores/colegios prof.',122,63,58],
+       ['Suplemento al título con competencias registradas',104,50,52],
+       ['Comunicar resultados académicos y empleabilidad',46,21,22],
+     ]},
+    // ── P3 ───────────────────────────────────────────────
+    {id:'P3.1',ax:'P3',
+     text:'Hacia 2040, ¿cuál escenario describe mejor cómo debería evolucionar la oferta académica de la Universidad?',
+     typeL:'Selección única',type:'s',sort:'n',nR:[480,238,234],note:'',
+     opts:[
+       ['Transformación en lugar de cierre',196,87,108],
+       ['Oferta más concentrada (cierre o fusión)',73,47,26],
+       ['Oferta protegida por pertinencia',68,38,28],
+       ['Arquitectura modular (troncos + menciones)',61,39,21],
+       ['Expansión en campos emergentes',45,14,30],
+       ['Ninguno de los anteriores',37,13,21],
+     ]},
+    {id:'P3.2',ax:'P3',
+     text:'¿Qué criterios deberían orientar las decisiones sobre carreras y programas?',
+     typeL:'Selección múltiple · máx. 3 opciones',type:'m',sort:'n',nR:[480,238,234],note:'',
+     opts:[
+       ['Empleabilidad y pertinencia territorial',351,174,174],
+       ['Demanda sostenida (postulantes, cupos, matrícula)',234,117,114],
+       ['Resultados: retención, titulación, eficiencia',165,73,90],
+       ['Valor cultural, científico o social del campo',163,89,70],
+       ['Existencia de oferta en otras IES de la Zona 6',106,56,47],
+       ['Resultados de evaluación y acreditación externa',105,51,50],
+       ['Costo por estudiante y sostenibilidad financiera',47,22,24],
+     ]},
+    // ── P4 ───────────────────────────────────────────────
+    {id:'P4.1',ax:'P4',
+     text:'Hacia 2040, ¿cuál escenario describe mejor la relación entre microcredenciales y título universitario?',
+     typeL:'Selección única',type:'s',sort:'n',nR:[480,238,234],note:'',
+     opts:[
+       ['Integración curricular (acumulables al título)',245,122,121],
+       ['Complemento externo (educación continua)',129,55,72],
+       ['Ninguno de los anteriores',45,21,22],
+       ['Competencia: proveedores externos capturan',23,13,9],
+       ['Ordenamiento nacional de cualificaciones',19,13,5],
+       ['Sustitución parcial del título',19,14,5],
+     ]},
+    {id:'P4.2',ax:'P4',
+     text:'¿Qué debería hacer la Universidad entre 2026 y 2031 frente a este escenario?',
+     typeL:'Selección múltiple · máx. 3 opciones',type:'m',sort:'n',nR:[480,238,234],note:'',
+     opts:[
+       ['Marco institucional de microcredenciales',251,125,122],
+       ['Credenciales digitales verificables',222,110,109],
+       ['Rediseñar mallas con salidas certificables',219,113,100],
+       ['Alianzas con sectores productivos',183,81,101],
+       ['Oferta de microcredenciales en IA y digitales',123,58,64],
+       ['Reconocer credenciales externas en carreras',91,45,43],
+       ['No priorizar microcredenciales',62,24,36],
+     ]},
+    // ── P5 ───────────────────────────────────────────────
+    {id:'P5.1',ax:'P5',
+     text:'Hacia 2040, ¿cómo deberían evolucionar la duración y estructura de las carreras universitarias?',
+     typeL:'Selección única',type:'s',sort:'n',nR:[480,238,234],note:'',
+     opts:[
+       ['Duración similar + salidas intermedias certificables',136,67,69],
+       ['Grado en competencias esenciales + formación continua',123,52,71],
+       ['Duración actual + formación crítica protegida',120,59,56],
+       ['Grado más corto + posgrado obligatorio',84,51,31],
+       ['Ninguno de los anteriores',17,9,7],
+     ]},
+    {id:'P5.2',ax:'P5',
+     text:'¿Qué decisiones debería tomar la Universidad entre 2026 y 2031 sobre la estructura curricular?',
+     typeL:'Selección múltiple · máx. 3 opciones',type:'m',sort:'n',nR:[480,238,234],note:'',
+     opts:[
+       ['Revisión integral de contenidos y articulación',305,145,154],
+       ['Itinerarios formativos y trayectorias especializadas',260,125,129],
+       ['Troncos comunes entre carreras afines',247,128,116],
+       ['Reconocimiento automático de créditos',164,81,82],
+       ['Créditos de libre elección en otras Facultades',150,69,77],
+       ['Reducir duración solo donde hay rezago',33,19,12],
+     ]},
+    // ── P6 ───────────────────────────────────────────────
+    {id:'P6.1',ax:'P6',
+     text:'Pensando en el año 2040, ¿cuál escenario describe mejor el lugar que tendrán los enfoques transversales en la vida académica?',
+     typeL:'Selección única',type:'s',sort:'n',nR:[480,238,234],note:'',
+     opts:[
+       ['Integración curricular plena (resultados evaluables)',194,80,112],
+       ['Rediseño institucional (admisión, contratos, presupuesto)',105,56,47],
+       ['Especialización (unidades, cátedras, observatorios)',88,54,34],
+       ['Ninguno de los anteriores',52,23,26],
+       ['Eje territorial dominante (Zona 6)',26,16,10],
+       ['Formalismo persistente (documentos y acreditación)',15,9,5],
+     ]},
+    {id:'P6.2',ax:'P6',
+     text:'¿Qué decisiones debería tomar la Universidad entre 2026 y 2031 para que estos enfoques se materialicen en el eje académico?',
+     typeL:'Selección múltiple · exactamente 3 opciones',type:'m',sort:'n',nR:[480,238,234],note:'',
+     opts:[
+       ['Vincular oferta y prácticas a la Zona 6',282,151,128],
+       ['Accesibilidad universal (física, digital, curricular)',272,136,131],
+       ['Sostenibilidad y ODS como criterio de pertinencia',262,132,128],
+       ['Resultados de aprendizaje evaluables en mallas',233,116,112],
+       ['Criterios de igualdad de género con metas',181,79,96],
+       ['Formación docente en derechos, género e inclusión',133,57,73],
+       ['Desagregar indicadores por género, etnia, territorio',77,43,34],
+     ]},
+    // ── P7 ───────────────────────────────────────────────
+    {id:'P7.1',ax:'P7',
+     text:'Pensando en el año 2040, ¿qué considera que debería hacer el docente para que su materia responda a las necesidades de la comunidad, las empresas o las instituciones?',
+     typeL:'Selección múltiple · máx. 2 opciones',type:'m',sort:'n',nR:[480,238,234],note:'',
+     opts:[
+       ['Estudiantes resuelven problema real (diagnóstico, prototipo)',352,175,171],
+       ['Docentes de otras carreras abordan el mismo problema',225,95,127],
+       ['Asesoría técnica o capacitación del docente',147,89,54],
+       ['Otro (respuesta abierta)',13,7,5],
+     ]},
+    // ── P8 ───────────────────────────────────────────────
+    {id:'P8.1',ax:'P8',
+     text:'De las siguientes transformaciones, ¿cuáles considera las TRES más importantes para la educación superior hacia el año 2040?',
+     typeL:'Selección múltiple · exactamente 3 opciones',type:'m',sort:'n',nR:[480,238,234],note:'',
+     opts:[
+       ['Evaluar procesos y desempeños, no solo producto',211,99,108],
+       ['Vínculo docente–estudiante como diferenciador',208,105,98],
+       ['Título debe acreditar resultados verificables',196,92,102],
+       ['Formación organizada por problemas, no disciplinas',152,73,75],
+       ['Predominio de modalidades híbridas',128,60,67],
+       ['Datos e IA reconfiguran acompañamiento estudiantil',124,59,63],
+       ['Oferta reconfigurada (cierres, fusiones, modular)',109,63,46],
+       ['Carreras más cortas con salidas intermedias',82,47,34],
+       ['Internacionalización sin movilidad física masiva',77,37,38],
+       ['Competencias certificables conviven o desplazan título',49,31,18],
+       ['Financiamiento vinculado a permanencia y graduación',40,15,22],
+       ['Desafío: permanencia y graduación oportuna',35,13,22],
+       ['Perfil estudiantil diversificado (no solo joven/TC)',29,20,9],
+     ]},
+    {id:'P8.2',ax:'P8',
+     text:'¿Cuáles son las TRES decisiones que la Universidad de Cuenca debería comenzar a tomar en el período 2026–2031 para anticiparse a esas transformaciones?',
+     typeL:'Selección múltiple · exactamente 3 opciones',type:'m',sort:'n',nR:[480,238,234],note:'',
+     opts:[
+       ['Marco normativo sobre IA, integridad y datos',268,131,131],
+       ['Rediseñar modelo educativo y mallas por competencias',223,120,100],
+       ['Plan de formación docente en docencia, evaluación e IA',155,76,78],
+       ['Reformar procedimientos administrativos',117,54,59],
+       ['Programa de permanencia y titulación oportuna',104,45,59],
+       ['Diversificar modalidades y horarios',100,47,50],
+       ['Criterios para crear, fusionar o cerrar programas',95,47,46],
+       ['Sistema integrado de información académica',92,50,41],
+       ['Institucionalizar seguimiento a graduados',90,45,44],
+       ['Política de internacionalización',80,37,42],
+       ['Diversificar fuentes de financiamiento',59,33,25],
+       ['Estructuras interdisciplinarias compartidas',57,29,27],
+     ]},
+    {id:'P8.3',ax:'P8',
+     text:'En términos generales, ¿qué tan preparada está actualmente la Universidad de Cuenca para responder a estas transformaciones?',
+     typeL:'Selección única (escala 1–5)',type:'s',sort:'k',nR:[480,238,234],note:'',special:'likert',
+     opts:[
+       ['1 · Nada preparada',18,14,4],
+       ['2 · Poco preparada',119,62,54],
+       ['3 · Medianamente preparada',257,120,132],
+       ['4 · Bastante preparada',74,38,36],
+       ['5 · Muy preparada',12,4,8],
+     ]},
+    // ── P9 ───────────────────────────────────────────────
+    {id:'P9.1',ax:'P9',
+     text:'¿Qué otro tema, no abordado en las secciones anteriores, debería incorporarse a la reflexión prospectiva del Eje Académico?',
+     typeL:'Selección múltiple · máx. 2 opciones',type:'m',sort:'n',nR:[480,238,234],note:'',
+     opts:[
+       ['Investigación y articulación con docencia de pregrado',215,104,109],
+       ['Carrera docente (ingreso, escalafón, relevo generacional)',144,75,67],
+       ['Infraestructura física y tecnológica para la docencia',136,72,63],
+       ['Posgrado y su relación con el pregrado',79,50,29],
+       ['Bienestar estudiantil y salud mental',66,18,46],
+       ['Vinculación con la sociedad y territorio',109,57,50],
+       ['Gobernanza académica y simplificación',52,23,28],
+       ['Educación continua y aprendizaje permanente',48,31,17],
+       ['Sostenibilidad ambiental y currículo',36,17,18],
+       ['Interculturalidad e idiomas originarios',26,14,11],
+       ['Los temas abordados son suficientes',5,1,2],
+     ]},
+  ]
+};
+
+// ─── STATE ───────────────────────────────────────────────────────────
+let gMode='all', aMode='all';
+const charts={};
+
+// ─── UTILS ───────────────────────────────────────────────────────────
+// Wrap long labels to 2 lines (returns array if needs wrapping, string otherwise)
+function wrapLabel(s, maxW=28) {
+  if (s.length <= maxW) return s;
+  const words = s.split(' ');
+  let l1 = '';
+  for (let i = 0; i < words.length; i++) {
+    const candidate = l1 ? l1 + ' ' + words[i] : words[i];
+    if (candidate.length <= maxW) {
+      l1 = candidate;
+    } else {
+      if (!l1) return s; // single word longer than maxW, keep as-is
+      const l2 = words.slice(i).join(' ');
+      return [l1, l2.length > 46 ? l2.slice(0, 44) + '…' : l2];
+    }
+  }
+  return l1;
+}
+
+const pct = (n, d) => d > 0 ? Math.round(n / d * 1000) / 10 : 0;
+const MASC_C = 'rgba(37,99,235,0.84)';
+const FEM_C  = 'rgba(124,58,237,0.84)';
+const ALL_C  = 'rgba(26,86,219,0.82)';
+const LIKERT = ['#ef4444','#f97316','#eab308','#22c55e','#16a34a'];
+const DONUT_C = ['#1a56db','#3b82f6','#93c5fd'];
+
+// ─── DYNAMIC X-AXIS MAX ───────────────────────────────────────────────
+function calcXMax(q, mode) {
+  if (q.special === 'donut' || q.special === 'gender') return 100;
+  const so = getSortedOpts(q);
+  const [nA, nM, nF] = q.nR;
+  let maxVal = 0;
+  so.forEach(o => {
+    if (mode === 'cmp') maxVal = Math.max(maxVal, pct(o[2], nM), pct(o[3], nF));
+    else if (mode === 'masc') maxVal = Math.max(maxVal, pct(o[2], nM));
+    else if (mode === 'fem')  maxVal = Math.max(maxVal, pct(o[3], nF));
+    else maxVal = Math.max(maxVal, pct(o[1], nA));
+  });
+  // Add buffer and round up to nearest 10, cap at 100
+  const nice = Math.ceil((maxVal + 8) / 10) * 10;
+  return Math.min(100, Math.max(nice, 15));
+}
+
+// ─── BUILD UI ────────────────────────────────────────────────────────
+function buildUI(){
+  // axis pills
+  const ap = document.getElementById('ap');
+  DATA.axes.forEach(ax => {
+    const b = document.createElement('button');
+    b.className = 'pill'; b.dataset.a = ax.id;
+    b.innerHTML = ax.icon + ' ' + ax.id;
+    b.title = ax.label;
+    b.onclick = () => setA(b);
+    ap.appendChild(b);
+  });
+  // sections & cards
+  const main = document.getElementById('main');
+  DATA.axes.forEach(ax => {
+    const sec = document.createElement('section');
+    sec.className = 'axis-sec on'; sec.id = 'sec-' + ax.id;
+    sec.setAttribute('aria-label', ax.label);
+    // P0 uses special CSS layout (no wide class); other axes use wide if any question has >=9 opts
+    const isP0 = ax.id === 'P0';
+    const wide = !isP0 && DATA.questions.filter(q => q.ax === ax.id).some(q => q.opts.length >= 9);
+    sec.innerHTML = `
+    <div class="axis-hdr">
+      <div class="axis-icon">${ax.icon}</div>
+      <div><div class="axis-title">${ax.label}</div><div class="axis-sub">${ax.sub}</div></div>
+    </div>
+    <div class="qs-grid${wide ? ' wide' : ''}" id="grid-${ax.id}"></div>`;
+    main.appendChild(sec);
+  });
+  DATA.questions.forEach(q => buildCard(q));
+}
+
+function calcH(q, mode) {
+  if (q.special === 'donut') return 290;
+  const n = q.opts.length;
+  return Math.max(200, n * (mode === 'cmp' ? 58 : 44) + 80);
+}
+
+function buildCard(q) {
+  const grid = document.getElementById('grid-' + q.ax);
+  if (!grid) return;
+  const isM = q.type === 'm';
+  const isD = q.special === 'donut';
+  const h = calcH(q, 'all');
+  const card = document.createElement('article');
+  card.className = 'card'; card.id = 'card-' + q.id;
+  card.innerHTML = `
+  <div class="card-hdr">
+    <div class="q-code">${q.id}</div>
+    <div class="q-text">${q.text}</div>
+    <span class="type-badge ${isM ? 'tm' : 'ts'}">${isM ? '⊞ ' : '◉ '}${q.typeL}</span>
+  </div>
+  <div class="card-body">
+    ${q.note ? `<div class="chart-note"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>${q.note}</div>` : ''}
+    <div class="chart-wrap" id="wrap-${q.id}" style="height:${h}px;position:relative">
+      <canvas id="c-${q.id}"></canvas>
+    </div>
+    ${isM && !isD ? '<p class="multi-note">La sumatoria de los porcentajes de las categorías pueden superar el 100% (cada encuestado eligió más de una opción)</p>' : ''}
+  </div>`;
+  grid.appendChild(card);
+  createChart(q);
+}
+
+// ─── CHART LOGIC ─────────────────────────────────────────────────────
+function getSortedOpts(q){
+  let o = [...q.opts];
+  if (q.sort === 'n') o.sort((a, b) => b[1] - a[1]);
+  return o;
+}
+
+function buildDatasets(q){
+  const so = getSortedOpts(q);
+  const labels = so.map(o => wrapLabel(o[0]));
+  const fullL  = so.map(o => o[0]);
+  const [nA, nM, nF] = q.nR;
+  const isL = q.special === 'likert';
+  const isG = q.special === 'gender';
+  const isD = q.special === 'donut';
+
+  // ── DONUT ──────────────────────────────────────────────
+  if (isD) {
+    let data;
+    let lbl;
+    if (gMode === 'cmp' || gMode === 'all') {
+      data = so.map(o => o[1]); lbl = 'Total (n='+nA+')';
+    } else if (gMode === 'masc') {
+      data = so.map(o => o[2]); lbl = 'Masculino (n='+nM+')';
+    } else {
+      data = so.map(o => o[3]); lbl = 'Femenino (n='+nF+')';
+    }
+    return {
+      labels: fullL, // donut legend uses full labels
+      fullL,
+      sortedOpts: so,
+      datasets: [{
+        label: lbl,
+        data,
+        backgroundColor: DONUT_C,
+        borderWidth: 3,
+        borderColor: '#fff',
+        hoverOffset: 8,
+        datalabels: {
+          display: true,
+          anchor: 'center',
+          align: 'center',
+          color: '#fff',
+          font: {size: 12, weight: '700'},
+          formatter: (v, ctx) => {
+            const total = ctx.chart.data.datasets[0].data.reduce((a, b) => a + b, 0);
+            return total > 0 && v > 0 ? (v / total * 100).toFixed(1) + '%' : '';
+          }
+        }
+      }]
+    };
+  }
+
+  const dlBase = {
+    anchor: 'end', align: 'right', offset: 4,
+    font: {size: 11, weight: '700'},
+    formatter: v => v >= 1 ? v.toFixed(1) + '%' : '',
+    color: '#1e293b'
+  };
+
+  // ── COMPARE ─────────────────────────────────────────────
+  if (gMode === 'cmp' && !isG) {
+    const mVals = so.map(o => pct(o[2], nM));
+    const fVals = so.map(o => pct(o[3], nF));
+    return {
+      labels, fullL, sortedOpts: so,
+      datasets: [
+        {label: 'Masculino (n='+nM+')', data: mVals,
+         backgroundColor: MASC_C, borderWidth: 0, borderRadius: 3,
+         datalabels: {...dlBase, color: '#1e3a8a'}},
+        {label: 'Femenino (n='+nF+')', data: fVals,
+         backgroundColor: FEM_C, borderWidth: 0, borderRadius: 3,
+         datalabels: {...dlBase, color: '#4c1d95'}}
+      ]
+    };
+  }
+
+  // ── SINGLE DATASET ──────────────────────────────────────
+  let vals, col, lbl;
+  if (isG || gMode === 'all') {
+    vals = so.map(o => pct(o[1], nA));
+    col  = isL ? LIKERT.map(c => c + 'd9') : ALL_C;
+    lbl  = 'Total (n='+nA+')';
+  } else if (gMode === 'masc') {
+    vals = so.map(o => pct(o[2], nM));
+    col  = isL ? LIKERT.map(c => c + 'cc') : MASC_C;
+    lbl  = 'Masculino (n='+nM+')';
+  } else {
+    vals = so.map(o => pct(o[3], nF));
+    col  = isL ? LIKERT.map(c => c + 'cc') : FEM_C;
+    lbl  = 'Femenino (n='+nF+')';
+  }
+  return {
+    labels, fullL, sortedOpts: so,
+    datasets: [{
+      label: lbl, data: vals,
+      backgroundColor: col,
+      borderWidth: 0, borderRadius: 3,
+      datalabels: dlBase
+    }]
+  };
+}
+
+function makeChartCfg(q){
+  const {labels, fullL, datasets, sortedOpts} = buildDatasets(q);
+
+  // ── DONUT CONFIG ────────────────────────────────────────
+  if (q.special === 'donut') {
+    return {
+      type: 'doughnut',
+      data: {labels, datasets},
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        cutout: '60%',
+        layout: {padding: 16},
+        plugins: {
+          legend: {
+            display: true, position: 'bottom',
+            labels: {boxWidth: 14, boxHeight: 12, padding: 14,
+                     font: {size: 11.5, weight: '600'}}
+          },
+          tooltip: {
+            callbacks: {
+              label: item => {
+                const total = item.chart.data.datasets[0].data.reduce((a,b)=>a+b,0);
+                const pctV = total > 0 ? (item.raw/total*100).toFixed(1)+'%' : '0%';
+                return ` ${fullL[item.dataIndex]}: ${pctV} (n=${item.raw})`;
+              }
+            },
+            titleFont: {size:12.5,weight:'700'}, bodyFont: {size:12},
+            padding:12, cornerRadius:10,
+            backgroundColor:'rgba(9,30,66,0.93)',
+            titleColor:'#fff', bodyColor:'rgba(255,255,255,0.86)'
+          },
+          datalabels: {}
+        },
+        animation: {duration: 350, easing: 'easeOutQuart'}
+      },
+      plugins: [ChartDataLabels]
+    };
+  }
+
+  // ── BAR CONFIG ──────────────────────────────────────────
+  const xMax = calcXMax(q, gMode);
+  return {
+    type: 'bar',
+    data: {labels, datasets},
+    options: {
+      indexAxis: 'y',
+      responsive: true,
+      maintainAspectRatio: false,
+      layout: {padding: {right: 62, top: 4, bottom: 4}},
+      scales: {
+        x: {
+          max: xMax,
+          min: 0,
+          grid: {color: 'rgba(0,0,0,0.05)', drawBorder: false},
+          border: {display: false},
+          ticks: {font: {size: 11}, callback: v => v + '%', color: '#64748b', maxTicksLimit: 6}
+        },
+        y: {
+          grid: {display: false},
+          border: {display: false},
+          ticks: {
+            font: {size: 11}, color: '#334155',
+            callback: (v, i) => labels[i]
+          }
+        }
+      },
+      plugins: {
+        legend: {
+          display: gMode === 'cmp',
+          position: 'top', align: 'start',
+          labels: {boxWidth: 14, boxHeight: 12, padding: 14, font: {size: 11.5, weight: '600'}}
+        },
+        tooltip: {
+          callbacks: {
+            title: items => [fullL[items[0].dataIndex]],
+            label: item => {
+              const so2 = getSortedOpts(q);
+              const o = so2[item.dataIndex];
+              let raw, den;
+              if (gMode === 'cmp') {
+                if (item.datasetIndex === 0) {raw=o[2]; den=q.nR[1];}
+                else {raw=o[3]; den=q.nR[2];}
+              } else if (gMode === 'masc') {raw=o[2]; den=q.nR[1];}
+              else if (gMode === 'fem')  {raw=o[3]; den=q.nR[2];}
+              else {raw=o[1]; den=q.nR[0];}
+              return ` ${item.dataset.label}: ${item.formattedValue}% (n=${raw} / ${den})`;
+            }
+          },
+          titleFont: {size:12.5,weight:'700'}, bodyFont: {size:12},
+          padding:12, cornerRadius:10,
+          backgroundColor:'rgba(9,30,66,0.93)',
+          titleColor:'#fff', bodyColor:'rgba(255,255,255,0.86)',
+          displayColors: true, multiKeyBackground: 'transparent'
+        },
+        datalabels: {}
+      },
+      animation: {duration: 350, easing: 'easeOutQuart'}
+    },
+    plugins: [ChartDataLabels]
+  };
+}
+
+function createChart(q){
+  const canvas = document.getElementById('c-' + q.id);
+  if (!canvas) return;
+  const cfg = makeChartCfg(q);
+  if (charts[q.id]) charts[q.id].destroy();
+  charts[q.id] = new Chart(canvas, cfg);
+}
+
+function updateChart(q){
+  const chart = charts[q.id];
+  if (!chart) return;
+  const {labels, fullL, datasets} = buildDatasets(q);
+  chart.data.labels  = labels;
+  chart.data.datasets = datasets;
+
+  if (q.special === 'donut') {
+    chart.update('active');
+    return;
+  }
+
+  chart.options.plugins.legend.display = gMode === 'cmp';
+  chart.options.scales.x.max = calcXMax(q, gMode);
+  const wrap = document.getElementById('wrap-' + q.id);
+  if (wrap) wrap.style.height = calcH(q, gMode) + 'px';
+  chart.resize();
+  chart.update('active');
+}
+
+// ─── FILTERS ─────────────────────────────────────────────────────────
+function setG(btn){
+  gMode = btn.dataset.g;
+  document.querySelectorAll('#gp .pill').forEach(b => {
+    b.classList.remove('active');
+    if (b === btn) b.classList.add('active');
+  });
+  DATA.questions.forEach(q => updateChart(q));
+}
+
+function setA(btn){
+  aMode = btn.dataset.a;
+  document.querySelectorAll('#ap .pill').forEach(b => {
+    b.classList.remove('active');
+    if (b === btn) b.classList.add('active');
+  });
+  DATA.axes.forEach(ax => {
+    const sec = document.getElementById('sec-' + ax.id);
+    if (sec) sec.classList.toggle('on', aMode === 'all' || aMode === ax.id);
+  });
+  setTimeout(() => {
+    DATA.questions.filter(q => aMode === 'all' || q.ax === aMode).forEach(q => {
+      if (charts[q.id]) charts[q.id].resize();
+    });
+  }, 50);
+}
+
+// ─── INIT ─────────────────────────────────────────────────────────────
+buildUI();
+</script>
+</body>
+</html>

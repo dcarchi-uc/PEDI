@@ -1,0 +1,1454 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Indicadores Académicos · Mesas Técnicas PEDI 2026-2031 · Universidad de Cuenca</title>
+<style>
+/* =========================================================
+   Tablero de Indicadores Académicos — PEDI 2026-2031
+   Universidad de Cuenca · Mesas Técnicas
+   ========================================================= */
+
+:root{
+  /* Paleta Encuesta — PEDI 2026-2031 Universidad de Cuenca */
+  --azul-950:#091e42;
+  --azul-900:#0d2d5a;
+  --azul-800:#163a80;
+  --azul-700:#1a56db;
+  --azul-600:#1a56db;
+  --azul-500:#3b82f6;
+  --azul-400:#60a5fa;
+  --azul-300:#93c5fd;
+  --azul-200:#bfdbfe;
+  --azul-100:#dbeafe;
+  --azul-050:#eff6ff;
+
+  /* El dorado se reemplaza por azul real para mantener uniformidad */
+  --oro-600:#1a56db;
+  --oro-500:#1a56db;
+  --oro-400:#3b82f6;
+  --oro-100:#eff6ff;
+
+  --verde-600:#059669;
+  --verde-100:#d1fae5;
+  --ambar-600:#d97706;
+  --ambar-100:#fef3c7;
+  --rojo-600:#dc2626;
+  --rojo-100:#fee2e2;
+
+  --tinta:#1e293b;
+  --tinta-suave:#64748b;
+  --linea:#e2e8f0;
+  --superficie:#ffffff;
+  --fondo:#f1f5f9;
+
+  --fuente-display:"Segoe UI",system-ui,-apple-system,sans-serif;
+  --fuente-cuerpo:"Segoe UI",system-ui,-apple-system,sans-serif;
+  --fuente-dato:ui-monospace,"SFMono-Regular",Menlo,monospace;
+
+  --radio-s:8px;
+  --radio-m:14px;
+  --radio-l:22px;
+  --sombra-s:0 1px 2px rgba(13,45,90,.06), 0 1px 1px rgba(13,45,90,.04);
+  --sombra-m:0 8px 24px -8px rgba(13,45,90,.18);
+  --sombra-l:0 20px 48px -12px rgba(13,45,90,.28);
+}
+
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  margin:0;
+  font-family:var(--fuente-cuerpo);
+  color:var(--tinta);
+  background:var(--fondo);
+  -webkit-font-smoothing:antialiased;
+}
+img{max-width:100%;display:block;}
+button{font-family:inherit;}
+::selection{background:var(--oro-400); color:var(--azul-950);}
+
+@media (prefers-reduced-motion: reduce){
+  *{animation-duration:.001ms !important; transition-duration:.001ms !important;}
+}
+
+.visually-hidden{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;}
+
+/* ---------- Skyline andino (motivo de firma, se repite como separador) ---------- */
+.skyline{
+  display:block;
+  width:100%;
+  height:28px;
+  fill:currentColor;
+}
+
+/* ---------- Header ---------- */
+.app-header{
+  position:sticky; top:0; z-index:40;
+  background:linear-gradient(180deg, var(--azul-950), var(--azul-900) 70%, var(--azul-800));
+  color:#fff;
+  box-shadow:var(--sombra-m);
+}
+.app-header__titlebar{
+  max-width:1320px; margin:0 auto;
+  padding:12px 24px 6px;
+  text-align:center;
+}
+.app-header__eyebrow{
+  font-family:var(--fuente-dato);
+  font-size:10.5px; letter-spacing:.14em; text-transform:uppercase;
+  color:var(--azul-500); margin:0 0 3px;
+}
+.app-header__title{
+  font-family:var(--fuente-display);
+  font-weight:600; font-size:clamp(17px,2.1vw,22px); line-height:1.15; margin:0 auto;
+  letter-spacing:-.01em; max-width:820px;
+}
+.app-header__controlbar{
+  max-width:1320px; margin:0 auto;
+  display:flex; align-items:center; justify-content:center; gap:16px;
+  padding:4px 24px 10px; flex-wrap:wrap;
+}
+.app-header__logo{
+  width:155px; height:82px; object-fit:contain;
+  background:rgba(255,255,255,.92); border-radius:12px; padding:8px;
+  border:2px solid rgba(255,255,255,.5);
+  box-shadow:0 6px 28px rgba(0,0,0,.20);
+  flex-shrink:0;
+}
+
+.mesa-switch{
+  display:flex; gap:4px; background:rgba(255,255,255,.08);
+  border:1px solid rgba(255,255,255,.14); border-radius:999px; padding:3px;
+  flex-shrink:0;
+}
+.mesa-switch button{
+  border:none; background:transparent; color:var(--azul-100);
+  padding:6px 15px; border-radius:999px; font-size:12.5px; font-weight:600;
+  cursor:pointer; transition:all .18s ease; white-space:nowrap;
+}
+.mesa-switch button .n{
+  font-family:var(--fuente-dato); font-size:10px; opacity:.75; display:block; letter-spacing:.06em;
+}
+.mesa-switch button.active{
+  background:var(--oro-500); color:var(--azul-950);
+  box-shadow:0 4px 14px -4px rgba(26,86,219,.45);
+}
+.mesa-switch button:not(.active):hover{background:rgba(255,255,255,.12); color:#fff;}
+
+.app-nav{
+  max-width:1320px; margin:0 auto;
+  display:flex; gap:2px; padding:0 24px;
+  border-top:1px solid rgba(255,255,255,.08);
+  justify-content:center; flex-wrap:wrap;
+}
+.app-nav button{
+  background:none; border:none; color:var(--azul-200);
+  font-size:13px; font-weight:600; padding:9px 16px;
+  cursor:pointer; position:relative; letter-spacing:.01em;
+  border-bottom:2.5px solid transparent;
+  transition:color .15s;
+}
+.app-nav button:hover{color:#fff;}
+.app-nav button.active{color:#fff; border-bottom-color:var(--oro-500);}
+.app-nav button .tag{
+  font-family:var(--fuente-dato); font-size:10px; background:rgba(26,86,219,.15); color:var(--azul-500);
+  padding:1px 6px; border-radius:5px; margin-left:6px; vertical-align:1px;
+}
+
+.skyline-band{color:var(--azul-800); background:var(--azul-900); line-height:0;}
+.skyline-band svg{color:var(--fondo);}
+
+/* ---------- Layout general ---------- */
+.vista{max-width:1320px; margin:0 auto; padding:28px 24px 80px;}
+.vista[hidden]{display:none;}
+
+/* ---------- Hero / resumen ---------- */
+.resumen-hero{
+  position:relative; overflow:hidden;
+  background:linear-gradient(135deg, var(--azul-800), var(--azul-600) 60%, var(--azul-500));
+  border-radius:var(--radio-l);
+  color:#fff;
+  padding:16px 24px 14px;
+  margin-bottom:14px;
+  box-shadow:var(--sombra-l);
+}
+.resumen-hero::after{
+  content:"";
+  position:absolute; inset:auto -10% -1px -10%;
+  height:64px;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 100' preserveAspectRatio='none'%3E%3Cpath fill='%23f1f5f9' d='M0 100 L0 55 L40 55 L60 20 L80 55 L120 55 L150 40 L165 15 L180 40 L200 30 L220 55 L280 55 L300 10 L320 55 L360 55 L385 32 L410 55 L470 55 L495 24 L520 55 L560 55 L580 44 L600 55 L650 55 L675 5 L695 55 L760 55 L780 38 L800 18 L820 38 L845 55 L900 55 L925 28 L950 55 L1010 55 L1035 15 L1060 55 L1120 55 L1145 35 L1170 55 L1200 55 L1200 100 Z'/%3E%3C/svg%3E");
+  background-size:100% 100%;
+}
+.resumen-hero__top{display:flex; justify-content:space-between; align-items:flex-start; gap:20px; position:relative; z-index:1;}
+.resumen-hero__eyebrow{font-family:var(--fuente-dato); font-size:11.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--azul-500); margin:0 0 6px;}
+.resumen-hero h1{
+  font-family:var(--fuente-display); font-weight:600; font-size:clamp(14px,2vw,20px);
+  margin:0 0 8px; letter-spacing:-.01em; max-width:640px;
+}
+.resumen-hero p{margin:0; max-width:560px; color:var(--azul-100); font-size:14.5px; line-height:1.55;}
+.resumen-hero__badge{
+  background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.22);
+  border-radius:12px; padding:10px 16px; text-align:right; flex-shrink:0;
+}
+.resumen-hero__badge b{display:block; font-family:var(--fuente-display); font-size:22px;}
+.resumen-hero__badge span{font-size:11px; color:var(--azul-200); text-transform:uppercase; letter-spacing:.08em;}
+
+.kpi-row{
+  display:grid; grid-template-columns:repeat(5,1fr); gap:14px;
+  margin-top:26px; position:relative; z-index:1;
+}
+.kpi-card{
+  background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.16);
+  border-radius:var(--radio-m); padding:16px 18px; backdrop-filter:blur(2px);
+}
+.kpi-card .lbl{font-size:12px; color:var(--azul-100); font-weight:500;}
+.kpi-card .val{font-family:var(--fuente-display); font-size:30px; font-weight:600; margin-top:4px; letter-spacing:-.01em;}
+.kpi-card .sub{font-family:var(--fuente-dato); font-size:11px; color:var(--azul-500); margin-top:3px;}
+
+/* ---------- Filtros ---------- */
+.filtros{
+  display:flex; align-items:center; gap:12px; flex-wrap:wrap;
+  margin-bottom:20px;
+}
+.buscador{
+  position:relative; flex:1; min-width:220px; max-width:360px;
+}
+.buscador input{
+  width:100%; padding:10px 14px 10px 36px; border-radius:10px;
+  border:1.5px solid var(--linea); background:#fff; font-size:14px; color:var(--tinta);
+  transition:border-color .15s, box-shadow .15s;
+}
+.buscador input:focus{outline:none; border-color:var(--azul-400); box-shadow:0 0 0 3px var(--azul-100);}
+.buscador svg{position:absolute; left:11px; top:50%; transform:translateY(-50%); color:var(--tinta-suave); width:15px; height:15px;}
+
+.chip-group{display:flex; gap:8px; flex-wrap:wrap;}
+.chip{
+  border:1.5px solid var(--linea); background:#fff; color:var(--tinta-suave);
+  padding:7px 13px; border-radius:999px; font-size:13px; font-weight:600;
+  cursor:pointer; transition:all .15s;
+}
+.chip:hover{border-color:var(--azul-300); color:var(--azul-600);}
+.chip.active{background:var(--azul-700); border-color:var(--azul-700); color:#fff;}
+
+.select-indicador{
+  margin-left:auto; display:flex; gap:6px; background:#fff; border:1.5px solid var(--linea);
+  border-radius:10px; padding:4px;
+}
+.select-indicador button{
+  border:none; background:none; padding:7px 11px; border-radius:7px; font-size:12.5px;
+  font-weight:600; color:var(--tinta-suave); cursor:pointer; transition:all .15s;
+}
+.select-indicador button.active{background:var(--azul-050); color:var(--azul-700);}
+
+/* ---------- Grid de facultades ---------- */
+.facultades-grid{
+  display:grid; grid-template-columns:repeat(3, 1fr); gap:18px;
+}
+@media (max-width:980px){ .facultades-grid{grid-template-columns:repeat(2,1fr);} }
+@media (max-width:640px){ .facultades-grid{grid-template-columns:1fr;} }
+.fac-card{
+  background:var(--superficie); border:1px solid var(--linea); border-radius:var(--radio-m);
+  padding:22px 24px; cursor:pointer; transition:box-shadow .18s, transform .18s, border-color .18s;
+  position:relative; overflow:hidden; min-height:150px;
+  display:flex; flex-direction:column; justify-content:space-between;
+}
+.fac-card:hover{box-shadow:var(--sombra-m); transform:translateY(-2px); border-color:var(--azul-300);}
+.fac-card::before{
+  content:""; position:absolute; left:0; top:0; bottom:0; width:4px;
+  background:linear-gradient(180deg, var(--azul-500), var(--oro-500));
+}
+.fac-card__mesa{
+  font-family:var(--fuente-dato); font-size:10px; text-transform:uppercase; letter-spacing:.08em;
+  color:var(--azul-500); font-weight:600;
+}
+.fac-card h3{
+  font-family:var(--fuente-display); font-size:17px; font-weight:600; margin:5px 0 12px; line-height:1.25;
+  color:var(--azul-900);
+}
+.fac-card__stats{display:flex; gap:18px; flex-wrap:wrap;}
+.fac-card__stats div span{display:block;}
+.fac-card__stats .n{font-family:var(--fuente-dato); font-size:18px; font-weight:600; color:var(--tinta);}
+.fac-card__stats .l{font-size:11px; color:var(--tinta-suave);}
+.fac-card__carreras-count{
+  margin-top:12px; font-size:12.5px; color:var(--tinta-suave);
+  border-top:1px dashed var(--linea); padding-top:10px;
+}
+.fac-card__carreras-count b{color:var(--azul-600);}
+
+/* ---------- Panel de facultad expandida ---------- */
+.fac-detalle{
+  background:var(--superficie); border:1px solid var(--linea); border-radius:var(--radio-l);
+  margin-top:18px; overflow:hidden; box-shadow:var(--sombra-m);
+}
+.fac-detalle__head{
+  background:var(--azul-050); padding:20px 26px; display:flex; justify-content:space-between; align-items:center;
+  border-bottom:1px solid var(--linea);
+}
+.fac-detalle__head h2{font-family:var(--fuente-display); font-size:20px; margin:0; color:var(--azul-900);}
+.fac-detalle__head button{
+  border:1.5px solid var(--linea); background:#fff; border-radius:8px; padding:7px 13px;
+  cursor:pointer; font-size:13px; font-weight:600; color:var(--tinta-suave);
+}
+.fac-detalle__head button:hover{border-color:var(--azul-400); color:var(--azul-600);}
+
+.carreras-tabla{width:100%; border-collapse:collapse; font-size:13.5px;}
+.carreras-tabla thead th{
+  text-align:left; padding:10px 14px; font-size:11px; text-transform:uppercase; letter-spacing:.05em;
+  color:var(--tinta-suave); border-bottom:1.5px solid var(--linea); position:sticky; top:0; background:#fff;
+  cursor:pointer; user-select:none; white-space:nowrap;
+}
+.carreras-tabla thead th:hover{color:var(--azul-600);}
+.carreras-tabla thead th.sorted::after{content:" ▾"; color:var(--oro-600);}
+.carreras-tabla thead th.th-center{text-align:center;}
+.carreras-tabla tbody tr{border-bottom:1px solid var(--linea); cursor:pointer; transition:background .12s;}
+.carreras-tabla tbody tr:hover{background:var(--azul-050);}
+.carreras-tabla tbody td{padding:11px 14px; color:var(--tinta);}
+.carreras-tabla tbody td.num{font-family:var(--fuente-dato); text-align:center;}
+.carreras-tabla tbody td.carrera-nombre{font-weight:600; color:var(--azul-800);}
+.carreras-tabla-wrap{max-height:560px; overflow:auto;}
+.carreras-tabla tbody tr.fila-resumen{
+  cursor:default; background:var(--azul-050); border-top:2px solid var(--azul-300);
+  font-weight:700;
+}
+.carreras-tabla tbody tr.fila-resumen:hover{background:var(--azul-050);}
+.carreras-tabla tbody tr.fila-resumen td{color:var(--azul-900);}
+.carreras-tabla tbody tr.fila-resumen td.num{font-family:var(--fuente-dato);}
+.carreras-tabla tbody tr.fila-resumen-universidad{
+  background:var(--oro-100); border-top:2px solid var(--oro-500);
+}
+.carreras-tabla tbody tr.fila-resumen-universidad:hover{background:var(--oro-100);}
+.carreras-tabla tbody tr.fila-resumen-universidad td{color:var(--oro-600);}
+
+.badge-tasa{
+  display:inline-flex; align-items:center; gap:4px; padding:2px 8px; border-radius:999px;
+  font-family:var(--fuente-dato); font-size:12px; font-weight:600;
+}
+.badge-tasa.buena{background:var(--verde-100); color:var(--verde-600);}
+.badge-tasa.media{background:var(--ambar-100); color:var(--ambar-600);}
+.badge-tasa.baja{background:var(--rojo-100); color:var(--rojo-600);}
+.badge-tasa.na{background:var(--azul-050); color:var(--tinta-suave);}
+
+/* ---------- Panel de carrera (drawer) ---------- */
+.overlay{
+  position:fixed; inset:0; background:rgba(6,26,51,.5); backdrop-filter:blur(2px);
+  z-index:60; opacity:0; pointer-events:none; transition:opacity .2s;
+}
+.overlay.open{opacity:1; pointer-events:auto;}
+.drawer{
+  position:fixed; top:0; right:0; bottom:0; width:min(720px, 100%);
+  background:var(--fondo); z-index:61; box-shadow:var(--sombra-l);
+  transform:translateX(100%); transition:transform .28s cubic-bezier(.2,.8,.2,1);
+  overflow-y:auto;
+}
+.drawer.open{transform:translateX(0);}
+.drawer__head{
+  background:linear-gradient(135deg, var(--azul-800), var(--azul-600));
+  color:#fff; padding:22px 26px 20px; position:relative;
+}
+.drawer__close{
+  position:absolute; top:18px; right:18px; width:32px; height:32px; border-radius:8px;
+  border:1px solid rgba(255,255,255,.3); background:rgba(255,255,255,.1); color:#fff;
+  cursor:pointer; font-size:16px; line-height:1;
+}
+.drawer__eyebrow{font-family:var(--fuente-dato); font-size:11px; text-transform:uppercase; letter-spacing:.1em; color:var(--azul-500);}
+.drawer__title{font-family:var(--fuente-display); font-size:23px; font-weight:600; margin:6px 60px 4px 0;}
+.drawer__variantes{font-size:12px; color:var(--azul-200);}
+.drawer__body{padding:22px 26px 60px;}
+
+.indicador-panel{
+  background:#fff; border:1px solid var(--linea); border-radius:var(--radio-m);
+  padding:16px 18px; margin-bottom:16px;
+}
+.indicador-panel__head{display:flex; justify-content:space-between; align-items:baseline; margin-bottom:6px;}
+.indicador-panel__head h4{margin:0; font-size:13.5px; font-weight:700; color:var(--azul-800);}
+.indicador-panel__head .periodo{font-family:var(--fuente-dato); font-size:11px; color:var(--tinta-suave);}
+.indicador-panel__value{display:flex; align-items:baseline; gap:10px; margin-bottom:8px;}
+.indicador-panel__value .v{font-family:var(--fuente-display); font-size:28px; font-weight:600; color:var(--tinta);}
+.indicador-panel__value .delta{font-family:var(--fuente-dato); font-size:12.5px; font-weight:600; padding:2px 7px; border-radius:6px;}
+.delta.up{background:var(--verde-100); color:var(--verde-600);}
+.delta.down{background:var(--rojo-100); color:var(--rojo-600);}
+.delta.flat{background:var(--azul-050); color:var(--tinta-suave);}
+.indicador-panel .mini-chart{width:100%; height:90px;}
+.indicador-panel .mini-chart svg{display:block; width:100%; height:100%;}
+.indicador-panel .mini-chart__vacio{
+  display:flex; align-items:center; justify-content:center; height:90px;
+  color:var(--tinta-suave); font-size:12px; background:var(--azul-050); border-radius:8px;
+}
+.indicador-panel__nota{font-size:11.5px; color:var(--tinta-suave); margin-top:6px;}
+
+/* ---------- Comparativa ---------- */
+.comparativa-tabla-wrap{
+  background:#fff; border:1px solid var(--linea); border-radius:var(--radio-m);
+  overflow:auto; max-height:72vh;
+}
+
+/* ---------- Evolución temporal ---------- */
+.filtros-evolucion{align-items:flex-end;}
+.filtro-select{display:flex; flex-direction:column; gap:5px; min-width:200px;}
+.filtro-select span{font-size:11.5px; font-weight:600; color:var(--tinta-suave); text-transform:uppercase; letter-spacing:.04em;}
+.filtro-select select{
+  padding:9px 12px; border-radius:10px; border:1.5px solid var(--linea); background:#fff;
+  font-size:13.5px; color:var(--tinta); font-family:inherit; cursor:pointer;
+}
+.filtro-select select:focus{outline:none; border-color:var(--azul-400); box-shadow:0 0 0 3px var(--azul-100);}
+
+.evolucion-panel{
+  background:#fff; border:1px solid var(--linea); border-radius:var(--radio-l);
+  padding:24px 28px; box-shadow:var(--sombra-m);
+}
+.evolucion-panel__head{display:flex; justify-content:space-between; align-items:flex-start; gap:20px; margin-bottom:18px; flex-wrap:wrap;}
+.evolucion-panel__head h3{font-family:var(--fuente-display); font-size:19px; margin:0 0 4px; color:var(--azul-900);}
+.evolucion-panel__head p{margin:0; font-size:12.5px; color:var(--tinta-suave);}
+.evolucion-panel__valor{text-align:right;}
+.evolucion-panel__valor .v{font-family:var(--fuente-display); font-size:32px; font-weight:600; color:var(--azul-700);}
+.evolucion-panel__valor .p{font-size:11.5px; color:var(--tinta-suave); font-family:var(--fuente-dato);}
+#evoChart{margin:10px 0 24px;}
+#evoChart svg{display:block; width:100%; height:280px;}
+#evoChart svg .pt-dato{transition:r .12s ease; cursor:pointer;}
+#evoChart svg .pt-dato:hover{r:12;}
+#evoChart .mini-chart__vacio{
+  display:flex; align-items:center; justify-content:center; height:280px;
+  color:var(--tinta-suave); font-size:13px; background:var(--azul-050); border-radius:12px;
+}
+.evolucion-tabla-wrap{max-height:280px; overflow:auto; border-top:1px solid var(--linea);}
+
+/* ---------- Calidad de datos ---------- */
+.inconsist-list{display:flex; flex-direction:column; gap:14px;}
+.inconsist-card{
+  background:#fff; border:1px solid var(--linea); border-left:5px solid var(--azul-400);
+  border-radius:var(--radio-m); padding:18px 20px;
+}
+.inconsist-card.severidad-resuelta{border-left-color:var(--verde-600);}
+.inconsist-card.severidad-advertencia{border-left-color:var(--ambar-600);}
+.inconsist-card.severidad-informativa{border-left-color:var(--azul-400);}
+.inconsist-card__top{display:flex; gap:10px; align-items:center; margin-bottom:6px; flex-wrap:wrap;}
+.inconsist-card__badge{
+  font-family:var(--fuente-dato); font-size:10.5px; text-transform:uppercase; letter-spacing:.06em;
+  padding:2px 9px; border-radius:999px; font-weight:600;
+}
+.severidad-resuelta .inconsist-card__badge{background:var(--verde-100); color:var(--verde-600);}
+.severidad-advertencia .inconsist-card__badge{background:var(--ambar-100); color:var(--ambar-600);}
+.severidad-informativa .inconsist-card__badge{background:var(--azul-100); color:var(--azul-600);}
+.inconsist-card__hoja{font-size:11.5px; color:var(--tinta-suave); font-family:var(--fuente-dato);}
+.inconsist-card h3{font-family:var(--fuente-display); font-size:16px; margin:0 0 6px; color:var(--azul-900);}
+.inconsist-card p{margin:0 0 10px; font-size:13.5px; color:var(--tinta-suave); line-height:1.55;}
+.inconsist-card__ejemplos{
+  display:flex; flex-wrap:wrap; gap:6px;
+}
+.inconsist-card__ejemplos span{
+  background:var(--azul-050); color:var(--azul-700); font-size:11.5px; padding:4px 9px; border-radius:6px;
+  font-family:var(--fuente-dato);
+}
+.inconsist-card details summary{cursor:pointer; font-size:12.5px; color:var(--azul-600); font-weight:600; margin-bottom:8px;}
+
+/* ---------- Metodología footer ---------- */
+.metodologia{
+  background:var(--azul-900); color:var(--azul-100); border-radius:var(--radio-l);
+  padding:26px 30px; margin-top:30px; font-size:13px; line-height:1.7;
+}
+.metodologia h3{font-family:var(--fuente-display); color:#fff; font-size:16px; margin:0 0 10px;}
+.metodologia code{font-family:var(--fuente-dato); background:rgba(255,255,255,.08); padding:1px 5px; border-radius:4px;}
+
+.section-title{
+  display:flex; align-items:baseline; gap:10px; margin:0 0 16px;
+}
+.section-title h2{font-family:var(--fuente-display); font-size:19px; margin:0; color:var(--azul-900);}
+.section-title span{font-size:12.5px; color:var(--tinta-suave);}
+
+.footer-app{
+  text-align:center; padding:26px 20px 40px; font-size:12px; color:var(--tinta-suave);
+}
+
+@media (max-width:1100px){
+  .kpi-row{grid-template-columns:repeat(3,1fr);}
+}
+@media (max-width:900px){
+  .kpi-row{grid-template-columns:repeat(2,1fr);}
+  .app-header__controlbar{flex-wrap:wrap;}
+  .select-indicador{margin-left:0; flex-wrap:wrap;}
+}
+@media (max-width:640px){
+  .app-header__title{font-size:16px;}
+  .mesa-switch button{padding:8px 12px; font-size:12px;}
+  .kpi-row{grid-template-columns:1fr;}
+  .drawer{width:100%;}
+}
+
+
+/* ── SCROLL-COLLAPSE for resumen-hero ── */
+.resumen-hero, .kpi-row{
+  transition:max-height .35s ease, opacity .35s ease, padding .35s ease, margin .35s ease;
+  max-height:600px;
+  overflow:hidden;
+}
+.resumen-hero.hero-collapsed, .kpi-row.hero-collapsed{
+  max-height:0 !important;
+  padding:0 !important;
+  margin-bottom:0 !important;
+  margin-top:0 !important;
+  opacity:0;
+}
+
+/* ── HOME BUTTON ── */
+.home-btn{
+  position:fixed;top:14px;right:18px;z-index:9999;
+  display:inline-flex;align-items:center;gap:7px;
+  padding:7px 16px 7px 12px;border-radius:50px;
+  background:#fff;border:2px solid #e2e8f0;
+  color:#0d2d5a;font-size:.78rem;font-weight:800;
+  text-decoration:none;letter-spacing:.04em;text-transform:uppercase;
+  box-shadow:0 4px 16px rgba(13,45,90,.20);
+  transition:background .18s,box-shadow .18s,border-color .18s;
+  cursor:pointer;
+}
+.home-btn:hover{
+  background:#eff6ff;border-color:#93c5fd;
+  box-shadow:0 6px 24px rgba(13,45,90,.28);
+}
+.home-btn svg{width:15px;height:15px;flex-shrink:0}
+
+</style>
+</head>
+<body>
+
+<a href="index.html" class="home-btn" aria-label="Volver al inicio">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z"/>
+    <path d="M9 21V12h6v9"/>
+  </svg>
+  INICIO
+</a>
+<header class="app-header">
+  <div class="app-header__titlebar">
+    <p class="app-header__eyebrow">PEDI 2026 – 2031 · Eje Académico</p>
+    <h1 class="app-header__title">Indicadores académicos para las mesas técnicas</h1>
+  </div>
+  <div class="app-header__controlbar">
+    <img class="app-header__logo" src="https://i.postimg.cc/CMJQpYVF/Logotipo-UCuenca.png" alt="Logotipo Universidad de Cuenca">
+    <div class="mesa-switch" id="mesaSwitch" role="tablist" aria-label="Selección de mesa técnica">
+      <button data-mesa="1" role="tab"><span class="n">MESA 1</span>Arquitectura · Agropecuarias · Económicas · Médicas · Odontología · Psicología</button>
+      <button data-mesa="2" role="tab"><span class="n">MESA 2</span>Artes · Hospitalidad · Químicas · Filosofía · Ingeniería · Jurisprudencia</button>
+    </div>
+  </div>
+  <nav class="app-nav" id="appNav">
+    <button data-vista="panorama" class="active">Panorama por facultad</button>
+    <button data-vista="comparativa">Comparar carreras</button>
+    <button data-vista="evolucion">Evolución temporal</button>
+    <button data-vista="calidad">Calidad de datos <span class="tag" id="tagInconsist">6</span></button>
+  </nav>
+</header>
+<div class="skyline-band">
+  <svg class="skyline" viewBox="0 0 1200 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0 60 L0 34 L40 34 L58 12 L76 34 L110 34 L136 24 L150 6 L164 24 L182 16 L200 34 L250 34 L268 4 L286 34 L320 34 L342 18 L364 34 L415 34 L437 14 L459 34 L495 34 L513 26 L531 34 L575 34 L597 2 L619 34 L675 34 L693 22 L711 8 L729 22 L751 34 L800 34 L822 16 L844 34 L895 34 L913 12 L931 34 L985 34 L1007 6 L1029 34 L1080 34 L1102 20 L1124 34 L1200 34 L1200 60 Z"/>
+  </svg>
+</div>
+
+<main>
+
+  <!-- ================= VISTA: PANORAMA ================= -->
+  <section class="vista" id="vistaPanorama">
+
+    <div class="resumen-hero" id="resumenHero">
+      <!-- generado por JS -->
+    </div>
+
+    <div class="filtros">
+      <div class="buscador">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" id="buscadorFacultad" placeholder="Buscar carrera o facultad…">
+      </div>
+      <div class="select-indicador" id="selectIndicador">
+        <button data-ind="cupos" class="active">Cupos</button>
+        <button data-ind="matriculas">Matriculados</button>
+        <button data-ind="retencion">Retención</button>
+        <button data-ind="titulacion">Titulación</button>
+        <button data-ind="eficiencia_terminal">Eficiencia Terminal</button>
+      </div>
+    </div>
+
+    <div class="facultades-grid" id="facultadesGrid"></div>
+
+    <div id="facDetalleContainer"></div>
+
+    <div class="metodologia">
+      <h3>Nota metodológica</h3>
+      <p id="notaMetodologica"></p>
+    </div>
+  </section>
+
+  <!-- ================= VISTA: COMPARATIVA ================= -->
+  <section class="vista" id="vistaComparativa" hidden>
+    <div class="section-title">
+      <h2>Comparar carreras</h2>
+      <span>Haz clic en los encabezados para ordenar. El indicador activo es el mismo seleccionado en Panorama.</span>
+    </div>
+    <div class="filtros">
+      <div class="buscador">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" id="buscadorComparativa" placeholder="Buscar carrera o facultad…">
+      </div>
+      <div class="chip-group" id="chipsFacultad"></div>
+    </div>
+    <div class="comparativa-tabla-wrap">
+      <table class="carreras-tabla" id="tablaComparativa">
+        <thead><tr id="theadComparativa"></tr></thead>
+        <tbody id="tbodyComparativa"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ================= VISTA: EVOLUCIÓN TEMPORAL ================= -->
+  <section class="vista" id="vistaEvolucion" hidden>
+    <div class="section-title">
+      <h2>Evolución de los indicadores en el tiempo</h2>
+      <span>Elige facultad, carrera e indicador para ver su tendencia histórica. La periodicidad (anual o semestral) depende del indicador.</span>
+    </div>
+    <div class="filtros filtros-evolucion">
+      <label class="filtro-select">
+        <span>Facultad</span>
+        <select id="evoFacultad"></select>
+      </label>
+      <label class="filtro-select">
+        <span>Carrera</span>
+        <select id="evoCarrera"></select>
+      </label>
+      <label class="filtro-select">
+        <span>Indicador</span>
+        <select id="evoIndicador">
+          <option value="cupos">Oferta de cupos (anual)</option>
+          <option value="matriculas">Estudiantes matriculados (anual)</option>
+          <option value="retencion">Retención temprana (anual, por cohorte)</option>
+          <option value="titulacion">Tasa de Titulación (anual, por cohorte)</option>
+          <option value="eficiencia_terminal">Eficiencia Terminal (anual, por cohorte)</option>
+        </select>
+      </label>
+    </div>
+    <div class="evolucion-panel">
+      <div class="evolucion-panel__head">
+        <div>
+          <h3 id="evoTitulo"></h3>
+          <p id="evoSubtitulo"></p>
+        </div>
+        <div class="evolucion-panel__valor" id="evoValorActual"></div>
+      </div>
+      <div class="evo-chart" id="evoChart"></div>
+      <div class="evolucion-tabla-wrap">
+        <table class="carreras-tabla" id="evoTabla">
+          <thead><tr><th>Periodo</th><th class="th-center">Valor</th></tr></thead>
+          <tbody id="evoTablaBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= VISTA: CALIDAD DE DATOS ================= -->
+  <section class="vista" id="vistaCalidad" hidden>
+    <div class="section-title">
+      <h2>Calidad e inconsistencias de la base de datos</h2>
+      <span>Hallazgos automáticos sobre el archivo "Indicadores académicos.xlsx" para validación de la mesa técnica.</span>
+    </div>
+    <div class="inconsist-list" id="inconsistList"></div>
+  </section>
+
+</main>
+
+<div class="overlay" id="overlay"></div>
+<aside class="drawer" id="drawer">
+  <div class="drawer__head">
+    <button class="drawer__close" id="drawerClose" aria-label="Cerrar">✕</button>
+    <p class="drawer__eyebrow" id="drawerFacultad"></p>
+    <h2 class="drawer__title" id="drawerTitulo"></h2>
+    <p class="drawer__variantes" id="drawerVariantes"></p>
+  </div>
+  <div class="drawer__body" id="drawerBody"></div>
+</aside>
+
+<p class="footer-app">Tablero generado para las mesas técnicas del PEDI 2026–2031 · Universidad de Cuenca · Datos: Indicadores académicos.xlsx</p>
+
+<script>
+// Datos generados a partir de Indicadores_académicos.xlsx
+const DATA = {"meta": {"fuente": "Indicadores académicos.xlsx - Universidad de Cuenca", "facultades_total": 12}, "mesas": {"1": {"nombre": "Mesa Técnica 1", "facultades": ["FACULTAD DE ARQUITECTURA Y URBANISMO", "FACULTAD DE CIENCIAS AGROPECUARIAS", "FACULTAD DE CIENCIAS ECONÓMICAS Y ADMINISTRATIVAS", "FACULTAD DE CIENCIAS MÉDICAS", "FACULTAD DE ODONTOLOGÍA", "FACULTAD DE PSICOLOGÍA"]}, "2": {"nombre": "Mesa Técnica 2", "facultades": ["FACULTAD DE ARTES", "FACULTAD DE CIENCIAS DE LA HOSPITALIDAD", "FACULTAD DE CIENCIAS QUÍMICAS", "FACULTAD DE FILOSOFÍA, LETRAS Y CIENCIAS DE LA EDUCACIÓN", "FACULTAD DE INGENIERÍA", "FACULTAD DE JURISPRUDENCIA Y CIENCIAS POLITICAS Y SOCIALES"]}}, "facultad_orden": ["FACULTAD DE ARQUITECTURA Y URBANISMO", "FACULTAD DE CIENCIAS AGROPECUARIAS", "FACULTAD DE CIENCIAS ECONÓMICAS Y ADMINISTRATIVAS", "FACULTAD DE CIENCIAS MÉDICAS", "FACULTAD DE ODONTOLOGÍA", "FACULTAD DE PSICOLOGÍA", "FACULTAD DE ARTES", "FACULTAD DE CIENCIAS DE LA HOSPITALIDAD", "FACULTAD DE CIENCIAS QUÍMICAS", "FACULTAD DE FILOSOFÍA, LETRAS Y CIENCIAS DE LA EDUCACIÓN", "FACULTAD DE INGENIERÍA", "FACULTAD DE JURISPRUDENCIA Y CIENCIAS POLITICAS Y SOCIALES"], "facultades": {"FACULTAD DE CIENCIAS MÉDICAS": {"nombre": "Facultad de Ciencias Médicas", "mesa": 1, "carreras": {"Enfermería": {"variantes": ["ENFERMERIA"], "cupos": [{"periodo": "2019", "valor": 137, "modalidades": {"PRESENCIAL": 137}}, {"periodo": "2020", "valor": 110, "modalidades": {"PRESENCIAL": 110}}, {"periodo": "2021", "valor": 100, "modalidades": {"PRESENCIAL": 100}}, {"periodo": "2022", "valor": 126, "modalidades": {"PRESENCIAL": 126}}, {"periodo": "2023", "valor": 136, "modalidades": {"PRESENCIAL": 136}}, {"periodo": "2024", "valor": 136, "modalidades": {"PRESENCIAL": 136}}], "matriculas": [{"periodo": "2020", "valor": 573}, {"periodo": "2021", "valor": 506}, {"periodo": "2022", "valor": 432}, {"periodo": "2023", "valor": 443}, {"periodo": "2024", "valor": 454}], "retencion": [{"periodo": "Cohorte 2018", "estudiantes_p1": 126, "estudiantes_p3": 123, "valor": 0.9762}, {"periodo": "Cohorte 2019", "estudiantes_p1": 138, "estudiantes_p3": 128, "valor": 0.9275}, {"periodo": "Cohorte 2020", "estudiantes_p1": 109, "estudiantes_p3": 90, "valor": 0.8257}, {"periodo": "Cohorte 2021", "estudiantes_p1": 96, "estudiantes_p3": 80, "valor": 0.8333}, {"periodo": "Cohorte 2022", "estudiantes_p1": 98, "estudiantes_p3": 86, "valor": 0.8776}, {"periodo": "Cohorte 2023", "estudiantes_p1": 116, "estudiantes_p3": 103, "valor": 0.8879}, {"periodo": "Cohorte 2024", "estudiantes_p1": 135, "estudiantes_p3": 106, "valor": 0.7852}], "titulacion": [{"periodo": "Cohorte 2015", "valor": 0.7541, "matriculados": 61, "graduados": 46}, {"periodo": "Cohorte 2016", "valor": 0.8386, "matriculados": 223, "graduados": 187}, {"periodo": "Cohorte 2017", "valor": 0.8632, "matriculados": 117, "graduados": 101}, {"periodo": "Cohorte 2018", "valor": 0.8175, "matriculados": 126, "graduados": 103}], "eficiencia_terminal": [{"periodo": "Cohorte 2015", "valor": 0.7213, "matriculados": 61, "eft": 44}, {"periodo": "Cohorte 2016", "valor": 0.8296, "matriculados": 223, "eft": 185}, {"periodo": "Cohorte 2017", "valor": 0.8291, "matriculados": 117, "eft": 97}, {"periodo": "Cohorte 2018", "valor": 0.7778, "matriculados": 126, "eft": 98}]}, "Estimulación Temprana en Salud": {"variantes": ["ESTIMULACION TEMPRANA", "ESTIMULACIÓN TEMPRANA EN SALUD"], "cupos": [{"periodo": "2021", "valor": 35, "modalidades": {"PRESENCIAL": 35}}, {"periodo": "2022", "valor": 40, "modalidades": {"PRESENCIAL": 40}}, {"periodo": "2023", "valor": 40, "modalidades": {"PRESENCIAL": 40}}, {"periodo": "2024", "valor": 40, "modalidades": {"PRESENCIAL": 40}}], "matriculas": [{"periodo": "2020", "valor": 65}, {"periodo": "2021", "valor": 49}, {"periodo": "2022", "valor": 75}, {"periodo": "2023", "valor": 107}, {"periodo": "2024", "valor": 132}], "retencion": [{"periodo": "Cohorte 2021", "estudiantes_p1": 32, "estudiantes_p3": 30, "valor": 0.9375}, {"periodo": "Cohorte 2022", "estudiantes_p1": 36, "estudiantes_p3": 30, "valor": 0.8333}, {"periodo": "Cohorte 2023", "estudiantes_p1": 34, "estudiantes_p3": 31, "valor": 0.9118}, {"periodo": "Cohorte 2024", "estudiantes_p1": 40, "estudiantes_p3": 30, "valor": 0.75}], "titulacion": [{"periodo": "Cohorte 2015", "valor": 0.8182, "matriculados": 22, "graduados": 18}, {"periodo": "Cohorte 2016", "valor": 0.7895, "matriculados": 57, "graduados": 45}, {"periodo": "Cohorte 2017", "valor": 0.8824, "matriculados": 34, "graduados": 30}], "eficiencia_terminal": [{"periodo": "Cohorte 2015", "valor": 0.6364, "matriculados": 22, "eft": 14}, {"periodo": "Cohorte 2016", "valor": 0.7018, "matriculados": 57, "eft": 40}, {"periodo": "Cohorte 2017", "valor": 0.7059, "matriculados": 34, "eft": 24}]}, "Fisioterapia": {"variantes": ["FISIOTERAPIA", "TERAPIA FISICA"], "cupos": [{"periodo": "2019", "valor": 34, "modalidades": {"PRESENCIAL": 34}}, {"periodo": "2020", "valor": 30, "modalidades": {"PRESENCIAL": 30}}, {"periodo": "2021", "valor": 35, "modalidades": {"PRESENCIAL": 35}}, {"periodo": "2022", "valor": 35, "modalidades": {"PRESENCIAL": 35}}, {"periodo": "2023", "valor": 35, "modalidades": {"PRESENCIAL": 35}}, {"periodo": "2024", "valor": 35, "modalidades": {"PRESENCIAL": 35}}], "matriculas": [{"periodo": "2020", "valor": 147}, {"periodo": "2021", "valor": 182}, {"periodo": "2022", "valor": 176}, {"periodo": "2023", "valor": 176}, {"periodo": "2024", "valor": 190}], "retencion": [{"periodo": "Cohorte 2018", "estudiantes_p1": 38, "estudiantes_p3": 36, "valor": 0.9474}, {"periodo": "Cohorte 2019", "estudiantes_p1": 35, "estudiantes_p3": 30, "valor": 0.8571}, {"periodo": "Cohorte 2020", "estudiantes_p1": 29, "estudiantes_p3": 25, "valor": 0.8621}, {"periodo": "Cohorte 2021", "estudiantes_p1": 39, "estudiantes_p3": 32, "valor": 0.8205}, {"periodo": "Cohorte 2022", "estudiantes_p1": 31, "estudiantes_p3": 29, "valor": 0.9355}, {"periodo": "Cohorte 2023", "estudiantes_p1": 34, "estudiantes_p3": 32, "valor": 0.9412}, {"periodo": "Cohorte 2024", "estudiantes_p1": 35, "estudiantes_p3": 35, "valor": 1.0}], "titulacion": [{"periodo": "Cohorte 2015", "valor": 0.8889, "matriculados": 18, "graduados": 16}, {"periodo": "Cohorte 2016", "valor": 0.5357, "matriculados": 56, "graduados": 30}, {"periodo": "Cohorte 2018", "valor": 0.5263, "matriculados": 38, "graduados": 20}], "eficiencia_terminal": [{"periodo": "Cohorte 2015", "valor": 0.8333, "matriculados": 18, "eft": 15}, {"periodo": "Cohorte 2016", "valor": 0.5, "matriculados": 56, "eft": 28}, {"periodo": "Cohorte 2018", "valor": 0.5, "matriculados": 38, "eft": 19}]}, "Fonoaudiología": {"variantes": ["FONOAUDIOLOGIA"], "cupos": [{"periodo": "2019", "valor": 34, "modalidades": {"PRESENCIAL": 34}}, {"periodo": "2020", "valor": 35, "modalidades": {"PRESENCIAL": 35}}, {"periodo": "2021", "valor": 35, "modalidades": {"PRESENCIAL": 35}}, {"periodo": "2022", "valor": 38, "modalidades": {"PRESENCIAL": 38}}, {"periodo": "2023", "valor": 42, "modalidades": {"PRESENCIAL": 42}}, {"periodo": "2024", "valor": 42, "modalidades": {"PRESENCIAL": 42}}], "matriculas": [{"periodo": "2020", "valor": 160}, {"periodo": "2021", "valor": 162}, {"periodo": "2022", "valor": 183}, {"periodo": "2023", "valor": 197}, {"periodo": "2024", "valor": 208}], "retencion": [{"periodo": "Cohorte 2018", "estudiantes_p1": 37, "estudiantes_p3": 36, "valor": 0.973}, {"periodo": "Cohorte 2019", "estudiantes_p1": 35, "estudiantes_p3": 34, "valor": 0.9714}, {"periodo": "Cohorte 2020", "estudiantes_p1": 34, "estudiantes_p3": 31, "valor": 0.9118}, {"periodo": "Cohorte 2021", "estudiantes_p1": 35, "estudiantes_p3": 31, "valor": 0.8857}, {"periodo": "Cohorte 2022", "estudiantes_p1": 45, "estudiantes_p3": 35, "valor": 0.7778}, {"periodo": "Cohorte 2023", "estudiantes_p1": 42, "estudiantes_p3": 40, "valor": 0.9524}, {"periodo": "Cohorte 2024", "estudiantes_p1": 44, "estudiantes_p3": 39, "valor": 0.8864}], "titulacion": [{"periodo": "Cohorte 2015", "valor": 0.7857, "matriculados": 14, "graduados": 11}, {"periodo": "Cohorte 2016", "valor": 0.766, "matriculados": 47, "graduados": 36}, {"periodo": "Cohorte 2017", "valor": 0.6571, "matriculados": 35, "graduados": 23}, {"periodo": "Cohorte 2018", "valor": 0.7027, "matriculados": 37, "graduados": 26}], "eficiencia_terminal": [{"periodo": "Cohorte 2015", "valor": 0.5, "matriculados": 14, "eft": 7}, {"periodo": "Cohorte 2016", "valor": 0.5532, "matriculados": 47, "eft": 26}, {"periodo": "Cohorte 2017", "valor": 0.3429, "matriculados": 35, "eft": 12}, {"periodo": "Cohorte 2018", "valor": 0.5946, "matriculados": 37, "eft": 22}]}, "Imagenología y Radiología": {"variantes": ["IMAGENOLOGIA", "IMAGENOLOGIA Y RADIOLOGIA"], "cupos": [{"periodo": "2019", "valor": 34, "modalidades": {"PRESENCIAL": 34}}, {"periodo": "2020", "valor": 35, "modalidades": {"PRESENCIAL": 35}}, {"periodo": "2021", "valor": 35, "modalidades": {"PRESENCIAL": 35}}, {"periodo": "2022", "valor": 38, "modalidades": {"PRESENCIAL": 38}}, {"periodo": "2023", "valor": 38, "modalidades": {"PRESENCIAL": 38}}, {"periodo": "2024", "valor": 40, "modalidades": {"PRESENCIAL": 40}}], "matriculas": [{"periodo": "2020", "valor": 127}, {"periodo": "2021", "valor": 141}, {"periodo": "2022", "valor": 150}, {"periodo": "2023", "valor": 162}, {"periodo": "2024", "valor": 172}], "retencion": [{"periodo": "Cohorte 2018", "estudiantes_p1": 36, "estudiantes_p3": 33, "valor": 0.9167}, {"periodo": "Cohorte 2019", "estudiantes_p1": 35, "estudiantes_p3": 30, "valor": 0.8571}, {"periodo": "Cohorte 2020", "estudiantes_p1": 34, "estudiantes_p3": 27, "valor": 0.7941}, {"periodo": "Cohorte 2021", "estudiantes_p1": 36, "estudiantes_p3": 31, "valor": 0.8611}, {"periodo": "Cohorte 2022", "estudiantes_p1": 33, "estudiantes_p3": 25, "valor": 0.7576}, {"periodo": "Cohorte 2023", "estudiantes_p1": 35, "estudiantes_p3": 34, "valor": 0.9714}, {"periodo": "Cohorte 2024", "estudiantes_p1": 42, "estudiantes_p3": 38, "valor": 0.9048}], "titulacion": [{"periodo": "Cohorte 2015", "valor": 0.5, "matriculados": 2, "graduados": 1}, {"periodo": "Cohorte 2016", "valor": 0.7778, "matriculados": 45, "graduados": 35}, {"periodo": "Cohorte 2017", "valor": 0.875, "matriculados": 24, "graduados": 21}, {"periodo": "Cohorte 2018", "valor": 0.6389, "matriculados": 36, "graduados": 23}], "eficiencia_terminal": [{"periodo": "Cohorte 2015", "valor": 0.5, "matriculados": 2, "eft": 1}, {"periodo": "Cohorte 2016", "valor": 0.6444, "matriculados": 45, "eft": 29}, {"periodo": "Cohorte 2017", "valor": 0.5, "matriculados": 24, "eft": 12}, {"periodo": "Cohorte 2018", "valor": 0.6111, "matriculados": 36, "eft": 22}]}, "Laboratorio Clínico": {"variantes": ["LABORATORIO CLINICO"], "cupos": [{"periodo": "2019", "valor": 33, "modalidades": {"PRESENCIAL": 33}}, {"periodo": "2020", "valor": 35, "modalidades": {"PRESENCIAL": 35}}, {"periodo": "2021", "valor": 35, "modalidades": {"PRESENCIAL": 35}}, {"periodo": "2022", "valor": 38, "modalidades": {"PRESENCIAL": 38}}, {"periodo": "2023", "valor": 38, "modalidades": {"PRESENCIAL": 38}}, {"periodo": "2024", "valor": 38, "modalidades": {"PRESENCIAL": 38}}], "matriculas": [{"periodo": "2020", "valor": 151}, {"periodo": "2021", "valor": 137}, {"periodo": "2022", "valor": 156}, {"periodo": "2023", "valor": 171}, {"periodo": "2024", "valor": 169}], "retencion": [{"periodo": "Cohorte 2018", "estudiantes_p1": 36, "estudiantes_p3": 30, "valor": 0.8333}, {"periodo": "Cohorte 2019", "estudiantes_p1": 37, "estudiantes_p3": 34, "valor": 0.9189}, {"periodo": "Cohorte 2020", "estudiantes_p1": 36, "estudiantes_p3": 26, "valor": 0.7222}, {"periodo": "Cohorte 2021", "estudiantes_p1": 35, "estudiantes_p3": 29, "valor": 0.8286}, {"periodo": "Cohorte 2022", "estudiantes_p1": 33, "estudiantes_p3": 22, "valor": 0.6667}, {"periodo": "Cohorte 2023", "estudiantes_p1": 34, "estudiantes_p3": 33, "valor": 0.9706}, {"periodo": "Cohorte 2024", "estudiantes_p1": 40, "estudiantes_p3": 35, "valor": 0.875}], "titulacion": [{"periodo": "Cohorte 2015", "valor": 0.913, "matriculados": 23, "graduados": 21}, {"periodo": "Cohorte 2016", "valor": 0.7692, "matriculados": 52, "graduados": 40}, {"periodo": "Cohorte 2017", "valor": 0.6757, "matriculados": 37, "graduados": 25}, {"periodo": "Cohorte 2018", "valor": 0.6944, "matriculados": 36, "graduados": 25}], "eficiencia_terminal": [{"periodo": "Cohorte 2015", "valor": 0.6957, "matriculados": 23, "eft": 16}, {"periodo": "Cohorte 2016", "valor": 0.6923, "matriculados": 52, "eft": 36}, {"periodo": "Cohorte 2017", "valor": 0.5946, "matriculados": 37, "eft": 22}, {"periodo": "Cohorte 2018", "valor": 0.6944, "matriculados": 36, "eft": 25}]}, "Medicina": {"variantes": ["MEDICINA", "MEDICINA Y CIRUGIA"], "cupos": [{"periodo": "2019", "valor": 217, "modalidades": {"PRESENCIAL": 217}}, {"periodo": "2020", "valor": 170, "modalidades": {"PRESENCIAL": 170}}, {"periodo": "2021", "valor": 190, "modalidades": {"PRESENCIAL": 190}}, {"periodo": "2022", "valor": 185, "modalidades": {"PRESENCIAL": 185}}, {"periodo": "2023", "valor": 185, "modalidades": {"PRESENCIAL": 185}}, {"periodo": "2024", "valor": 190, "modalidades": {"PRESENCIAL": 190}}], "matriculas": [{"periodo": "2020", "valor": 1349}, {"periodo": "2021", "valor": 1300}, {"periodo": "2022", "valor": 1230}, {"periodo": "2023", "valor": 1155}, {"periodo": "2024", "valor": 1141}], "retencion": [{"periodo": "Cohorte 2018", "estudiantes_p1": 213, "estudiantes_p3": 204, "valor": 0.9577}, {"periodo": "Cohorte 2019", "estudiantes_p1": 216, "estudiantes_p3": 207, "valor": 0.9583}, {"periodo": "Cohorte 2020", "estudiantes_p1": 188, "estudiantes_p3": 149, "valor": 0.7926}, {"periodo": "Cohorte 2021", "estudiantes_p1": 195, "estudiantes_p3": 178, "valor": 0.9128}, {"periodo": "Cohorte 2022", "estudiantes_p1": 178, "estudiantes_p3": 155, "valor": 0.8708}, {"periodo": "Cohorte 2023", "estudiantes_p1": 168, "estudiantes_p3": 166, "valor": 0.9881}, {"periodo": "Cohorte 2024", "estudiantes_p1": 195, "estudiantes_p3": 185, "valor": 0.9487}], "titulacion": [{"periodo": "Cohorte 2015", "valor": 0.8894, "matriculados": 217, "graduados": 193}, {"periodo": "Cohorte 2016", "valor": 0.915, "matriculados": 400, "graduados": 366}, {"periodo": "Cohorte 2017", "valor": 0.81, "matriculados": 200, "graduados": 162}, {"periodo": "Cohorte 2018", "valor": 0.5962, "matriculados": 213, "graduados": 127}], "eficiencia_terminal": [{"periodo": "Cohorte 2015", "valor": 0.8756, "matriculados": 217, "eft": 190}, {"periodo": "Cohorte 2016", "valor": 0.9, "matriculados": 400, "eft": 360}, {"periodo": "Cohorte 2017", "valor": 0.81, "matriculados": 200, "eft": 162}, {"periodo": "Cohorte 2018", "valor": 0.5962, "matriculados": 213, "eft": 127}]}, "Nutrición y Dietética": {"variantes": ["NUTRICION Y DIETETICA"], "cupos": [{"periodo": "2019", "valor": 34, "modalidades": {"PRESENCIAL": 34}}, {"periodo": "2020", "valor": 30, "modalidades": {"PRESENCIAL": 30}}, {"periodo": "2021", "valor": 35, "modalidades": {"PRESENCIAL": 35}}, {"periodo": "2022", "valor": 35, "modalidades": {"PRESENCIAL": 35}}, {"periodo": "2023", "valor": 35, "modalidades": {"PRESENCIAL": 35}}, {"periodo": "2024", "valor": 35, "modalidades": {"PRESENCIAL": 35}}], "matriculas": [{"periodo": "2020", "valor": 153}, {"periodo": "2021", "valor": 132}, {"periodo": "2022", "valor": 128}, {"periodo": "2023", "valor": 125}, {"periodo": "2024", "valor": 124}], "retencion": [{"periodo": "Cohorte 2018", "estudiantes_p1": 40, "estudiantes_p3": 36, "valor": 0.9}, {"periodo": "Cohorte 2019", "estudiantes_p1": 34, "estudiantes_p3": 28, "valor": 0.8235}, {"periodo": "Cohorte 2020", "estudiantes_p1": 32, "estudiantes_p3": 22, "valor": 0.6875}, {"periodo": "Cohorte 2021", "estudiantes_p1": 33, "estudiantes_p3": 30, "valor": 0.9091}, {"periodo": "Cohorte 2022", "estudiantes_p1": 30, "estudiantes_p3": 20, "valor": 0.6667}, {"periodo": "Cohorte 2023", "estudiantes_p1": 35, "estudiantes_p3": 33, "valor": 0.9429}, {"periodo": "Cohorte 2024", "estudiantes_p1": 35, "estudiantes_p3": 32, "valor": 0.9143}], "titulacion": [{"periodo": "Cohorte 2015", "valor": 0.7647, "matriculados": 17, "graduados": 13}, {"periodo": "Cohorte 2016", "valor": 0.7333, "matriculados": 45, "graduados": 33}, {"periodo": "Cohorte 2017", "valor": 0.7647, "matriculados": 34, "graduados": 26}, {"periodo": "Cohorte 2018", "valor": 0.525, "matriculados": 40, "graduados": 21}], "eficiencia_terminal": [{"periodo": "Cohorte 2015", "valor": 0.6471, "matriculados": 17, "eft": 11}, {"periodo": "Cohorte 2016", "valor": 0.4444, "matriculados": 45, "eft": 20}, {"periodo": "Cohorte 2017", "valor": 0.5294, "matriculados": 34, "eft": 18}, {"periodo": "Cohorte 2018", "valor": 0.5, "matriculados": 40, "eft": 20}]}}}, "FACULTAD DE CIENCIAS QUÍMICAS": {"nombre": "Facultad de Ciencias Químicas", "mesa": 2, "carreras": {"Bioquímica y Farmacia": {"variantes": ["BIOQUIMICA Y FARMACIA"], "cupos": [{"periodo": "2019", "valor": 69, "modalidades": {"PRESENCIAL": 69}}, {"periodo": "2020", "valor": 70, "modalidades": {"PRESENCIAL": 70}}, {"periodo": "2021", "valor": 103, "modalidades": {"PRESENCIAL": 103}}, {"periodo": "2022", "valor": 72, "modalidades": {"PRESENCIAL": 72}}, {"periodo": "2023", "valor": 100, "modalidades": {"PRESENCIAL": 100}}, {"periodo": "2024", "valor": 100, "modalidades": {"PRESENCIAL": 100}}], "matriculas": [{"periodo": "2020", "valor": 444}, {"periodo": "2021", "valor": 427}, {"periodo": "2022", "valor": 433}, {"periodo": "2023", "valor": 415}, {"periodo": "2024", "valor": 455}], "retencion": [{"periodo": "Cohorte 2018", "estudiantes_p1": 100, "estudiantes_p3": 92, "valor": 0.92}, {"periodo": "Cohorte 2019", "estudiantes_p1": 85, "estudiantes_p3": 70, "valor": 0.8235}, {"periodo": "Cohorte 2020", "estudiantes_p1": 74, "estudiantes_p3": 62, "valor": 0.8378}, {"periodo": "Cohorte 2021", "estudiantes_p1": 54, "estudiantes_p3": 48, "valor": 0.8889}, {"periodo": "Cohorte 2022", "estudiantes_p1": 77, "estudiantes_p3": 61, "valor": 0.7922}, {"periodo": "Cohorte 2023", "estudiantes_p1": 62, "estudiantes_p3": 60, "valor": 0.9677}, {"periodo": "Cohorte 2024", "estudiantes_p1": 100, "estudiantes_p3": 84, "valor": 0.84}], "titulacion": [{"periodo": "Cohorte 2015", "valor": 0.6744, "matriculados": 43, "graduados": 29}, {"periodo": "Cohorte 2016", "valor": 0.713, "matriculados": 108, "graduados": 77}, {"periodo": "Cohorte 2017", "valor": 0.68, "matriculados": 50, "graduados": 34}, {"periodo": "Cohorte 2018", "valor": 0.43, "matriculados": 100, "graduados": 43}], "eficiencia_terminal": [{"periodo": "Cohorte 2015", "valor": 0.4186, "matriculados": 43, "eft": 18}, {"periodo": "Cohorte 2016", "valor": 0.5556, "matriculados": 108, "eft": 60}, {"periodo": "Cohorte 2017", "valor": 0.58, "matriculados": 50, "eft": 29}, {"periodo": "Cohorte 2018", "valor": 0.42, "matriculados": 100, "eft": 42}]}, "Ingeniería Ambiental": {"variantes": ["INGENIERIA AMBIENTAL"], "cupos": [{"periodo": "2019", "valor": 69, "modalidades": {"PRESENCIAL": 69}}, {"periodo": "2020", "valor": 70, "modalidades": {"PRESENCIAL": 70}}, {"periodo": "2021", "valor": 102, "modalidades": {"PRESENCIAL": 102}}, {"periodo": "2022", "valor": 72, "modalidades": {"PRESENCIAL": 72}}, {"periodo": "2023", "valor": 100, "modalidades": {"PRESENCIAL": 100}}, {"periodo": "2024", "valor": 100, "modalidades": {"PRESENCIAL": 100}}], "matriculas": [{"periodo": "2020", "valor": 366}, {"periodo": "2021", "valor": 347}, {"periodo": "2022", "valor": 346}, {"periodo": "2023", "valor": 337}, {"periodo": "2024", "valor": 355}], "retencion": [{"periodo": "Cohorte 2018", "estudiantes_p1": 77, "estudiantes_p3": 63, "valor": 0.8182}, {"periodo": "Cohorte 2019", "estudiantes_p1": 76, "estudiantes_p3": 39, "valor": 0.5132}, {"periodo": "Cohorte 2020", "estudiantes_p1": 70, "estudiantes_p3": 52, "valor": 0.7429}, {"periodo": "Cohorte 2021", "estudiantes_p1": 55, "estudiantes_p3": 37, "valor": 0.6727}, {"periodo": "Cohorte 2022", "estudiantes_p1": 73, "estudiantes_p3": 42, "valor": 0.5753}, {"periodo": "Cohorte 2023", "estudiantes_p1": 60, "estudiantes_p3": 49, "valor": 0.8167}, {"periodo": "Cohorte 2024", "estudiantes_p1": 79, "estudiantes_p3": 49, "valor": 0.6203}], "titulacion": [{"periodo": "Cohorte 2015", "valor": 0.7705, "matriculados": 61, "graduados": 47}, {"periodo": "Cohorte 2016", "valor": 0.6091, "matriculados": 110, "graduados": 67}, {"periodo": "Cohorte 2018", "valor": 0.5065, "matriculados": 77, "graduados": 39}], "eficiencia_terminal": [{"periodo": "Cohorte 2015", "valor": 0.4426, "matriculados": 61, "eft": 27}, {"periodo": "Cohorte 2016", "valor": 0.4636, "matriculados": 110, "eft": 51}, {"periodo": "Cohorte 2018", "valor": 0.5065, "matriculados": 77, "eft": 39}]}, "Ingeniería Industrial": {"variantes": ["INGENIERIA INDUSTRIAL"], "cupos": [{"periodo": "2019", "valor": 68, "modalidades": {"PRESENCIAL": 68}}, {"periodo": "2020", "valor": 70, "modalidades": {"PRESENCIAL": 70}}, {"periodo": "2021", "valor": 102, "modalidades": {"PRESENCIAL": 102}}, {"periodo": "2022", "valor": 72, "modalidades": {"PRESENCIAL": 72}}, {"periodo": "2023", "valor": 100, "modalidades": {"PRESENCIAL": 100}}, {"periodo": "2024", "valor": 100, "modalidades": {"PRESENCIAL": 100}}], "matriculas": [{"periodo": "2020", "valor": 383}, {"periodo": "2021", "valor": 343}, {"periodo": "2022", "valor": 341}, {"periodo": "2023", "valor": 334}, {"periodo": "2024", "valor": 377}], "retencion": [{"periodo": "Cohorte 2018", "estudiantes_p1": 75, "estudiantes_p3": 59, "valor": 0.7867}, {"periodo": "Cohorte 2019", "estudiantes_p1": 77, "estudiantes_p3": 26, "valor": 0.3377}, {"periodo": "Cohorte 2020", "estudiantes_p1": 79, "estudiantes_p3": 54, "valor": 0.6835}, {"periodo": "Cohorte 2021", "estudiantes_p1": 55, "estudiantes_p3": 36, "valor": 0.6545}, {"periodo": "Cohorte 2022", "estudiantes_p1": 84, "estudiantes_p3": 51, "valor": 0.6071}, {"periodo": "Cohorte 2023", "estudiantes_p1": 62, "estudiantes_p3": 59, "valor": 0.9516}, {"periodo": "Cohorte 2024", "estudiantes_p1": 88, "estudiantes_p3": 70, "valor": 0.7955}], "titulacion": [{"periodo": "Cohorte 2015", "valor": 0.7551, "matriculados": 49, "graduados": 37}, {"periodo": "Cohorte 2016", "valor": 0.6449, "matriculados": 107, "graduados": 69}, {"periodo": "Cohorte 2017", "valor": 0.4815, "matriculados": 54, "graduados": 26}, {"periodo": "Cohorte 2018", "valor": 0.4667, "matriculados": 75, "graduados": 35}], "eficiencia_terminal": [{"periodo": "Cohorte 2015", "valor": 0.4082, "matriculados": 49, "eft": 20}, {"periodo": "Cohorte 2016", "valor": 0.4953, "matriculados": 107, "eft": 53}, {"periodo": "Cohorte 2017", "valor": 0.3333, "matriculados": 54, "eft": 18}, {"periodo": "Cohorte 2018", "valor": 0.4667, "matriculados": 75, "eft": 35}]}, "Ingeniería Química": {"variantes": ["INGENIERIA QUIMICA"], "cupos": [{"periodo": "2019", "valor": 69, "modalidades": {"PRESENCIAL": 69}}, {"periodo": "2020", "valor": 70, "modalidades": {"PRESENCIAL": 70}}, {"periodo": "2021", "valor": 102, "modalidades": {"PRESENCIAL": 102}}, {"periodo": "2022", "valor": 72, "modalidades": {"PRESENCIAL": 72}}, {"periodo": "2023", "valor": 100, "modalidades": {"PRESENCIAL": 100}}, {"periodo": "2024", "valor": 100, "modalidades": {"PRESENCIAL": 100}}], "matriculas": [{"periodo": "2020", "valor": 382}, {"periodo": "2021", "valor": 373}, {"periodo": "2022", "valor": 389}, {"periodo": "2023", "valor": 367}, {"periodo": "2024", "valor": 393}], "retencion": [{"periodo": "Cohorte 2018", "estudiantes_p1": 73, "estudiantes_p3": 65, "valor": 0.8904}, {"periodo": "Cohorte 2019", "estudiantes_p1": 68, "estudiantes_p3": 54, "valor": 0.7941}, {"periodo": "Cohorte 2020", "estudiantes_p1": 73, "estudiantes_p3": 62, "valor": 0.8493}, {"periodo": "Cohorte 2021", "estudiantes_p1": 50, "estudiantes_p3": 36, "valor": 0.72}, {"periodo": "Cohorte 2022", "estudiantes_p1": 85, "estudiantes_p3": 56, "valor": 0.6588}, {"periodo": "Cohorte 2023", "estudiantes_p1": 56, "estudiantes_p3": 46, "valor": 0.8214}, {"periodo": "Cohorte 2024", "estudiantes_p1": 85, "estudiantes_p3": 69, "valor": 0.8118}], "titulacion": [{"periodo": "Cohorte 2015", "valor": 0.7317, "matriculados": 41, "graduados": 30}, {"periodo": "Cohorte 2016", "valor": 0.7263, "matriculados": 95, "graduados": 69}, {"periodo": "Cohorte 2017", "valor": 0.6667, "matriculados": 51, "graduados": 34}, {"periodo": "Cohorte 2018", "valor": 0.6575, "matriculados": 73, "graduados": 48}], "eficiencia_terminal": [{"periodo": "Cohorte 2015", "valor": 0.4634, "matriculados": 41, "eft": 19}, {"periodo": "Cohorte 2016", "valor": 0.3895, "matriculados": 95, "eft": 37}, {"periodo": "Cohorte 2017", "valor": 0.549, "matriculados": 51, "eft": 28}, {"periodo": "Cohorte 2018", "valor": 0.6575, "matriculados": 73, "eft": 48}]}}}, "FACULTAD DE PSICOLOGÍA": {"nombre": "Facultad de Psicología", "mesa": 1, "carreras": {"Psicología": {"variantes": ["PSICOLOGIA", "PSICOLOGIA SOCIAL"], "cupos": [{"periodo": "2019", "valor": 124, "modalidades": {"PRESENCIAL": 124}}, {"periodo": "2020", "valor": 160, "modalidades": {"PRESENCIAL": 160}}, {"periodo": "2021", "valor": 190, "modalidades": {"PRESENCIAL": 190}}, {"periodo": "2022", "valor": 185, "modalidades": {"PRESENCIAL": 185}}, {"periodo": "2023", "valor": 190, "modalidades": {"PRESENCIAL": 190}}, {"periodo": "2024", "valor": 120, "modalidades": {"PRESENCIAL": 120}}], "matriculas": [{"periodo": "2020", "valor": 633}, {"periodo": "2021", "valor": 762}, {"periodo": "2022", "valor": 838}, {"periodo": "2023", "valor": 798}, {"periodo": "2024", "valor": 770}], "retencion": [{"periodo": "Cohorte 2018", "estudiantes_p1": 161, "estudiantes_p3": 148, "valor": 0.9193}, {"periodo": "Cohorte 2019", "estudiantes_p1": 138, "estudiantes_p3": 125, "valor": 0.9058}, {"periodo": "Cohorte 2020", "estudiantes_p1": 166, "estudiantes_p3": 130, "valor": 0.7831}, {"periodo": "Cohorte 2021", "estudiantes_p1": 194, "estudiantes_p3": 164, "valor": 0.8454}, {"periodo": "Cohorte 2022", "estudiantes_p1": 157, "estudiantes_p3": 126, "valor": 0.8025}, {"periodo": "Cohorte 2023", "estudiantes_p1": 165, "estudiantes_p3": 160, "valor": 0.9697}, {"periodo": "Cohorte 2024", "estudiantes_p1": 198, "estudiantes_p3": 167, "valor": 0.8434}], "titulacion": [{"periodo": "Cohorte 2015", "valor": 0.3704, "matriculados": 27, "graduados": 10}, {"periodo": "Cohorte 2016", "valor": 0.7174, "matriculados": 46, "graduados": 33}, {"periodo": "Cohorte 2017", "valor": 0.85, "matriculados": 40, "graduados": 34}, {"periodo": "Cohorte 2018", "valor": 0.7391, "matriculados": 161, "graduados": 119}], "eficiencia_terminal": [{"periodo": "Cohorte 2015", "valor": 0.3333, "matriculados": 27, "eft": 9}, {"periodo": "Cohorte 2016", "valor": 0.6087, "matriculados": 46, "eft": 28}, {"periodo": "Cohorte 2017", "valor": 0.825, "matriculados": 40, "eft": 33}, {"periodo": "Cohorte 2018", "valor": 0.7267, "matriculados": 161, "eft": 117}]}, "Psicología Educativa": {"variantes": ["PSICOLOGIA EDUCATIVA", "PSICOLOGIA EDUCATIVA 2024"], "cupos": [{"periodo": "2024", "valor": 80, "modalidades": {}}], "matriculas": [{"periodo": "2024", "valor": 76}], "retencion": [], "titulacion": [{"periodo": "Cohorte 2015", "valor": 0.5517, "matriculados": 29, "graduados": 16}, {"periodo": "Cohorte 2016", "valor": 0.8095, "matriculados": 42, "graduados": 34}, {"periodo": "Cohorte 2017", "valor": 0.725, "matriculados": 40, "graduados": 29}], "eficiencia_terminal": [{"periodo": "Cohorte 2015", "valor": 0.4138, "matriculados": 29, "eft": 12}, {"periodo": "Cohorte 2016", "valor": 0.6667, "matriculados": 42, "eft": 28}, {"periodo": "Cohorte 2017", "valor": 0.675, "matriculados": 40, "eft": 27}]}, "Psicología Clínica": {"variantes": ["PSICOLOGIA CLINICA"], "cupos": [], "matriculas": [{"periodo": "2020", "valor": 229}, {"periodo": "2021", "valor": 170}, {"periodo": "2022", "valor": 114}, {"periodo": "2023", "valor": 19}, {"periodo": "2024", "valor": 4}], "retencion": [], "titulacion": [{"periodo": "Cohorte 2015", "valor": 0.7385, "matriculados": 65, "graduados": 48}, {"periodo": "Cohorte 2016", "valor": 0.7238, "matriculados": 105, "graduados": 76}, {"periodo": "Cohorte 2017", "valor": 0.8675, "matriculados": 83, "graduados": 72}], "eficiencia_terminal": [{"periodo": "Cohorte 2015", "valor": 0.6462, "matriculados": 65, "eft": 42}, {"periodo": "Cohorte 2016", "valor": 0.6571, "matriculados": 105, "eft": 69}, {"periodo": "Cohorte 2017", "valor": 0.8072, "matriculados": 83, "eft": 67}]}}}, "FACULTAD DE CIENCIAS ECONÓMICAS Y ADMINISTRATIVAS": {"nombre": "Facultad de Ciencias Económicas y Administrativas", "mesa": 1, "carreras": {"Administración de Empresas Dual": {"variantes": ["ADMINISTRACION DE EMPRESAS", "ADMINISTRACION DE EMPRESAS - DUAL", "ADMINISTRACION DE EMPRESAS-DUAL"], "cupos": [{"periodo": "2019", "valor": 33, "modalidades": {"DUAL": 33}}, {"periodo": "2020", "valor": 32, "modalidades": {"DUAL": 32}}, {"periodo": "2021", "valor": 40, "modalidades": {"DUAL": 40}}, {"periodo": "2022", "valor": 45, "modalidades": {"DUAL": 45}}, {"periodo": "2023", "valor": 40, "modalidades": {"DUAL": 40}}, {"periodo": "2024", "valor": 45, "modalidades": {"DUAL": 45}}], "matriculas": [{"periodo": "2020", "valor": 252}, {"periodo": "2021", "valor": 243}, {"periodo": "2022", "valor": 232}, {"periodo": "2023", "valor": 192}, {"periodo": "2024", "valor": 192}], "retencion": [{"periodo": "Cohorte 2018", "estudiantes_p1": 97, "estudiantes_p3": 89, "valor": 0.9175}, {"periodo": "Cohorte 2019", "estudiantes_p1": 41, "estudiantes_p3": 32, "valor": 0.7805}, {"periodo": "Cohorte 2020", "estudiantes_p1": 36, "estudiantes_p3": 27, "valor": 0.75}, {"periodo": "Cohorte 2021", "estudiantes_p1": 40, "estudiantes_p3": 31, "valor": 0.775}, {"periodo": "Cohorte 2022", "estudiantes_p1": 41, "estudiantes_p3": 26, "valor": 0.6341}, {"periodo": "Cohorte 2023", "estudiantes_p1": 40, "estudiantes_p3": 33, "valor": 0.825}, {"periodo": "Cohorte 2024", "estudiantes_p1": 47, "estudiantes_p3": 31, "valor": 0.6596}], "titulacion": [{"periodo": "Cohorte 2018", "valor": 0.4639, "matriculados": 97, "graduados": 45}], "eficiencia_terminal": [{"periodo": "Cohorte 2018", "valor": 0.3505, "matriculados": 97, "eft": 34}]}, "Administración de Empresas": {"variantes": ["ADMINISTRACION DE EMPRESAS", "EMPRESAS", "INGENIERIA DE EMPRESAS"], "cupos": [{"periodo": "2019", "valor": 78, "modalidades": {"PRESENCIAL": 78}}, {"periodo": "2020", "valor": 77, "modalidades": {"PRESENCIAL": 77}}, {"periodo": "2021", "valor": 80, "modalidades": {"PRESENCIAL": 80}}, {"periodo": "2022", "valor": 85, "modalidades": {"PRESENCIAL": 85}}, {"periodo": "2023", "valor": 85, "modalidades": {"PRESENCIAL": 85}}, {"periodo": "2024", "valor": 100, "modalidades": {"PRESENCIAL": 100}}], "matriculas": [{"periodo": "2020", "valor": 607}, {"periodo": "2021", "valor": 556}, {"periodo": "2022", "valor": 502}, {"periodo": "2023", "valor": 506}, {"periodo": "2024", "valor": 428}], "retencion": [{"periodo": "Cohorte 2018", "estudiantes_p1": 146, "estudiantes_p3": 118, "valor": 0.8082}, {"periodo": "Cohorte 2019", "estudiantes_p1": 95, "estudiantes_p3": 75, "valor": 0.7895}, {"periodo": "Cohorte 2020", "estudiantes_p1": 84, "estudiantes_p3": 59, "valor": 0.7024}, {"periodo": "Cohorte 2021", "estudiantes_p1": 88, "estudiantes_p3": 69, "valor": 0.7841}, {"periodo": "Cohorte 2022", "estudiantes_p1": 87, "estudiantes_p3": 66, "valor": 0.7586}, {"periodo": "Cohorte 2023", "estudiantes_p1": 78, "estudiantes_p3": 71, "valor": 0.9103}, {"periodo": "Cohorte 2024", "estudiantes_p1": 56, "estudiantes_p3": 42, "valor": 0.75}], "titulacion": [{"periodo": "Cohorte 2015", "valor": 0.5, "matriculados": 178, "graduados": 89}, {"periodo": "Cohorte 2016", "valor": 0.4885, "matriculados": 260, "graduados": 127}, {"periodo": "Cohorte 2017", "valor": 0.434, "matriculados": 159, "graduados": 69}, {"periodo": "Cohorte 2018", "valor": 0.3699, "matriculados": 146, "graduados": 54}], "eficiencia_terminal": [{"periodo": "Cohorte 2015", "valor": 0.2135, "matriculados": 178, "eft": 38}, {"periodo": "Cohorte 2016", "valor": 0.3154, "matriculados": 260, "eft": 82}, {"periodo": "Cohorte 2017", "valor": 0.3333, "matriculados": 159, "eft": 53}, {"periodo": "Cohorte 2018", "valor": 0.1233, "matriculados": 146, "eft": 18}]}, "Contabilidad y Auditoría": {"variantes": ["CONTABILIDAD Y AUDITORIA"], "cupos": [{"periodo": "2019", "valor": 118, "modalidades": {"PRESENCIAL": 118}}, {"periodo": "2020", "valor": 117, "modalidades": {"PRESENCIAL": 117}}, {"periodo": "2021", "valor": 120, "modalidades": {"PRESENCIAL": 120}}, {"periodo": "2022", "valor": 125, "modalidades": {"PRESENCIAL": 125}}, {"periodo": "2023", "valor": 125, "modalidades": {"PRESENCIAL": 125}}, {"periodo": "2024", "valor": 125, "modalidades": {"PRESENCIAL": 125}}], "matriculas": [{"periodo": "2020", "valor": 639}, {"periodo": "2021", "valor": 654}, {"periodo": "2022", "valor": 640}, {"periodo": "2023", "valor": 687}, {"periodo": "2024", "valor": 703}], "retencion": [{"periodo": "Cohorte 2018", "estudiantes_p1": 135, "estudiantes_p3": 123, "valor": 0.9111}, {"periodo": "Cohorte 2019", "estudiantes_p1": 130, "estudiantes_p3": 107, "valor": 0.8231}, {"periodo": "Cohorte 2020", "estudiantes_p1": 123, "estudiantes_p3": 101, "valor": 0.8211}, {"periodo": "Cohorte 2021", "estudiantes_p1": 115, "estudiantes_p3": 92, "valor": 0.8}, {"periodo": "Cohorte 2022", "estudiantes_p1": 117, "estudiantes_p3": 101, "valor": 0.8632}, {"periodo": "Cohorte 2023", "estudiantes_p1": 121, "estudiantes_p3": 110, "valor": 0.9091}, {"periodo": "Cohorte 2024", "estudiantes_p1": 130, "estudiantes_p3": 103, "valor": 0.7923}], "titulacion": [{"periodo": "Cohorte 2015", "valor": 0.64, "matriculados": 125, "graduados": 80}, {"periodo": "Cohorte 2016", "valor": 0.5433, "matriculados": 127, "graduados": 69}, {"periodo": "Cohorte 2017", "valor": 0.7419, "matriculados": 62, "graduados": 46}, {"periodo": "Cohorte 2018", "valor": 0.5852, "matriculados": 135, "graduados": 79}], "eficiencia_terminal": [{"periodo": "Cohorte 2015", "valor": 0.376, "matriculados": 125, "eft": 47}, {"periodo": "Cohorte 2016", "valor": 0.378, "matriculados": 127, "eft": 48}, {"periodo": "Cohorte 2017", "valor": 0.5323, "matriculados": 62, "eft": 33}, {"periodo": "Cohorte 2018", "valor": 0.1259, "matriculados": 135, "eft": 17}]}, "Economía": {"variantes": ["ECONOMIA"], "cupos": [{"periodo": "2019", "valor": 116, "modalidades": {"PRESENCIAL": 116}}, {"periodo": "2020", "valor": 117, "modalidades": {"PRESENCIAL": 117}}, {"periodo": "2021", "valor": 120, "modalidades": {"PRESENCIAL": 120}}, {"periodo": "2022", "valor": 125, "modalidades": {"PRESENCIAL": 125}}, {"periodo": "2023", "valor": 145, "modalidades": {"PRESENCIAL": 145}}, {"periodo": "2024", "valor": 145, "modalidades": {"PRESENCIAL": 145}}], "matriculas": [{"periodo": "2020", "valor": 465}, {"periodo": "2021", "valor": 528}, {"periodo": "2022", "valor": 543}, {"periodo": "2023", "valor": 504}, {"periodo": "2024", "valor": 494}], "retencion": [{"periodo": "Cohorte 2018", "estudiantes_p1": 131, "estudiantes_p3": 111, "valor": 0.8473}, {"periodo": "Cohorte 2019", "estudiantes_p1": 140, "estudiantes_p3": 119, "valor": 0.85}, {"periodo": "Cohorte 2020", "estudiantes_p1": 120, "estudiantes_p3": 78, "valor": 0.65}, {"periodo": "Cohorte 2021", "estudiantes_p1": 95, "estudiantes_p3": 75, "valor": 0.7895}, {"periodo": "Cohorte 2022", "estudiantes_p1": 104, "estudiantes_p3": 81, "valor": 0.7788}, {"periodo": "Cohorte 2023", "estudiantes_p1": 76, "estudiantes_p3": 67, "valor": 0.8816}, {"periodo": "Cohorte 2024", "estudiantes_p1": 131, "estudiantes_p3": 100, "valor": 0.7634}], "titulacion": [{"periodo": "Cohorte 2015", "valor": 0.2542, "matriculados": 59, "graduados": 15}, {"periodo": "Cohorte 2016", "valor": 0.2529, "matriculados": 87, "graduados": 22}, {"periodo": "Cohorte 2017", "valor": 0.254, "matriculados": 63, "graduados": 16}, {"periodo": "Cohorte 2018", "valor": 0.1221, "matriculados": 131, "graduados": 16}], "eficiencia_terminal": [{"periodo": "Cohorte 2015", "valor": 0.0508, "matriculados": 59, "eft": 3}, {"periodo": "Cohorte 2016", "valor": 0.1379, "matriculados": 87, "eft": 12}, {"periodo": "Cohorte 2017", "valor": 0.1905, "matriculados": 63, "eft": 12}, {"periodo": "Cohorte 2018", "valor": 0.0992, "matriculados": 131, "eft": 13}]}, "Emprendimiento e Innovación": {"variantes": ["EMPRENDIMIENTO E INNOVACION"], "cupos": [{"periodo": "2024", "valor": 45, "modalidades": {}}], "matriculas": [], "retencion": [{"periodo": "Cohorte 2024", "estudiantes_p1": 6, "estudiantes_p3": 3, "valor": 0.5}], "titulacion": [], "eficiencia_terminal": []}, "Mercadotecnia": {"variantes": ["MARKETING", "MERCADOTECNIA", "MERCADOTECNIA/MARKETING"], "cupos": [{"periodo": "2019", "valor": 67, "modalidades": {"PRESENCIAL": 67}}, {"periodo": "2020", "valor": 67, "modalidades": {"PRESENCIAL": 67}}, {"periodo": "2021", "valor": 70, "modalidades": {"PRESENCIAL": 70}}, {"periodo": "2022", "valor": 80, "modalidades": {"PRESENCIAL": 80}}, {"periodo": "2023", "valor": 85, "modalidades": {"PRESENCIAL": 85}}, {"periodo": "2024", "valor": 85, "modalidades": {"PRESENCIAL": 85}}], "matriculas": [{"periodo": "2020", "valor": 296}, {"periodo": "2021", "valor": 325}, {"periodo": "2022", "valor": 331}, {"periodo": "2023", "valor": 352}, {"periodo": "2024", "valor": 366}], "retencion": [{"periodo": "Cohorte 2018", "estudiantes_p1": 64, "estudiantes_p3": 50, "valor": 0.7812}, {"periodo": "Cohorte 2019", "estudiantes_p1": 73, "estudiantes_p3": 63, "valor": 0.863}, {"periodo": "Cohorte 2020", "estudiantes_p1": 69, "estudiantes_p3": 56, "valor": 0.8116}, {"periodo": "Cohorte 2021", "estudiantes_p1": 72, "estudiantes_p3": 57, "valor": 0.7917}, {"periodo": "Cohorte 2022", "estudiantes_p1": 77, "estudiantes_p3": 45, "valor": 0.5844}, {"periodo": "Cohorte 2023", "estudiantes_p1": 80, "estudiantes_p3": 70, "valor": 0.875}, {"periodo": "Cohorte 2024", "estudiantes_p1": 86, "estudiantes_p3": 67, "valor": 0.7791}], "titulacion": [{"periodo": "Cohorte 2015", "valor": 0.3061, "matriculados": 49, "graduados": 15}, {"periodo": "Cohorte 2016", "valor": 0.3077, "matriculados": 65, "graduados": 20}, {"periodo": "Cohorte 2017", "valor": 0.119, "matriculados": 42, "graduados": 5}, {"periodo": "Cohorte 2018", "valor": 0.0667, "matriculados": 60, "graduados": 4}], "eficiencia_terminal": [{"periodo": "Cohorte 2015", "valor": 0.0816, "matriculados": 49, "eft": 4}, {"periodo": "Cohorte 2016", "valor": 0.1077, "matriculados": 65, "eft": 7}, {"periodo": "Cohorte 2017", "valor": 0.0476, "matriculados": 42, "eft": 2}, {"periodo": "Cohorte 2018", "valor": 0.0167, "matriculados": 60, "eft": 1}]}, "Sociología": {"variantes": ["SOCIOLOGIA", "SOCIOLOGÍA 2024"], "cupos": [{"periodo": "2019", "valor": 79, "modalidades": {"PRESENCIAL": 79}}, {"periodo": "2020", "valor": 77, "modalidades": {"PRESENCIAL": 77}}, {"periodo": "2021", "valor": 80, "modalidades": {"PRESENCIAL": 80}}, {"periodo": "2022", "valor": 85, "modalidades": {"PRESENCIAL": 85}}, {"periodo": "2023", "valor": 85, "modalidades": {"PRESENCIAL": 85}}, {"periodo": "2024", "valor": 85, "modalidades": {"PRESENCIAL": 85}}], "matriculas": [{"periodo": "2020", "valor": 370}, {"periodo": "2021", "valor": 355}, {"periodo": "2022", "valor": 333}, {"periodo": "2023", "valor": 311}, {"periodo": "2024", "valor": 317}], "retencion": [{"periodo": "Cohorte 2018", "estudiantes_p1": 80, "estudiantes_p3": 64, "valor": 0.8}, {"periodo": "Cohorte 2019", "estudiantes_p1": 81, "estudiantes_p3": 60, "valor": 0.7407}, {"periodo": "Cohorte 2020", "estudiantes_p1": 75, "estudiantes_p3": 53, "valor": 0.7067}, {"periodo": "Cohorte 2021", "estudiantes_p1": 78, "estudiantes_p3": 56, "valor": 0.7179}, {"periodo": "Cohorte 2022", "estudiantes_p1": 79, "estudiantes_p3": 33, "valor": 0.4177}, {"periodo": "Cohorte 2023", "estudiantes_p1": 57, "estudiantes_p3": 49, "valor": 0.8596}, {"periodo": "Cohorte 2024", "estudiantes_p1": 83, "estudiantes_p3": 53, "valor": 0.6386}], "titulacion": [{"periodo": "Cohorte 2015", "valor": 0.4898, "matriculados": 49, "graduados": 24}, {"periodo": "Cohorte 2016", "valor": 0.7391, "matriculados": 92, "graduados": 68}, {"periodo": "Cohorte 2017", "valor": 0.6212, "matriculados": 66, "graduados": 41}, {"periodo": "Cohorte 2018", "valor": 0.4875, "matriculados": 80, "graduados": 39}], "eficiencia_terminal": [{"periodo": "Cohorte 2015", "valor": 0.3878, "matriculados": 49, "eft": 19}, {"periodo": "Cohorte 2016", "valor": 0.4239, "matriculados": 92, "eft": 39}, {"periodo": "Cohorte 2017", "valor": 0.5606, "matriculados": 66, "eft": 37}, {"periodo": "Cohorte 2018", "valor": 0.325, "matriculados": 80, "eft": 26}]}}}, "FACULTAD DE INGENIERÍA": {"nombre": "Facultad de Ingeniería", "mesa": 2, "carreras": {"Computación / Sistemas": {"variantes": ["COMPUTACION", "COMPUTACION REDISEÑO/SISTEMAS", "INGENIERIA DE SISTEMAS"], "cupos": [{"periodo": "2019", "valor": 55, "modalidades": {"PRESENCIAL": 55}}, {"periodo": "2020", "valor": 60, "modalidades": {"PRESENCIAL": 60}}, {"periodo": "2021", "valor": 100, "modalidades": {"PRESENCIAL": 100}}, {"periodo": "2022", "valor": 140, "modalidades": {"PRESENCIAL": 140}}, {"periodo": "2023", "valor": 135, "modalidades": {"PRESENCIAL": 135}}, {"periodo": "2024", "valor": 115, "modalidades": {"PRESENCIAL": 115}}], "matriculas": [{"periodo": "2020", "valor": 305}, {"periodo": "2021", "valor": 313}, {"periodo": "2022", "valor": 363}, {"periodo": "2023", "valor": 348}, {"periodo": "2024", "valor": 408}], "retencion": [{"periodo": "Cohorte 2018", "estudiantes_p1": 59, "estudiantes_p3": 46, "valor": 0.7797}, {"periodo": "Cohorte 2019", "estudiantes_p1": 67, "estudiantes_p3": 46, "valor": 0.6866}, {"periodo": "Cohorte 2020", "estudiantes_p1": 70, "estudiantes_p3": 49, "valor": 0.7}, {"periodo": "Cohorte 2021", "estudiantes_p1": 66, "estudiantes_p3": 50, "valor": 0.7576}, {"periodo": "Cohorte 2022", "estudiantes_p1": 103, "estudiantes_p3": 72, "valor": 0.699}, {"periodo": "Cohorte 2023", "estudiantes_p1": 48, "estudiantes_p3": 45, "valor": 0.9375}, {"periodo": "Cohorte 2024", "estudiantes_p1": 129, "estudiantes_p3": 91, "valor": 0.7054}], "titulacion": [{"periodo": "Cohorte 2015", "valor": 0.2807, "matriculados": 57, "graduados": 16}, {"periodo": "Cohorte 2016", "valor": 0.1818, "matriculados": 110, "graduados": 20}, {"periodo": "Cohorte 2017", "valor": 0.0333, "matriculados": 60, "graduados": 2}, {"periodo": "Cohorte 2018", "valor": 0.2373, "matriculados": 59, "graduados": 14}], "eficiencia_terminal": [{"periodo": "Cohorte 2015", "valor": 0.1228, "matriculados": 57, "eft": 7}, {"periodo": "Cohorte 2016", "valor": 0.1182, "matriculados": 110, "eft": 13}, {"periodo": "Cohorte 2017", "valor": 0.0333, "matriculados": 60, "eft": 2}, {"periodo": "Cohorte 2018", "valor": 0.2034, "matriculados": 59, "eft": 12}]}, "Electricidad": {"variantes": ["ELECTRICIDAD", "INGENIERIA ELECTRICA"], "cupos": [{"periodo": "2019", "valor": 65, "modalidades": {"PRESENCIAL": 65}}, {"periodo": "2020", "valor": 70, "modalidades": {"PRESENCIAL": 70}}, {"periodo": "2021", "valor": 110, "modalidades": {"PRESENCIAL": 110}}, {"periodo": "2022", "valor": 140, "modalidades": {"PRESENCIAL": 140}}, {"periodo": "2023", "valor": 135, "modalidades": {"PRESENCIAL": 135}}, {"periodo": "2024", "valor": 115, "modalidades": {"PRESENCIAL": 115}}], "matriculas": [{"periodo": "2020", "valor": 342}, {"periodo": "2021", "valor": 347}, {"periodo": "2022", "valor": 373}, {"periodo": "2023", "valor": 326}, {"periodo": "2024", "valor": 360}], "retencion": [{"periodo": "Cohorte 2018", "estudiantes_p1": 59, "estudiantes_p3": 52, "valor": 0.8814}, {"periodo": "Cohorte 2019", "estudiantes_p1": 110, "estudiantes_p3": 68, "valor": 0.6182}, {"periodo": "Cohorte 2020", "estudiantes_p1": 82, "estudiantes_p3": 51, "valor": 0.622}, {"periodo": "Cohorte 2021", "estudiantes_p1": 81, "estudiantes_p3": 47, "valor": 0.5802}, {"periodo": "Cohorte 2022", "estudiantes_p1": 104, "estudiantes_p3": 51, "valor": 0.4904}, {"periodo": "Cohorte 2023", "estudiantes_p1": 41, "estudiantes_p3": 38, "valor": 0.9268}, {"periodo": "Cohorte 2024", "estudiantes_p1": 113, "estudiantes_p3": 67, "valor": 0.5929}], "titulacion": [{"periodo": "Cohorte 2015", "valor": 0.2791, "matriculados": 43, "graduados": 12}, {"periodo": "Cohorte 2016", "valor": 0.1754, "matriculados": 114, "graduados": 20}, {"periodo": "Cohorte 2017", "valor": 0.1077, "matriculados": 65, "graduados": 7}, {"periodo": "Cohorte 2018", "valor": 0.1525, "matriculados": 59, "graduados": 9}], "eficiencia_terminal": [{"periodo": "Cohorte 2015", "valor": 0.186, "matriculados": 43, "eft": 8}, {"periodo": "Cohorte 2016", "valor": 0.1491, "matriculados": 114, "eft": 17}, {"periodo": "Cohorte 2017", "valor": 0.1077, "matriculados": 65, "eft": 7}, {"periodo": "Cohorte 2018", "valor": 0.1356, "matriculados": 59, "eft": 8}]}, "Ingeniería Civil": {"variantes": ["INGENIERIA CIVIL"], "cupos": [{"periodo": "2019", "valor": 46, "modalidades": {"PRESENCIAL": 46}}, {"periodo": "2020", "valor": 70, "modalidades": {"PRESENCIAL": 70}}, {"periodo": "2021", "valor": 101, "modalidades": {"PRESENCIAL": 101}}, {"periodo": "2022", "valor": 140, "modalidades": {"PRESENCIAL": 140}}, {"periodo": "2023", "valor": 135, "modalidades": {"PRESENCIAL": 135}}, {"periodo": "2024", "valor": 115, "modalidades": {"PRESENCIAL": 115}}], "matriculas": [{"periodo": "2020", "valor": 490}, {"periodo": "2021", "valor": 498}, {"periodo": "2022", "valor": 504}, {"periodo": "2023", "valor": 476}, {"periodo": "2024", "valor": 527}], "retencion": [{"periodo": "Cohorte 2018", "estudiantes_p1": 60, "estudiantes_p3": 55, "valor": 0.9167}, {"periodo": "Cohorte 2019", "estudiantes_p1": 75, "estudiantes_p3": 67, "valor": 0.8933}, {"periodo": "Cohorte 2020", "estudiantes_p1": 72, "estudiantes_p3": 58, "valor": 0.8056}, {"periodo": "Cohorte 2021", "estudiantes_p1": 65, "estudiantes_p3": 50, "valor": 0.7692}, {"periodo": "Cohorte 2022", "estudiantes_p1": 105, "estudiantes_p3": 76, "valor": 0.7238}, {"periodo": "Cohorte 2023", "estudiantes_p1": 69, "estudiantes_p3": 66, "valor": 0.9565}, {"periodo": "Cohorte 2024", "estudiantes_p1": 127, "estudiantes_p3": 113, "valor": 0.8898}], "titulacion": [{"periodo": "Cohorte 2015", "valor": 0.593, "matriculados": 86, "graduados": 51}, {"periodo": "Cohorte 2016", "valor": 0.5714, "matriculados": 119, "graduados": 68}, {"periodo": "Cohorte 2017", "valor": 0.4848, "matriculados": 66, "graduados": 32}, {"periodo": "Cohorte 2018", "valor": 0.6333, "matriculados": 60, "graduados": 38}], "eficiencia_terminal": [{"periodo": "Cohorte 2015", "valor": 0.3372, "matriculados": 86, "eft": 29}, {"periodo": "Cohorte 2016", "valor": 0.2689, "matriculados": 119, "eft": 32}, {"periodo": "Cohorte 2017", "valor": 0.3485, "matriculados": 66, "eft": 23}, {"periodo": "Cohorte 2018", "valor": 0.4167, "matriculados": 60, "eft": 25}]}, "Telecomunicaciones": {"variantes": ["INGENIERIA EN ELECTRONICA Y TELECOMUNICACIONES", "TELECOMUNICACIONES"], "cupos": [{"periodo": "2019", "valor": 66, "modalidades": {"PRESENCIAL": 66}}, {"periodo": "2020", "valor": 70, "modalidades": {"PRESENCIAL": 70}}, {"periodo": "2021", "valor": 105, "modalidades": {"PRESENCIAL": 105}}, {"periodo": "2022", "valor": 140, "modalidades": {"PRESENCIAL": 140}}, {"periodo": "2023", "valor": 135, "modalidades": {"PRESENCIAL": 135}}, {"periodo": "2024", "valor": 115, "modalidades": {"PRESENCIAL": 115}}], "matriculas": [{"periodo": "2020", "valor": 376}, {"periodo": "2021", "valor": 384}, {"periodo": "2022", "valor": 410}, {"periodo": "2023", "valor": 382}, {"periodo": "2024", "valor": 391}], "retencion": [{"periodo": "Cohorte 2018", "estudiantes_p1": 70, "estudiantes_p3": 56, "valor": 0.8}, {"periodo": "Cohorte 2019", "estudiantes_p1": 82, "estudiantes_p3": 65, "valor": 0.7927}, {"periodo": "Cohorte 2020", "estudiantes_p1": 87, "estudiantes_p3": 52, "valor": 0.5977}, {"periodo": "Cohorte 2021", "estudiantes_p1": 75, "estudiantes_p3": 54, "valor": 0.72}, {"periodo": "Cohorte 2022", "estudiantes_p1": 97, "estudiantes_p3": 52, "valor": 0.5361}, {"periodo": "Cohorte 2023", "estudiantes_p1": 53, "estudiantes_p3": 43, "valor": 0.8113}, {"periodo": "Cohorte 2024", "estudiantes_p1": 77, "estudiantes_p3": 56, "valor": 0.7273}], "titulacion": [{"periodo": "Cohorte 2015", "valor": 0.3571, "matriculados": 56, "graduados": 20}, {"periodo": "Cohorte 2016", "valor": 0.1356, "matriculados": 118, "graduados": 16}, {"periodo": "Cohorte 2017", "valor": 0.0656, "matriculados": 61, "graduados": 4}, {"periodo": "Cohorte 2018", "valor": 0.1571, "matriculados": 70, "graduados": 11}], "eficiencia_terminal": [{"periodo": "Cohorte 2015", "valor": 0.125, "matriculados": 56, "eft": 7}, {"periodo": "Cohorte 2016", "valor": 0.0847, "matriculados": 118, "eft": 10}, {"periodo": "Cohorte 2017", "valor": 0.0656, "matriculados": 61, "eft": 4}, {"periodo": "Cohorte 2018", "valor": 0.1, "matriculados": 70, "eft": 7}]}}}, "FACULTAD DE CIENCIAS DE LA HOSPITALIDAD": {"nombre": "Facultad de Ciencias de la Hospitalidad", "mesa": 2, "carreras": {"Gastronomía": {"variantes": ["GASTRONOMIA"], "cupos": [{"periodo": "2019", "valor": 54, "modalidades": {"PRESENCIAL": 54}}, {"periodo": "2020", "valor": 60, "modalidades": {"PRESENCIAL": 60}}, {"periodo": "2021", "valor": 64, "modalidades": {"PRESENCIAL": 64}}, {"periodo": "2022", "valor": 67, "modalidades": {"PRESENCIAL": 67}}, {"periodo": "2023", "valor": 70, "modalidades": {"PRESENCIAL": 70}}, {"periodo": "2024", "valor": 72, "modalidades": {"PRESENCIAL": 72}}], "matriculas": [{"periodo": "2020", "valor": 334}, {"periodo": "2021", "valor": 336}, {"periodo": "2022", "valor": 308}, {"periodo": "2023", "valor": 324}, {"periodo": "2024", "valor": 341}], "retencion": [{"periodo": "Cohorte 2018", "estudiantes_p1": 80, "estudiantes_p3": 75, "valor": 0.9375}, {"periodo": "Cohorte 2019", "estudiantes_p1": 57, "estudiantes_p3": 48, "valor": 0.8421}, {"periodo": "Cohorte 2020", "estudiantes_p1": 61, "estudiantes_p3": 44, "valor": 0.7213}, {"periodo": "Cohorte 2021", "estudiantes_p1": 56, "estudiantes_p3": 49, "valor": 0.875}, {"periodo": "Cohorte 2022", "estudiantes_p1": 67, "estudiantes_p3": 57, "valor": 0.8507}, {"periodo": "Cohorte 2023", "estudiantes_p1": 74, "estudiantes_p3": 70, "valor": 0.9459}, {"periodo": "Cohorte 2024", "estudiantes_p1": 78, "estudiantes_p3": 71, "valor": 0.9103}], "titulacion": [{"periodo": "Cohorte 2015", "valor": 0.5652, "matriculados": 69, "graduados": 39}, {"periodo": "Cohorte 2016", "valor": 0.6, "matriculados": 80, "graduados": 48}, {"periodo": "Cohorte 2017", "valor": 0.8333, "matriculados": 42, "graduados": 35}, {"periodo": "Cohorte 2018", "valor": 0.4875, "matriculados": 80, "graduados": 39}], "eficiencia_terminal": [{"periodo": "Cohorte 2015", "valor": 0.4058, "matriculados": 69, "eft": 28}, {"periodo": "Cohorte 2016", "valor": 0.4875, "matriculados": 80, "eft": 39}, {"periodo": "Cohorte 2017", "valor": 0.7381, "matriculados": 42, "eft": 31}, {"periodo": "Cohorte 2018", "valor": 0.4875, "matriculados": 80, "eft": 39}]}, "Hospitalidad y Hotelería": {"variantes": ["HOSPITALIDAD Y HOTELERIA", "HOTELERIA"], "cupos": [{"periodo": "2019", "valor": 29, "modalidades": {"PRESENCIAL": 29}}, {"periodo": "2020", "valor": 60, "modalidades": {"PRESENCIAL": 60}}, {"periodo": "2021", "valor": 70, "modalidades": {"PRESENCIAL": 70}}, {"periodo": "2022", "valor": 73, "modalidades": {"PRESENCIAL": 73}}, {"periodo": "2023", "valor": 80, "modalidades": {"PRESENCIAL": 80}}, {"periodo": "2024", "valor": 82, "modalidades": {"PRESENCIAL": 82}}], "matriculas": [{"periodo": "2020", "valor": 278}, {"periodo": "2021", "valor": 293}, {"periodo": "2022", "valor": 266}, {"periodo": "2023", "valor": 281}, {"periodo": "2024", "valor": 297}], "retencion": [{"periodo": "Cohorte 2018", "estudiantes_p1": 71, "estudiantes_p3": 65, "valor": 0.9155}, {"periodo": "Cohorte 2019", "estudiantes_p1": 29, "estudiantes_p3": 27, "valor": 0.931}, {"periodo": "Cohorte 2020", "estudiantes_p1": 59, "estudiantes_p3": 37, "valor": 0.6271}, {"periodo": "Cohorte 2021", "estudiantes_p1": 61, "estudiantes_p3": 44, "valor": 0.7213}, {"periodo": "Cohorte 2022", "estudiantes_p1": 50, "estudiantes_p3": 41, "valor": 0.82}, {"periodo": "Cohorte 2023", "estudiantes_p1": 62, "estudiantes_p3": 61, "valor": 0.9839}, {"periodo": "Cohorte 2024", "estudiantes_p1": 82, "estudiantes_p3": 59, "valor": 0.7195}], "titulacion": [{"periodo": "Cohorte 2015", "valor": 0.625, "matriculados": 56, "graduados": 35}, {"periodo": "Cohorte 2016", "valor": 0.4824, "matriculados": 85, "graduados": 41}, {"periodo": "Cohorte 2017", "valor": 0.5111, "matriculados": 45, "graduados": 23}, {"periodo": "Cohorte 2018", "valor": 0.4366, "matriculados": 71, "graduados": 31}], "eficiencia_terminal": [{"periodo": "Cohorte 2015", "valor": 0.5357, "matriculados": 56, "eft": 30}, {"periodo": "Cohorte 2016", "valor": 0.3412, "matriculados": 85, "eft": 29}, {"periodo": "Cohorte 2017", "valor": 0.4444, "matriculados": 45, "eft": 20}, {"periodo": "Cohorte 2018", "valor": 0.3803, "matriculados": 71, "eft": 27}]}, "Turismo": {"variantes": ["LICENCIATURA EN ADMINISTRACION TURISTICA", "TURISMO", "TURISMOS"], "cupos": [{"periodo": "2019", "valor": 58, "modalidades": {"PRESENCIAL": 58}}, {"periodo": "2020", "valor": 60, "modalidades": {"PRESENCIAL": 60}}, {"periodo": "2021", "valor": 70, "modalidades": {"PRESENCIAL": 70}}, {"periodo": "2022", "valor": 73, "modalidades": {"PRESENCIAL": 73}}, {"periodo": "2023", "valor": 90, "modalidades": {"PRESENCIAL": 90}}, {"periodo": "2024", "valor": 90, "modalidades": {"PRESENCIAL": 90}}], "matriculas": [{"periodo": "2020", "valor": 348}, {"periodo": "2021", "valor": 357}, {"periodo": "2022", "valor": 304}, {"periodo": "2023", "valor": 311}, {"periodo": "2024", "valor": 318}], "retencion": [{"periodo": "Cohorte 2018", "estudiantes_p1": 82, "estudiantes_p3": 70, "valor": 0.8537}, {"periodo": "Cohorte 2019", "estudiantes_p1": 63, "estudiantes_p3": 50, "valor": 0.7937}, {"periodo": "Cohorte 2020", "estudiantes_p1": 67, "estudiantes_p3": 46, "valor": 0.6866}, {"periodo": "Cohorte 2021", "estudiantes_p1": 72, "estudiantes_p3": 40, "valor": 0.5556}, {"periodo": "Cohorte 2022", "estudiantes_p1": 50, "estudiantes_p3": 42, "valor": 0.84}, {"periodo": "Cohorte 2023", "estudiantes_p1": 69, "estudiantes_p3": 62, "valor": 0.8986}, {"periodo": "Cohorte 2024", "estudiantes_p1": 83, "estudiantes_p3": 68, "valor": 0.8193}], "titulacion": [{"periodo": "Cohorte 2015", "valor": 0.7258, "matriculados": 62, "graduados": 45}, {"periodo": "Cohorte 2016", "valor": 0.4466, "matriculados": 103, "graduados": 46}, {"periodo": "Cohorte 2017", "valor": 0.4898, "matriculados": 49, "graduados": 24}, {"periodo": "Cohorte 2018", "valor": 0.6707, "matriculados": 82, "graduados": 55}], "eficiencia_terminal": [{"periodo": "Cohorte 2015", "valor": 0.6129, "matriculados": 62, "eft": 38}, {"periodo": "Cohorte 2016", "valor": 0.3786, "matriculados": 103, "eft": 39}, {"periodo": "Cohorte 2017", "valor": 0.4286, "matriculados": 49, "eft": 21}, {"periodo": "Cohorte 2018", "valor": 0.6341, "matriculados": 82, "eft": 52}]}}}, "FACULTAD DE JURISPRUDENCIA Y CIENCIAS POLITICAS Y SOCIALES": {"nombre": "Facultad de Jurisprudencia y Ciencias Políticas y Sociales", "mesa": 2, "carreras": {"Derecho": {"variantes": ["DERECHO"], "cupos": [{"periodo": "2019", "valor": 52, "modalidades": {"PRESENCIAL": 52}}, {"periodo": "2020", "valor": 90, "modalidades": {"PRESENCIAL": 90}}, {"periodo": "2021", "valor": 80, "modalidades": {"PRESENCIAL": 80}}, {"periodo": "2022", "valor": 90, "modalidades": {"PRESENCIAL": 90}}, {"periodo": "2023", "valor": 115, "modalidades": {"PRESENCIAL": 115}}, {"periodo": "2024", "valor": 120, "modalidades": {"PRESENCIAL": 120}}], "matriculas": [{"periodo": "2020", "valor": 678}, {"periodo": "2021", "valor": 652}, {"periodo": "2022", "valor": 635}, {"periodo": "2023", "valor": 586}, {"periodo": "2024", "valor": 569}], "retencion": [{"periodo": "Cohorte 2018", "estudiantes_p1": 82, "estudiantes_p3": 71, "valor": 0.8659}, {"periodo": "Cohorte 2019", "estudiantes_p1": 69, "estudiantes_p3": 63, "valor": 0.913}, {"periodo": "Cohorte 2020", "estudiantes_p1": 97, "estudiantes_p3": 88, "valor": 0.9072}, {"periodo": "Cohorte 2021", "estudiantes_p1": 80, "estudiantes_p3": 71, "valor": 0.8875}, {"periodo": "Cohorte 2022", "estudiantes_p1": 99, "estudiantes_p3": 88, "valor": 0.8889}, {"periodo": "Cohorte 2023", "estudiantes_p1": 112, "estudiantes_p3": 107, "valor": 0.9554}, {"periodo": "Cohorte 2024", "estudiantes_p1": 125, "estudiantes_p3": 110, "valor": 0.88}], "titulacion": [{"periodo": "Cohorte 2015", "valor": 0.65, "matriculados": 140, "graduados": 91}, {"periodo": "Cohorte 2016", "valor": 0.5714, "matriculados": 182, "graduados": 104}, {"periodo": "Cohorte 2017", "valor": 0.871, "matriculados": 62, "graduados": 54}, {"periodo": "Cohorte 2018", "valor": 0.8415, "matriculados": 82, "graduados": 69}], "eficiencia_terminal": [{"periodo": "Cohorte 2015", "valor": 0.4071, "matriculados": 140, "eft": 57}, {"periodo": "Cohorte 2016", "valor": 0.2802, "matriculados": 182, "eft": 51}, {"periodo": "Cohorte 2017", "valor": 0.4677, "matriculados": 62, "eft": 29}, {"periodo": "Cohorte 2018", "valor": 0.7805, "matriculados": 82, "eft": 64}]}, "Género y Desarrollo": {"variantes": ["GENERO Y DESARROLLO", "LICENCIATURA EN GENERO Y DESARROLLO"], "cupos": [{"periodo": "2019", "valor": 23, "modalidades": {"PRESENCIAL": 23}}, {"periodo": "2020", "valor": 40, "modalidades": {"PRESENCIAL": 40}}, {"periodo": "2021", "valor": 40, "modalidades": {"PRESENCIAL": 40}}, {"periodo": "2022", "valor": 45, "modalidades": {"PRESENCIAL": 45}}, {"periodo": "2023", "valor": 53, "modalidades": {"PRESENCIAL": 53}}, {"periodo": "2024", "valor": 50, "modalidades": {"PRESENCIAL": 50}}], "matriculas": [{"periodo": "2020", "valor": 221}, {"periodo": "2021", "valor": 216}, {"periodo": "2022", "valor": 203}, {"periodo": "2023", "valor": 192}, {"periodo": "2024", "valor": 196}], "retencion": [{"periodo": "Cohorte 2018", "estudiantes_p1": 39, "estudiantes_p3": 38, "valor": 0.9744}, {"periodo": "Cohorte 2019", "estudiantes_p1": 26, "estudiantes_p3": 25, "valor": 0.9615}, {"periodo": "Cohorte 2020", "estudiantes_p1": 48, "estudiantes_p3": 38, "valor": 0.7917}, {"periodo": "Cohorte 2021", "estudiantes_p1": 39, "estudiantes_p3": 31, "valor": 0.7949}, {"periodo": "Cohorte 2022", "estudiantes_p1": 39, "estudiantes_p3": 26, "valor": 0.6667}, {"periodo": "Cohorte 2023", "estudiantes_p1": 47, "estudiantes_p3": 42, "valor": 0.8936}, {"periodo": "Cohorte 2024", "estudiantes_p1": 49, "estudiantes_p3": 39, "valor": 0.7959}], "titulacion": [{"periodo": "Cohorte 2015", "valor": 0.5541, "matriculados": 74, "graduados": 41}, {"periodo": "Cohorte 2016", "valor": 0.5106, "matriculados": 47, "graduados": 24}, {"periodo": "Cohorte 2017", "valor": 0.5758, "matriculados": 33, "graduados": 19}, {"periodo": "Cohorte 2018", "valor": 0.8462, "matriculados": 39, "graduados": 33}], "eficiencia_terminal": [{"periodo": "Cohorte 2015", "valor": 0.4595, "matriculados": 74, "eft": 34}, {"periodo": "Cohorte 2016", "valor": 0.4894, "matriculados": 47, "eft": 23}, {"periodo": "Cohorte 2017", "valor": 0.5152, "matriculados": 33, "eft": 17}, {"periodo": "Cohorte 2018", "valor": 0.8462, "matriculados": 39, "eft": 33}]}, "Orientación Familiar": {"variantes": ["ORIENTACION FAMILIAR", "ORIENTACIÓN FAMILIAR"], "cupos": [{"periodo": "2019", "valor": 33, "modalidades": {"PRESENCIAL": 33}}, {"periodo": "2020", "valor": 45, "modalidades": {"PRESENCIAL": 45}}, {"periodo": "2021", "valor": 40, "modalidades": {"PRESENCIAL": 40}}, {"periodo": "2022", "valor": 45, "modalidades": {"PRESENCIAL": 45}}, {"periodo": "2023", "valor": 53, "modalidades": {"PRESENCIAL": 53}}, {"periodo": "2024", "valor": 50, "modalidades": {"PRESENCIAL": 50}}], "matriculas": [{"periodo": "2020", "valor": 246}, {"periodo": "2021", "valor": 212}, {"periodo": "2022", "valor": 212}, {"periodo": "2023", "valor": 202}, {"periodo": "2024", "valor": 214}], "retencion": [{"periodo": "Cohorte 2018", "estudiantes_p1": 41, "estudiantes_p3": 40, "valor": 0.9756}, {"periodo": "Cohorte 2019", "estudiantes_p1": 35, "estudiantes_p3": 32, "valor": 0.9143}, {"periodo": "Cohorte 2020", "estudiantes_p1": 48, "estudiantes_p3": 39, "valor": 0.8125}, {"periodo": "Cohorte 2021", "estudiantes_p1": 39, "estudiantes_p3": 32, "valor": 0.8205}, {"periodo": "Cohorte 2022", "estudiantes_p1": 32, "estudiantes_p3": 32, "valor": 1.0}, {"periodo": "Cohorte 2023", "estudiantes_p1": 49, "estudiantes_p3": 47, "valor": 0.9592}, {"periodo": "Cohorte 2024", "estudiantes_p1": 53, "estudiantes_p3": 49, "valor": 0.9245}], "titulacion": [{"periodo": "Cohorte 2015", "valor": 0.717, "matriculados": 53, "graduados": 38}, {"periodo": "Cohorte 2016", "valor": 0.7875, "matriculados": 80, "graduados": 63}, {"periodo": "Cohorte 2017", "valor": 0.9667, "matriculados": 30, "graduados": 29}, {"periodo": "Cohorte 2018", "valor": 0.8293, "matriculados": 41, "graduados": 34}], "eficiencia_terminal": [{"periodo": "Cohorte 2015", "valor": 0.6792, "matriculados": 53, "eft": 36}, {"periodo": "Cohorte 2016", "valor": 0.7875, "matriculados": 80, "eft": 63}, {"periodo": "Cohorte 2017", "valor": 0.9667, "matriculados": 30, "eft": 29}, {"periodo": "Cohorte 2018", "valor": 0.8293, "matriculados": 41, "eft": 34}]}, "Trabajo Social": {"variantes": ["TRABAJO SOCIAL"], "cupos": [{"periodo": "2019", "valor": 32, "modalidades": {"PRESENCIAL": 32}}, {"periodo": "2020", "valor": 45, "modalidades": {"PRESENCIAL": 45}}, {"periodo": "2021", "valor": 40, "modalidades": {"PRESENCIAL": 40}}, {"periodo": "2022", "valor": 45, "modalidades": {"PRESENCIAL": 45}}, {"periodo": "2023", "valor": 49, "modalidades": {"PRESENCIAL": 49}}, {"periodo": "2024", "valor": 50, "modalidades": {"PRESENCIAL": 50}}], "matriculas": [{"periodo": "2020", "valor": 246}, {"periodo": "2021", "valor": 217}, {"periodo": "2022", "valor": 205}, {"periodo": "2023", "valor": 202}, {"periodo": "2024", "valor": 204}], "retencion": [{"periodo": "Cohorte 2018", "estudiantes_p1": 42, "estudiantes_p3": 40, "valor": 0.9524}, {"periodo": "Cohorte 2019", "estudiantes_p1": 39, "estudiantes_p3": 34, "valor": 0.8718}, {"periodo": "Cohorte 2020", "estudiantes_p1": 50, "estudiantes_p3": 40, "valor": 0.8}, {"periodo": "Cohorte 2021", "estudiantes_p1": 42, "estudiantes_p3": 30, "valor": 0.7143}, {"periodo": "Cohorte 2022", "estudiantes_p1": 43, "estudiantes_p3": 35, "valor": 0.814}, {"periodo": "Cohorte 2023", "estudiantes_p1": 44, "estudiantes_p3": 42, "valor": 0.9545}, {"periodo": "Cohorte 2024", "estudiantes_p1": 49, "estudiantes_p3": 41, "valor": 0.8367}], "titulacion": [{"periodo": "Cohorte 2015", "valor": 0.9429, "matriculados": 35, "graduados": 33}, {"periodo": "Cohorte 2016", "valor": 0.7553, "matriculados": 94, "graduados": 71}, {"periodo": "Cohorte 2017", "valor": 0.7714, "matriculados": 35, "graduados": 27}, {"periodo": "Cohorte 2018", "valor": 0.8095, "matriculados": 42, "graduados": 34}], "eficiencia_terminal": [{"periodo": "Cohorte 2015", "valor": 0.9429, "matriculados": 35, "eft": 33}, {"periodo": "Cohorte 2016", "valor": 0.6596, "matriculados": 94, "eft": 62}, {"periodo": "Cohorte 2017", "valor": 0.6857, "matriculados": 35, "eft": 24}, {"periodo": "Cohorte 2018", "valor": 0.8095, "matriculados": 42, "eft": 34}]}}}, "FACULTAD DE CIENCIAS AGROPECUARIAS": {"nombre": "Facultad de Ciencias Agropecuarias", "mesa": 1, "carreras": {"Agronomía": {"variantes": ["AGRONOMIA", "INGENIERIA AGRONOMICA"], "cupos": [{"periodo": "2019", "valor": 97, "modalidades": {"PRESENCIAL": 97}}, {"periodo": "2020", "valor": 100, "modalidades": {"PRESENCIAL": 100}}, {"periodo": "2021", "valor": 240, "modalidades": {"PRESENCIAL": 240}}, {"periodo": "2022", "valor": 160, "modalidades": {"PRESENCIAL": 160}}, {"periodo": "2023", "valor": 165, "modalidades": {"PRESENCIAL": 165}}, {"periodo": "2024", "valor": 169, "modalidades": {"PRESENCIAL": 169}}], "matriculas": [{"periodo": "2020", "valor": 531}, {"periodo": "2021", "valor": 523}, {"periodo": "2022", "valor": 524}, {"periodo": "2023", "valor": 475}, {"periodo": "2024", "valor": 524}], "retencion": [{"periodo": "Cohorte 2018", "estudiantes_p1": 101, "estudiantes_p3": 77, "valor": 0.7624}, {"periodo": "Cohorte 2019", "estudiantes_p1": 94, "estudiantes_p3": 54, "valor": 0.5745}, {"periodo": "Cohorte 2020", "estudiantes_p1": 101, "estudiantes_p3": 72, "valor": 0.7129}, {"periodo": "Cohorte 2021", "estudiantes_p1": 121, "estudiantes_p3": 78, "valor": 0.6446}, {"periodo": "Cohorte 2022", "estudiantes_p1": 147, "estudiantes_p3": 88, "valor": 0.5986}, {"periodo": "Cohorte 2023", "estudiantes_p1": 78, "estudiantes_p3": 63, "valor": 0.8077}, {"periodo": "Cohorte 2024", "estudiantes_p1": 142, "estudiantes_p3": 106, "valor": 0.7465}], "titulacion": [{"periodo": "Cohorte 2015", "valor": 0.7407, "matriculados": 81, "graduados": 60}, {"periodo": "Cohorte 2016", "valor": 0.6145, "matriculados": 166, "graduados": 102}, {"periodo": "Cohorte 2017", "valor": 0.449, "matriculados": 49, "graduados": 22}, {"periodo": "Cohorte 2018", "valor": 0.3861, "matriculados": 101, "graduados": 39}], "eficiencia_terminal": [{"periodo": "Cohorte 2015", "valor": 0.321, "matriculados": 81, "eft": 26}, {"periodo": "Cohorte 2016", "valor": 0.3976, "matriculados": 166, "eft": 66}, {"periodo": "Cohorte 2017", "valor": 0.2245, "matriculados": 49, "eft": 11}, {"periodo": "Cohorte 2018", "valor": 0.3861, "matriculados": 101, "eft": 39}]}, "Medicina Veterinaria": {"variantes": ["MEDICINA VETERINARIA", "MEDICINA VETERINARIA Y ZOOTECNIA"], "cupos": [{"periodo": "2019", "valor": 193, "modalidades": {"PRESENCIAL": 193}}, {"periodo": "2020", "valor": 200, "modalidades": {"PRESENCIAL": 200}}, {"periodo": "2021", "valor": 240, "modalidades": {"PRESENCIAL": 240}}, {"periodo": "2022", "valor": 140, "modalidades": {"PRESENCIAL": 140}}, {"periodo": "2023", "valor": 145, "modalidades": {"PRESENCIAL": 145}}, {"periodo": "2024", "valor": 143, "modalidades": {"PRESENCIAL": 143}}], "matriculas": [{"periodo": "2020", "valor": 998}, {"periodo": "2021", "valor": 1001}, {"periodo": "2022", "valor": 989}, {"periodo": "2023", "valor": 962}, {"periodo": "2024", "valor": 899}], "retencion": [{"periodo": "Cohorte 2018", "estudiantes_p1": 198, "estudiantes_p3": 167, "valor": 0.8434}, {"periodo": "Cohorte 2019", "estudiantes_p1": 198, "estudiantes_p3": 169, "valor": 0.8535}, {"periodo": "Cohorte 2020", "estudiantes_p1": 205, "estudiantes_p3": 166, "valor": 0.8098}, {"periodo": "Cohorte 2021", "estudiantes_p1": 132, "estudiantes_p3": 102, "valor": 0.7727}, {"periodo": "Cohorte 2022", "estudiantes_p1": 196, "estudiantes_p3": 103, "valor": 0.5255}, {"periodo": "Cohorte 2023", "estudiantes_p1": 101, "estudiantes_p3": 91, "valor": 0.901}, {"periodo": "Cohorte 2024", "estudiantes_p1": 132, "estudiantes_p3": 120, "valor": 0.9091}], "titulacion": [{"periodo": "Cohorte 2015", "valor": 0.6986, "matriculados": 73, "graduados": 51}, {"periodo": "Cohorte 2016", "valor": 0.5346, "matriculados": 217, "graduados": 116}, {"periodo": "Cohorte 2017", "valor": 0.3465, "matriculados": 127, "graduados": 44}, {"periodo": "Cohorte 2018", "valor": 0.3939, "matriculados": 198, "graduados": 78}], "eficiencia_terminal": [{"periodo": "Cohorte 2015", "valor": 0.1096, "matriculados": 73, "eft": 8}, {"periodo": "Cohorte 2016", "valor": 0.0922, "matriculados": 217, "eft": 20}, {"periodo": "Cohorte 2017", "valor": 0.1102, "matriculados": 127, "eft": 14}, {"periodo": "Cohorte 2018", "valor": 0.3939, "matriculados": 198, "eft": 78}]}}}, "FACULTAD DE ODONTOLOGÍA": {"nombre": "Facultad de Odontología", "mesa": 1, "carreras": {"Odontología": {"variantes": ["ODONTOLOGIA"], "cupos": [{"periodo": "2019", "valor": 83, "modalidades": {"PRESENCIAL": 83}}, {"periodo": "2020", "valor": 90, "modalidades": {"PRESENCIAL": 90}}, {"periodo": "2021", "valor": 90, "modalidades": {"PRESENCIAL": 90}}, {"periodo": "2022", "valor": 90, "modalidades": {"PRESENCIAL": 90}}, {"periodo": "2023", "valor": 96, "modalidades": {"PRESENCIAL": 96}}, {"periodo": "2024", "valor": 92, "modalidades": {"PRESENCIAL": 92}}], "matriculas": [{"periodo": "2020", "valor": 535}, {"periodo": "2021", "valor": 553}, {"periodo": "2022", "valor": 568}, {"periodo": "2023", "valor": 573}, {"periodo": "2024", "valor": 566}], "retencion": [{"periodo": "Cohorte 2018", "estudiantes_p1": 90, "estudiantes_p3": 85, "valor": 0.9444}, {"periodo": "Cohorte 2019", "estudiantes_p1": 92, "estudiantes_p3": 85, "valor": 0.9239}, {"periodo": "Cohorte 2020", "estudiantes_p1": 98, "estudiantes_p3": 85, "valor": 0.8673}, {"periodo": "Cohorte 2021", "estudiantes_p1": 87, "estudiantes_p3": 71, "valor": 0.8161}, {"periodo": "Cohorte 2022", "estudiantes_p1": 86, "estudiantes_p3": 75, "valor": 0.8721}, {"periodo": "Cohorte 2023", "estudiantes_p1": 83, "estudiantes_p3": 83, "valor": 1.0}, {"periodo": "Cohorte 2024", "estudiantes_p1": 90, "estudiantes_p3": 75, "valor": 0.8333}], "titulacion": [{"periodo": "Cohorte 2015", "valor": 0.9348, "matriculados": 46, "graduados": 43}, {"periodo": "Cohorte 2016", "valor": 0.9886, "matriculados": 88, "graduados": 87}, {"periodo": "Cohorte 2017", "valor": 0.7, "matriculados": 70, "graduados": 49}, {"periodo": "Cohorte 2018", "valor": 0.6889, "matriculados": 90, "graduados": 62}], "eficiencia_terminal": [{"periodo": "Cohorte 2015", "valor": 0.7391, "matriculados": 46, "eft": 34}, {"periodo": "Cohorte 2016", "valor": 0.7841, "matriculados": 88, "eft": 69}, {"periodo": "Cohorte 2017", "valor": 0.6429, "matriculados": 70, "eft": 45}, {"periodo": "Cohorte 2018", "valor": 0.6889, "matriculados": 90, "eft": 62}]}}}, "FACULTAD DE ARTES": {"nombre": "Facultad de Artes", "mesa": 2, "carreras": {"Artes Escénicas / Danza - Teatro": {"variantes": ["ARTES ESCENICAS", "ARTES ESCENICAS/DANZA - TEATRO", "DANZA  TEATRO"], "cupos": [{"periodo": "2019", "valor": 32, "modalidades": {"PRESENCIAL": 32}}, {"periodo": "2020", "valor": 20, "modalidades": {"PRESENCIAL": 20}}, {"periodo": "2021", "valor": 44, "modalidades": {"PRESENCIAL": 44}}, {"periodo": "2022", "valor": 20, "modalidades": {"PRESENCIAL": 20}}, {"periodo": "2023", "valor": 36, "modalidades": {"PRESENCIAL": 36}}, {"periodo": "2024", "valor": 45, "modalidades": {"PRESENCIAL": 45}}], "matriculas": [{"periodo": "2020", "valor": 121}, {"periodo": "2021", "valor": 121}, {"periodo": "2022", "valor": 90}, {"periodo": "2023", "valor": 98}, {"periodo": "2024", "valor": 112}], "retencion": [{"periodo": "Cohorte 2018", "estudiantes_p1": 26, "estudiantes_p3": 21, "valor": 0.8077}, {"periodo": "Cohorte 2019", "estudiantes_p1": 35, "estudiantes_p3": 27, "valor": 0.7714}, {"periodo": "Cohorte 2020", "estudiantes_p1": 18, "estudiantes_p3": 11, "valor": 0.6111}, {"periodo": "Cohorte 2021", "estudiantes_p1": 40, "estudiantes_p3": 18, "valor": 0.45}, {"periodo": "Cohorte 2022", "estudiantes_p1": 15, "estudiantes_p3": 7, "valor": 0.4667}, {"periodo": "Cohorte 2023", "estudiantes_p1": 20, "estudiantes_p3": 15, "valor": 0.75}, {"periodo": "Cohorte 2024", "estudiantes_p1": 46, "estudiantes_p3": 26, "valor": 0.5652}], "titulacion": [{"periodo": "Cohorte 2015", "valor": 0.4167, "matriculados": 36, "graduados": 15}, {"periodo": "Cohorte 2016", "valor": 0.5294, "matriculados": 34, "graduados": 18}, {"periodo": "Cohorte 2017", "valor": 0.4167, "matriculados": 12, "graduados": 5}, {"periodo": "Cohorte 2018", "valor": 0.5385, "matriculados": 26, "graduados": 14}], "eficiencia_terminal": [{"periodo": "Cohorte 2015", "valor": 0.1944, "matriculados": 36, "eft": 7}, {"periodo": "Cohorte 2016", "valor": 0.2647, "matriculados": 34, "eft": 9}, {"periodo": "Cohorte 2017", "valor": 0.3333, "matriculados": 12, "eft": 4}, {"periodo": "Cohorte 2018", "valor": 0.5385, "matriculados": 26, "eft": 14}]}, "Artes Musicales": {"variantes": ["ARTES MUSICALES"], "cupos": [{"periodo": "2019", "valor": 34, "modalidades": {"PRESENCIAL": 34}}, {"periodo": "2020", "valor": 40, "modalidades": {"PRESENCIAL": 40}}, {"periodo": "2021", "valor": 52, "modalidades": {"PRESENCIAL": 52}}, {"periodo": "2022", "valor": 20, "modalidades": {"PRESENCIAL": 20}}, {"periodo": "2023", "valor": 42, "modalidades": {"PRESENCIAL": 42}}, {"periodo": "2024", "valor": 46, "modalidades": {"PRESENCIAL": 46}}], "matriculas": [{"periodo": "2020", "valor": 201}, {"periodo": "2021", "valor": 196}, {"periodo": "2022", "valor": 184}, {"periodo": "2023", "valor": 198}, {"periodo": "2024", "valor": 192}], "retencion": [{"periodo": "Cohorte 2018", "estudiantes_p1": 41, "estudiantes_p3": 37, "valor": 0.9024}, {"periodo": "Cohorte 2019", "estudiantes_p1": 31, "estudiantes_p3": 31, "valor": 1.0}, {"periodo": "Cohorte 2020", "estudiantes_p1": 36, "estudiantes_p3": 29, "valor": 0.8056}, {"periodo": "Cohorte 2021", "estudiantes_p1": 41, "estudiantes_p3": 29, "valor": 0.7073}, {"periodo": "Cohorte 2022", "estudiantes_p1": 18, "estudiantes_p3": 15, "valor": 0.8333}, {"periodo": "Cohorte 2023", "estudiantes_p1": 37, "estudiantes_p3": 35, "valor": 0.9459}, {"periodo": "Cohorte 2024", "estudiantes_p1": 41, "estudiantes_p3": 32, "valor": 0.7805}], "titulacion": [{"periodo": "Cohorte 2015", "valor": 0.5, "matriculados": 38, "graduados": 19}, {"periodo": "Cohorte 2016", "valor": 0.3462, "matriculados": 52, "graduados": 18}, {"periodo": "Cohorte 2017", "valor": 0.4483, "matriculados": 29, "graduados": 13}, {"periodo": "Cohorte 2018", "valor": 0.5854, "matriculados": 41, "graduados": 24}], "eficiencia_terminal": [{"periodo": "Cohorte 2015", "valor": 0.3158, "matriculados": 38, "eft": 12}, {"periodo": "Cohorte 2016", "valor": 0.2115, "matriculados": 52, "eft": 11}, {"periodo": "Cohorte 2017", "valor": 0.3793, "matriculados": 29, "eft": 11}, {"periodo": "Cohorte 2018", "valor": 0.5854, "matriculados": 41, "eft": 24}]}, "Artes Visuales": {"variantes": ["ARTES VISUALES"], "cupos": [{"periodo": "2019", "valor": 44, "modalidades": {"PRESENCIAL": 44}}, {"periodo": "2020", "valor": 30, "modalidades": {"PRESENCIAL": 30}}, {"periodo": "2021", "valor": 50, "modalidades": {"PRESENCIAL": 50}}, {"periodo": "2022", "valor": 50, "modalidades": {"PRESENCIAL": 50}}, {"periodo": "2023", "valor": 54, "modalidades": {"PRESENCIAL": 54}}, {"periodo": "2024", "valor": 55, "modalidades": {"PRESENCIAL": 55}}], "matriculas": [{"periodo": "2020", "valor": 231}, {"periodo": "2021", "valor": 226}, {"periodo": "2022", "valor": 231}, {"periodo": "2023", "valor": 231}, {"periodo": "2024", "valor": 238}], "retencion": [{"periodo": "Cohorte 2018", "estudiantes_p1": 56, "estudiantes_p3": 48, "valor": 0.8571}, {"periodo": "Cohorte 2019", "estudiantes_p1": 58, "estudiantes_p3": 46, "valor": 0.7931}, {"periodo": "Cohorte 2020", "estudiantes_p1": 31, "estudiantes_p3": 23, "valor": 0.7419}, {"periodo": "Cohorte 2021", "estudiantes_p1": 45, "estudiantes_p3": 41, "valor": 0.9111}, {"periodo": "Cohorte 2022", "estudiantes_p1": 42, "estudiantes_p3": 38, "valor": 0.9048}, {"periodo": "Cohorte 2023", "estudiantes_p1": 49, "estudiantes_p3": 40, "valor": 0.8163}, {"periodo": "Cohorte 2024", "estudiantes_p1": 59, "estudiantes_p3": 49, "valor": 0.8305}], "titulacion": [{"periodo": "Cohorte 2015", "valor": 0.4643, "matriculados": 56, "graduados": 26}, {"periodo": "Cohorte 2016", "valor": 0.4151, "matriculados": 53, "graduados": 22}, {"periodo": "Cohorte 2017", "valor": 0.5714, "matriculados": 35, "graduados": 20}, {"periodo": "Cohorte 2018", "valor": 0.6607, "matriculados": 56, "graduados": 37}], "eficiencia_terminal": [{"periodo": "Cohorte 2015", "valor": 0.3393, "matriculados": 56, "eft": 19}, {"periodo": "Cohorte 2016", "valor": 0.3396, "matriculados": 53, "eft": 18}, {"periodo": "Cohorte 2017", "valor": 0.4, "matriculados": 35, "eft": 14}, {"periodo": "Cohorte 2018", "valor": 0.6607, "matriculados": 56, "eft": 37}]}, "Diseño de Interiores": {"variantes": ["DISEÑO DE INTERIORES"], "cupos": [{"periodo": "2019", "valor": 45, "modalidades": {"PRESENCIAL": 45}}, {"periodo": "2020", "valor": 30, "modalidades": {"PRESENCIAL": 30}}, {"periodo": "2021", "valor": 50, "modalidades": {"PRESENCIAL": 50}}, {"periodo": "2022", "valor": 50, "modalidades": {"PRESENCIAL": 50}}, {"periodo": "2023", "valor": 52, "modalidades": {"PRESENCIAL": 52}}, {"periodo": "2024", "valor": 52, "modalidades": {"PRESENCIAL": 52}}], "matriculas": [{"periodo": "2020", "valor": 74}, {"periodo": "2021", "valor": 117}, {"periodo": "2022", "valor": 141}, {"periodo": "2023", "valor": 180}, {"periodo": "2024", "valor": 208}], "retencion": [{"periodo": "Cohorte 2023", "estudiantes_p1": 41, "estudiantes_p3": 38, "valor": 0.9268}, {"periodo": "Cohorte 2024", "estudiantes_p1": 58, "estudiantes_p3": 52, "valor": 0.8966}], "titulacion": [], "eficiencia_terminal": []}, "Diseño Gráfico": {"variantes": ["DISENO GRAFICO", "DISEÑO GRAFICO"], "cupos": [{"periodo": "2019", "valor": 43, "modalidades": {"PRESENCIAL": 43}}, {"periodo": "2020", "valor": 30, "modalidades": {"PRESENCIAL": 30}}, {"periodo": "2021", "valor": 50, "modalidades": {"PRESENCIAL": 50}}, {"periodo": "2022", "valor": 50, "modalidades": {"PRESENCIAL": 50}}, {"periodo": "2023", "valor": 50, "modalidades": {"PRESENCIAL": 50}}, {"periodo": "2024", "valor": 50, "modalidades": {"PRESENCIAL": 50}}], "matriculas": [{"periodo": "2020", "valor": 326}, {"periodo": "2021", "valor": 307}, {"periodo": "2022", "valor": 257}, {"periodo": "2023", "valor": 250}, {"periodo": "2024", "valor": 241}], "retencion": [{"periodo": "Cohorte 2018", "estudiantes_p1": 55, "estudiantes_p3": 51, "valor": 0.9273}, {"periodo": "Cohorte 2019", "estudiantes_p1": 47, "estudiantes_p3": 44, "valor": 0.9362}, {"periodo": "Cohorte 2020", "estudiantes_p1": 30, "estudiantes_p3": 28, "valor": 0.9333}, {"periodo": "Cohorte 2021", "estudiantes_p1": 50, "estudiantes_p3": 45, "valor": 0.9}, {"periodo": "Cohorte 2022", "estudiantes_p1": 41, "estudiantes_p3": 39, "valor": 0.9512}, {"periodo": "Cohorte 2023", "estudiantes_p1": 53, "estudiantes_p3": 49, "valor": 0.9245}, {"periodo": "Cohorte 2024", "estudiantes_p1": 51, "estudiantes_p3": 42, "valor": 0.8235}], "titulacion": [{"periodo": "Cohorte 2018", "valor": 0.6727, "matriculados": 55, "graduados": 37}], "eficiencia_terminal": [{"periodo": "Cohorte 2018", "valor": 0.6727, "matriculados": 55, "eft": 37}]}, "Diseño (general)": {"variantes": ["DISENO"], "cupos": [], "matriculas": [], "retencion": [{"periodo": "Cohorte 2019", "estudiantes_p1": 24, "estudiantes_p3": 10, "valor": 0.4167}, {"periodo": "Cohorte 2020", "estudiantes_p1": 7, "estudiantes_p3": 3, "valor": 0.4286}], "titulacion": [{"periodo": "Cohorte 2015", "valor": 0.4462, "matriculados": 65, "graduados": 29}, {"periodo": "Cohorte 2016", "valor": 0.5773, "matriculados": 97, "graduados": 56}, {"periodo": "Cohorte 2017", "valor": 0.6279, "matriculados": 43, "graduados": 27}], "eficiencia_terminal": [{"periodo": "Cohorte 2015", "valor": 0.2462, "matriculados": 65, "eft": 16}, {"periodo": "Cohorte 2016", "valor": 0.433, "matriculados": 97, "eft": 42}, {"periodo": "Cohorte 2017", "valor": 0.5116, "matriculados": 43, "eft": 22}]}}}, "FACULTAD DE ARQUITECTURA Y URBANISMO": {"nombre": "Facultad de Arquitectura y Urbanismo", "mesa": 1, "carreras": {"Arquitectura": {"variantes": ["ARQUITECTURA"], "cupos": [{"periodo": "2019", "valor": 120, "modalidades": {"PRESENCIAL": 120}}, {"periodo": "2020", "valor": 125, "modalidades": {"PRESENCIAL": 125}}, {"periodo": "2021", "valor": 213, "modalidades": {"PRESENCIAL": 213}}, {"periodo": "2022", "valor": 140, "modalidades": {"PRESENCIAL": 140}}, {"periodo": "2023", "valor": 155, "modalidades": {"PRESENCIAL": 155}}, {"periodo": "2024", "valor": 180, "modalidades": {"PRESENCIAL": 180}}], "matriculas": [{"periodo": "2020", "valor": 870}, {"periodo": "2021", "valor": 889}, {"periodo": "2022", "valor": 884}, {"periodo": "2023", "valor": 854}, {"periodo": "2024", "valor": 879}], "retencion": [{"periodo": "Cohorte 2018", "estudiantes_p1": 131, "estudiantes_p3": 114, "valor": 0.8702}, {"periodo": "Cohorte 2019", "estudiantes_p1": 124, "estudiantes_p3": 115, "valor": 0.9274}, {"periodo": "Cohorte 2020", "estudiantes_p1": 138, "estudiantes_p3": 118, "valor": 0.8551}, {"periodo": "Cohorte 2021", "estudiantes_p1": 157, "estudiantes_p3": 139, "valor": 0.8854}, {"periodo": "Cohorte 2022", "estudiantes_p1": 155, "estudiantes_p3": 131, "valor": 0.8452}, {"periodo": "Cohorte 2023", "estudiantes_p1": 117, "estudiantes_p3": 113, "valor": 0.9658}, {"periodo": "Cohorte 2024", "estudiantes_p1": 173, "estudiantes_p3": 145, "valor": 0.8382}], "titulacion": [{"periodo": "Cohorte 2015", "valor": 0.7464, "matriculados": 138, "graduados": 103}, {"periodo": "Cohorte 2016", "valor": 0.8107, "matriculados": 206, "graduados": 167}, {"periodo": "Cohorte 2017", "valor": 0.7857, "matriculados": 98, "graduados": 77}, {"periodo": "Cohorte 2018", "valor": 0.6565, "matriculados": 131, "graduados": 86}], "eficiencia_terminal": [{"periodo": "Cohorte 2015", "valor": 0.2101, "matriculados": 138, "eft": 29}, {"periodo": "Cohorte 2016", "valor": 0.4175, "matriculados": 206, "eft": 86}, {"periodo": "Cohorte 2017", "valor": 0.4388, "matriculados": 98, "eft": 43}, {"periodo": "Cohorte 2018", "valor": 0.6565, "matriculados": 131, "eft": 86}]}}}, "FACULTAD DE FILOSOFÍA, LETRAS Y CIENCIAS DE LA EDUCACIÓN": {"nombre": "Facultad de Filosofía, Letras y Ciencias de la Educación", "mesa": 2, "carreras": {"Cine": {"variantes": ["CINE", "CINE Y AUDIOVISUALES"], "cupos": [{"periodo": "2019", "valor": 29, "modalidades": {"PRESENCIAL": 29}}, {"periodo": "2020", "valor": 35, "modalidades": {"PRESENCIAL": 35}}, {"periodo": "2021", "valor": 35, "modalidades": {"PRESENCIAL": 35}}, {"periodo": "2022", "valor": 30, "modalidades": {"PRESENCIAL": 30}}, {"periodo": "2023", "valor": 32, "modalidades": {"PRESENCIAL": 32}}, {"periodo": "2024", "valor": 32, "modalidades": {"PRESENCIAL": 32}}], "matriculas": [{"periodo": "2020", "valor": 180}, {"periodo": "2021", "valor": 162}, {"periodo": "2022", "valor": 153}, {"periodo": "2023", "valor": 145}, {"periodo": "2024", "valor": 137}], "retencion": [{"periodo": "Cohorte 2018", "estudiantes_p1": 35, "estudiantes_p3": 28, "valor": 0.8}, {"periodo": "Cohorte 2019", "estudiantes_p1": 29, "estudiantes_p3": 26, "valor": 0.8966}, {"periodo": "Cohorte 2020", "estudiantes_p1": 35, "estudiantes_p3": 27, "valor": 0.7714}, {"periodo": "Cohorte 2021", "estudiantes_p1": 27, "estudiantes_p3": 20, "valor": 0.7407}, {"periodo": "Cohorte 2022", "estudiantes_p1": 26, "estudiantes_p3": 21, "valor": 0.8077}, {"periodo": "Cohorte 2023", "estudiantes_p1": 28, "estudiantes_p3": 24, "valor": 0.8571}, {"periodo": "Cohorte 2024", "estudiantes_p1": 34, "estudiantes_p3": 23, "valor": 0.6765}], "titulacion": [{"periodo": "Cohorte 2015", "valor": 0.4762, "matriculados": 21, "graduados": 10}, {"periodo": "Cohorte 2016", "valor": 0.5397, "matriculados": 63, "graduados": 34}, {"periodo": "Cohorte 2017", "valor": 0.4194, "matriculados": 31, "graduados": 13}, {"periodo": "Cohorte 2018", "valor": 0.6857, "matriculados": 35, "graduados": 24}], "eficiencia_terminal": [{"periodo": "Cohorte 2015", "valor": 0.1905, "matriculados": 21, "eft": 4}, {"periodo": "Cohorte 2016", "valor": 0.4762, "matriculados": 63, "eft": 30}, {"periodo": "Cohorte 2017", "valor": 0.4194, "matriculados": 31, "eft": 13}, {"periodo": "Cohorte 2018", "valor": 0.6857, "matriculados": 35, "eft": 24}]}, "Comunicación": {"variantes": ["COMUNICACION", "LICENCIATURA EN CIENCIAS DE LA COMUNICACION SOCIAL"], "cupos": [{"periodo": "2019", "valor": 28, "modalidades": {"PRESENCIAL": 28}}, {"periodo": "2020", "valor": 35, "modalidades": {"PRESENCIAL": 35}}, {"periodo": "2021", "valor": 35, "modalidades": {"PRESENCIAL": 35}}, {"periodo": "2022", "valor": 36, "modalidades": {"PRESENCIAL": 36}}, {"periodo": "2023", "valor": 36, "modalidades": {"PRESENCIAL": 36}}, {"periodo": "2024", "valor": 36, "modalidades": {"PRESENCIAL": 36}}], "matriculas": [{"periodo": "2020", "valor": 322}, {"periodo": "2021", "valor": 254}, {"periodo": "2022", "valor": 196}, {"periodo": "2023", "valor": 171}, {"periodo": "2024", "valor": 179}], "retencion": [{"periodo": "Cohorte 2018", "estudiantes_p1": 73, "estudiantes_p3": 62, "valor": 0.8493}, {"periodo": "Cohorte 2019", "estudiantes_p1": 30, "estudiantes_p3": 27, "valor": 0.9}, {"periodo": "Cohorte 2020", "estudiantes_p1": 37, "estudiantes_p3": 28, "valor": 0.7568}, {"periodo": "Cohorte 2021", "estudiantes_p1": 37, "estudiantes_p3": 32, "valor": 0.8649}, {"periodo": "Cohorte 2022", "estudiantes_p1": 37, "estudiantes_p3": 32, "valor": 0.8649}, {"periodo": "Cohorte 2023", "estudiantes_p1": 30, "estudiantes_p3": 28, "valor": 0.9333}, {"periodo": "Cohorte 2024", "estudiantes_p1": 39, "estudiantes_p3": 34, "valor": 0.8718}], "titulacion": [{"periodo": "Cohorte 2015", "valor": 0.7586, "matriculados": 58, "graduados": 44}, {"periodo": "Cohorte 2016", "valor": 0.6777, "matriculados": 121, "graduados": 82}, {"periodo": "Cohorte 2017", "valor": 0.7143, "matriculados": 63, "graduados": 45}, {"periodo": "Cohorte 2018", "valor": 0.589, "matriculados": 73, "graduados": 43}], "eficiencia_terminal": [{"periodo": "Cohorte 2015", "valor": 0.6379, "matriculados": 58, "eft": 37}, {"periodo": "Cohorte 2016", "valor": 0.6033, "matriculados": 121, "eft": 73}, {"periodo": "Cohorte 2017", "valor": 0.6508, "matriculados": 63, "eft": 41}, {"periodo": "Cohorte 2018", "valor": 0.5616, "matriculados": 73, "eft": 41}]}, "Educación Básica": {"variantes": ["EDUCACION BASICA", "EDUCACION GENERAL BASICA"], "cupos": [{"periodo": "2019", "valor": 55, "modalidades": {"PRESENCIAL": 55}}, {"periodo": "2020", "valor": 72, "modalidades": {"PRESENCIAL": 72}}, {"periodo": "2021", "valor": 70, "modalidades": {"PRESENCIAL": 70}}, {"periodo": "2022", "valor": 74, "modalidades": {"PRESENCIAL": 74}}, {"periodo": "2023", "valor": 70, "modalidades": {"PRESENCIAL": 70}}, {"periodo": "2024", "valor": 70, "modalidades": {"PRESENCIAL": 70}}], "matriculas": [{"periodo": "2020", "valor": 1481}, {"periodo": "2021", "valor": 314}, {"periodo": "2022", "valor": 317}, {"periodo": "2023", "valor": 313}, {"periodo": "2024", "valor": 317}], "retencion": [{"periodo": "Cohorte 2018", "estudiantes_p1": 59, "estudiantes_p3": 56, "valor": 0.9492}, {"periodo": "Cohorte 2019", "estudiantes_p1": 56, "estudiantes_p3": 48, "valor": 0.8571}, {"periodo": "Cohorte 2020", "estudiantes_p1": 73, "estudiantes_p3": 64, "valor": 0.8767}, {"periodo": "Cohorte 2021", "estudiantes_p1": 71, "estudiantes_p3": 62, "valor": 0.8732}, {"periodo": "Cohorte 2022", "estudiantes_p1": 70, "estudiantes_p3": 56, "valor": 0.8}, {"periodo": "Cohorte 2023", "estudiantes_p1": 62, "estudiantes_p3": 57, "valor": 0.9194}, {"periodo": "Cohorte 2024", "estudiantes_p1": 70, "estudiantes_p3": 56, "valor": 0.8}], "titulacion": [{"periodo": "Cohorte 2015", "valor": 0.7083, "matriculados": 48, "graduados": 34}, {"periodo": "Cohorte 2016", "valor": 0.7895, "matriculados": 76, "graduados": 60}, {"periodo": "Cohorte 2018", "valor": 0.339, "matriculados": 59, "graduados": 20}], "eficiencia_terminal": [{"periodo": "Cohorte 2015", "valor": 0.625, "matriculados": 48, "eft": 30}, {"periodo": "Cohorte 2016", "valor": 0.75, "matriculados": 76, "eft": 57}, {"periodo": "Cohorte 2018", "valor": 0.2203, "matriculados": 59, "eft": 13}]}, "Educación Inicial": {"variantes": ["EDUCACION INICIAL", "EDUCACION INICIAL-NUEVA"], "cupos": [{"periodo": "2019", "valor": 28, "modalidades": {"PRESENCIAL": 28}}, {"periodo": "2020", "valor": 36, "modalidades": {"PRESENCIAL": 36}}, {"periodo": "2021", "valor": 35, "modalidades": {"PRESENCIAL": 35}}, {"periodo": "2022", "valor": 36, "modalidades": {"PRESENCIAL": 36}}, {"periodo": "2023", "valor": 36, "modalidades": {"PRESENCIAL": 36}}, {"periodo": "2024", "valor": 36, "modalidades": {"PRESENCIAL": 36}}], "matriculas": [{"periodo": "2020", "valor": 129}, {"periodo": "2021", "valor": 161}, {"periodo": "2022", "valor": 160}, {"periodo": "2023", "valor": 153}, {"periodo": "2024", "valor": 152}], "retencion": [{"periodo": "Cohorte 2018", "estudiantes_p1": 32, "estudiantes_p3": 32, "valor": 1.0}, {"periodo": "Cohorte 2019", "estudiantes_p1": 31, "estudiantes_p3": 31, "valor": 1.0}, {"periodo": "Cohorte 2020", "estudiantes_p1": 37, "estudiantes_p3": 34, "valor": 0.9189}, {"periodo": "Cohorte 2021", "estudiantes_p1": 34, "estudiantes_p3": 28, "valor": 0.8235}, {"periodo": "Cohorte 2022", "estudiantes_p1": 34, "estudiantes_p3": 23, "valor": 0.6765}, {"periodo": "Cohorte 2023", "estudiantes_p1": 34, "estudiantes_p3": 30, "valor": 0.8824}, {"periodo": "Cohorte 2024", "estudiantes_p1": 35, "estudiantes_p3": 29, "valor": 0.8286}], "titulacion": [{"periodo": "Cohorte 2017", "valor": 0.8333, "matriculados": 30, "graduados": 25}, {"periodo": "Cohorte 2018", "valor": 1.0, "matriculados": 32, "graduados": 32}], "eficiencia_terminal": [{"periodo": "Cohorte 2017", "valor": 0.8333, "matriculados": 30, "eft": 25}, {"periodo": "Cohorte 2018", "valor": 0.9688, "matriculados": 32, "eft": 31}]}, "Pedagogía de la Actividad Física y Deporte": {"variantes": ["CIENCIAS DE LA EDUCACION EN LA ESPECIALIZACION DE CULTURA FISICA", "PEDAGOGIA DE LA ACTIVIDAD FISICA Y DEPORTE"], "cupos": [{"periodo": "2019", "valor": 57, "modalidades": {"PRESENCIAL": 57}}, {"periodo": "2020", "valor": 70, "modalidades": {"PRESENCIAL": 70}}, {"periodo": "2021", "valor": 70, "modalidades": {"PRESENCIAL": 70}}, {"periodo": "2022", "valor": 72, "modalidades": {"PRESENCIAL": 72}}, {"periodo": "2023", "valor": 72, "modalidades": {"PRESENCIAL": 72}}, {"periodo": "2024", "valor": 72, "modalidades": {"PRESENCIAL": 72}}], "matriculas": [{"periodo": "2020", "valor": 368}, {"periodo": "2021", "valor": 341}, {"periodo": "2022", "valor": 341}, {"periodo": "2023", "valor": 346}, {"periodo": "2024", "valor": 325}], "retencion": [{"periodo": "Cohorte 2018", "estudiantes_p1": 60, "estudiantes_p3": 57, "valor": 0.95}, {"periodo": "Cohorte 2019", "estudiantes_p1": 61, "estudiantes_p3": 52, "valor": 0.8525}, {"periodo": "Cohorte 2020", "estudiantes_p1": 74, "estudiantes_p3": 58, "valor": 0.7838}, {"periodo": "Cohorte 2021", "estudiantes_p1": 65, "estudiantes_p3": 56, "valor": 0.8615}, {"periodo": "Cohorte 2022", "estudiantes_p1": 64, "estudiantes_p3": 57, "valor": 0.8906}, {"periodo": "Cohorte 2023", "estudiantes_p1": 69, "estudiantes_p3": 62, "valor": 0.8986}, {"periodo": "Cohorte 2024", "estudiantes_p1": 72, "estudiantes_p3": 60, "valor": 0.8333}], "titulacion": [{"periodo": "Cohorte 2015", "valor": 0.587, "matriculados": 46, "graduados": 27}, {"periodo": "Cohorte 2016", "valor": 0.641, "matriculados": 78, "graduados": 50}, {"periodo": "Cohorte 2017", "valor": 0.7167, "matriculados": 60, "graduados": 43}, {"periodo": "Cohorte 2018", "valor": 0.75, "matriculados": 60, "graduados": 45}], "eficiencia_terminal": [{"periodo": "Cohorte 2015", "valor": 0.4783, "matriculados": 46, "eft": 22}, {"periodo": "Cohorte 2016", "valor": 0.6026, "matriculados": 78, "eft": 47}, {"periodo": "Cohorte 2017", "valor": 0.5833, "matriculados": 60, "eft": 35}, {"periodo": "Cohorte 2018", "valor": 0.6, "matriculados": 60, "eft": 36}]}, "Pedagogía de la Historia y las Ciencias Sociales": {"variantes": ["CIENCIAS DE LA EDUCACION EN LA ESPECIALIZACION DE HISTORIA Y GEOGRAFIA", "PEDAGOGIA DE LA HISTORIA Y LAS CIENCIAS SOCIALES", "PEDAGOGIA DE LA HISTORIA Y LAS CIENCIAS SOCIALES/HISTORIA Y GEOGRAFIA"], "cupos": [{"periodo": "2019", "valor": 28, "modalidades": {"PRESENCIAL": 28}}, {"periodo": "2020", "valor": 35, "modalidades": {"PRESENCIAL": 35}}, {"periodo": "2021", "valor": 35, "modalidades": {"PRESENCIAL": 35}}, {"periodo": "2022", "valor": 36, "modalidades": {"PRESENCIAL": 36}}, {"periodo": "2023", "valor": 37, "modalidades": {"PRESENCIAL": 37}}, {"periodo": "2024", "valor": 37, "modalidades": {"PRESENCIAL": 37}}], "matriculas": [{"periodo": "2020", "valor": 160}, {"periodo": "2021", "valor": 159}, {"periodo": "2022", "valor": 170}, {"periodo": "2023", "valor": 171}, {"periodo": "2024", "valor": 177}], "retencion": [{"periodo": "Cohorte 2018", "estudiantes_p1": 30, "estudiantes_p3": 29, "valor": 0.9667}, {"periodo": "Cohorte 2019", "estudiantes_p1": 32, "estudiantes_p3": 24, "valor": 0.75}, {"periodo": "Cohorte 2020", "estudiantes_p1": 38, "estudiantes_p3": 35, "valor": 0.9211}, {"periodo": "Cohorte 2021", "estudiantes_p1": 36, "estudiantes_p3": 34, "valor": 0.9444}, {"periodo": "Cohorte 2022", "estudiantes_p1": 36, "estudiantes_p3": 30, "valor": 0.8333}, {"periodo": "Cohorte 2023", "estudiantes_p1": 29, "estudiantes_p3": 27, "valor": 0.931}, {"periodo": "Cohorte 2024", "estudiantes_p1": 36, "estudiantes_p3": 31, "valor": 0.8611}], "titulacion": [{"periodo": "Cohorte 2015", "valor": 0.5625, "matriculados": 16, "graduados": 9}, {"periodo": "Cohorte 2016", "valor": 0.6774, "matriculados": 31, "graduados": 21}, {"periodo": "Cohorte 2017", "valor": 0.7, "matriculados": 30, "graduados": 21}, {"periodo": "Cohorte 2018", "valor": 0.8667, "matriculados": 30, "graduados": 26}], "eficiencia_terminal": [{"periodo": "Cohorte 2015", "valor": 0.4375, "matriculados": 16, "eft": 7}, {"periodo": "Cohorte 2016", "valor": 0.5806, "matriculados": 31, "eft": 18}, {"periodo": "Cohorte 2017", "valor": 0.6333, "matriculados": 30, "eft": 19}, {"periodo": "Cohorte 2018", "valor": 0.8333, "matriculados": 30, "eft": 25}]}, "Pedagogía de la Lengua y la Literatura": {"variantes": ["CIENCIAS DE LA EDUCACION EN LA ESPECIALIZACION DE LENGUA LITERATURA Y LENGUAJES AUDIOVISUALES", "PEDAGOGIA DE LA LENGUA Y LA LITERATURA", "PEDAGOGIA DE LA LENGUA Y LA LITERATURA/LENGUAJES AUDIOVISUALES"], "cupos": [{"periodo": "2019", "valor": 22, "modalidades": {"PRESENCIAL": 22}}, {"periodo": "2020", "valor": 30, "modalidades": {"PRESENCIAL": 30}}, {"periodo": "2021", "valor": 30, "modalidades": {"PRESENCIAL": 30}}, {"periodo": "2022", "valor": 34, "modalidades": {"PRESENCIAL": 34}}, {"periodo": "2023", "valor": 35, "modalidades": {"PRESENCIAL": 35}}, {"periodo": "2024", "valor": 36, "modalidades": {"PRESENCIAL": 36}}], "matriculas": [{"periodo": "2020", "valor": 150}, {"periodo": "2021", "valor": 160}, {"periodo": "2022", "valor": 156}, {"periodo": "2023", "valor": 152}, {"periodo": "2024", "valor": 165}], "retencion": [{"periodo": "Cohorte 2018", "estudiantes_p1": 36, "estudiantes_p3": 34, "valor": 0.9444}, {"periodo": "Cohorte 2019", "estudiantes_p1": 27, "estudiantes_p3": 22, "valor": 0.8148}, {"periodo": "Cohorte 2020", "estudiantes_p1": 32, "estudiantes_p3": 28, "valor": 0.875}, {"periodo": "Cohorte 2021", "estudiantes_p1": 32, "estudiantes_p3": 25, "valor": 0.7812}, {"periodo": "Cohorte 2022", "estudiantes_p1": 31, "estudiantes_p3": 27, "valor": 0.871}, {"periodo": "Cohorte 2023", "estudiantes_p1": 34, "estudiantes_p3": 33, "valor": 0.9706}, {"periodo": "Cohorte 2024", "estudiantes_p1": 36, "estudiantes_p3": 29, "valor": 0.8056}], "titulacion": [{"periodo": "Cohorte 2015", "valor": 0.45, "matriculados": 20, "graduados": 9}, {"periodo": "Cohorte 2016", "valor": 0.5556, "matriculados": 27, "graduados": 15}, {"periodo": "Cohorte 2017", "valor": 0.9, "matriculados": 30, "graduados": 27}, {"periodo": "Cohorte 2018", "valor": 0.8333, "matriculados": 36, "graduados": 30}], "eficiencia_terminal": [{"periodo": "Cohorte 2015", "valor": 0.4, "matriculados": 20, "eft": 8}, {"periodo": "Cohorte 2016", "valor": 0.5185, "matriculados": 27, "eft": 14}, {"periodo": "Cohorte 2017", "valor": 0.8333, "matriculados": 30, "eft": 25}, {"periodo": "Cohorte 2018", "valor": 0.7778, "matriculados": 36, "eft": 28}]}, "Pedagogía de las Artes y las Humanidades": {"variantes": ["CIENCIAS DE LA EDUCACION EN LA ESPECIALIZACION DE FILOSOFIA SOCIOLOGIA Y ECONOMIA", "PEDAGOGIA DE LAS ARTES Y LAS HUMANIDADES", "PEDAGOGIA DE LAS ARTES Y LAS HUMANIDADES/SOCIOLOGIA Y ECONOMIA"], "cupos": [{"periodo": "2019", "valor": 29, "modalidades": {"PRESENCIAL": 29}}, {"periodo": "2020", "valor": 35, "modalidades": {"PRESENCIAL": 35}}, {"periodo": "2021", "valor": 35, "modalidades": {"PRESENCIAL": 35}}, {"periodo": "2022", "valor": 35, "modalidades": {"PRESENCIAL": 35}}, {"periodo": "2023", "valor": 35, "modalidades": {"PRESENCIAL": 35}}, {"periodo": "2024", "valor": 35, "modalidades": {"PRESENCIAL": 35}}], "matriculas": [{"periodo": "2020", "valor": 164}, {"periodo": "2021", "valor": 167}, {"periodo": "2022", "valor": 157}, {"periodo": "2023", "valor": 152}, {"periodo": "2024", "valor": 144}], "retencion": [{"periodo": "Cohorte 2018", "estudiantes_p1": 36, "estudiantes_p3": 34, "valor": 0.9444}, {"periodo": "Cohorte 2019", "estudiantes_p1": 30, "estudiantes_p3": 24, "valor": 0.8}, {"periodo": "Cohorte 2020", "estudiantes_p1": 38, "estudiantes_p3": 28, "valor": 0.7368}, {"periodo": "Cohorte 2021", "estudiantes_p1": 31, "estudiantes_p3": 25, "valor": 0.8065}, {"periodo": "Cohorte 2022", "estudiantes_p1": 28, "estudiantes_p3": 22, "valor": 0.7857}, {"periodo": "Cohorte 2023", "estudiantes_p1": 32, "estudiantes_p3": 28, "valor": 0.875}, {"periodo": "Cohorte 2024", "estudiantes_p1": 33, "estudiantes_p3": 25, "valor": 0.7576}], "titulacion": [{"periodo": "Cohorte 2015", "valor": 0.68, "matriculados": 25, "graduados": 17}, {"periodo": "Cohorte 2016", "valor": 0.6, "matriculados": 25, "graduados": 15}, {"periodo": "Cohorte 2017", "valor": 0.9, "matriculados": 30, "graduados": 27}, {"periodo": "Cohorte 2018", "valor": 0.8889, "matriculados": 36, "graduados": 32}], "eficiencia_terminal": [{"periodo": "Cohorte 2015", "valor": 0.6, "matriculados": 25, "eft": 15}, {"periodo": "Cohorte 2016", "valor": 0.48, "matriculados": 25, "eft": 12}, {"periodo": "Cohorte 2017", "valor": 0.8333, "matriculados": 30, "eft": 25}, {"periodo": "Cohorte 2018", "valor": 0.8611, "matriculados": 36, "eft": 31}]}, "Pedagogía de las Ciencias Experimentales - Matemáticas y Física": {"variantes": ["CIENCIAS DE LA EDUCACION EN LA ESPECIALIZACION DE MATEMATICAS Y FISICA", "PEDAGOGIA DE LAS CIENCIAS EXPERIMENTALES MATEMÁTICAS Y FÍSICA", "PEDAGOGIA DE LAS CIENCIAS EXPERIMENTALES/MATEMATICAS Y FISICA"], "cupos": [{"periodo": "2024", "valor": 95, "modalidades": {"PRESENCIAL": 95}}], "matriculas": [{"periodo": "2020", "valor": 304}, {"periodo": "2021", "valor": 325}, {"periodo": "2022", "valor": 300}, {"periodo": "2023", "valor": 286}, {"periodo": "2024", "valor": 301}], "retencion": [], "titulacion": [{"periodo": "Cohorte 2015", "valor": 0.6667, "matriculados": 30, "graduados": 20}, {"periodo": "Cohorte 2016", "valor": 0.6944, "matriculados": 72, "graduados": 50}], "eficiencia_terminal": [{"periodo": "Cohorte 2015", "valor": 0.5667, "matriculados": 30, "eft": 17}, {"periodo": "Cohorte 2016", "valor": 0.6528, "matriculados": 72, "eft": 47}]}, "Pedagogía de los Idiomas Nacionales y Extranjeros": {"variantes": ["CIENCIAS DE LA EDUCACION EN LA ESPECIALIZACION DE LENGUA Y LITERATURA INGLESA", "PEDAGOGIA DE LOS IDIOMAS NACIONALES Y EXTRANJEROS", "PEDAGOGIA DE LOS IDIOMAS NACIONALES Y EXTRANJEROS/LITERATURA INGLESA"], "cupos": [{"periodo": "2019", "valor": 47, "modalidades": {"PRESENCIAL": 47}}, {"periodo": "2020", "valor": 70, "modalidades": {"PRESENCIAL": 70}}, {"periodo": "2021", "valor": 70, "modalidades": {"PRESENCIAL": 70}}, {"periodo": "2022", "valor": 72, "modalidades": {"PRESENCIAL": 72}}, {"periodo": "2023", "valor": 72, "modalidades": {"PRESENCIAL": 72}}, {"periodo": "2024", "valor": 70, "modalidades": {"PRESENCIAL": 70}}], "matriculas": [{"periodo": "2020", "valor": 317}, {"periodo": "2021", "valor": 318}, {"periodo": "2022", "valor": 314}, {"periodo": "2023", "valor": 326}, {"periodo": "2024", "valor": 327}], "retencion": [{"periodo": "Cohorte 2018", "estudiantes_p1": 64, "estudiantes_p3": 54, "valor": 0.8438}, {"periodo": "Cohorte 2019", "estudiantes_p1": 51, "estudiantes_p3": 44, "valor": 0.8627}, {"periodo": "Cohorte 2020", "estudiantes_p1": 78, "estudiantes_p3": 59, "valor": 0.7564}, {"periodo": "Cohorte 2021", "estudiantes_p1": 64, "estudiantes_p3": 46, "valor": 0.7188}, {"periodo": "Cohorte 2022", "estudiantes_p1": 65, "estudiantes_p3": 53, "valor": 0.8154}, {"periodo": "Cohorte 2023", "estudiantes_p1": 62, "estudiantes_p3": 61, "valor": 0.9839}, {"periodo": "Cohorte 2024", "estudiantes_p1": 70, "estudiantes_p3": 64, "valor": 0.9143}], "titulacion": [{"periodo": "Cohorte 2015", "valor": 0.6607, "matriculados": 56, "graduados": 37}, {"periodo": "Cohorte 2016", "valor": 0.6184, "matriculados": 76, "graduados": 47}, {"periodo": "Cohorte 2017", "valor": 0.7667, "matriculados": 60, "graduados": 46}, {"periodo": "Cohorte 2018", "valor": 0.5469, "matriculados": 64, "graduados": 35}], "eficiencia_terminal": [{"periodo": "Cohorte 2015", "valor": 0.5179, "matriculados": 56, "eft": 29}, {"periodo": "Cohorte 2016", "valor": 0.5395, "matriculados": 76, "eft": 41}, {"periodo": "Cohorte 2017", "valor": 0.6833, "matriculados": 60, "eft": 41}, {"periodo": "Cohorte 2018", "valor": 0.5156, "matriculados": 64, "eft": 33}]}, "Periodismo": {"variantes": ["PERIODISMO"], "cupos": [{"periodo": "2019", "valor": 30, "modalidades": {"PRESENCIAL": 30}}, {"periodo": "2020", "valor": 35, "modalidades": {"PRESENCIAL": 35}}, {"periodo": "2021", "valor": 35, "modalidades": {"PRESENCIAL": 35}}, {"periodo": "2022", "valor": 36, "modalidades": {"PRESENCIAL": 36}}, {"periodo": "2023", "valor": 36, "modalidades": {"PRESENCIAL": 36}}, {"periodo": "2024", "valor": 36, "modalidades": {"PRESENCIAL": 36}}], "matriculas": [{"periodo": "2020", "valor": 65}, {"periodo": "2021", "valor": 90}, {"periodo": "2022", "valor": 104}, {"periodo": "2023", "valor": 129}, {"periodo": "2024", "valor": 139}], "retencion": [{"periodo": "Cohorte 2019", "estudiantes_p1": 29, "estudiantes_p3": 28, "valor": 0.9655}, {"periodo": "Cohorte 2020", "estudiantes_p1": 36, "estudiantes_p3": 25, "valor": 0.6944}, {"periodo": "Cohorte 2021", "estudiantes_p1": 29, "estudiantes_p3": 19, "valor": 0.6552}, {"periodo": "Cohorte 2022", "estudiantes_p1": 26, "estudiantes_p3": 21, "valor": 0.8077}, {"periodo": "Cohorte 2023", "estudiantes_p1": 32, "estudiantes_p3": 28, "valor": 0.875}, {"periodo": "Cohorte 2024", "estudiantes_p1": 36, "estudiantes_p3": 31, "valor": 0.8611}], "titulacion": [], "eficiencia_terminal": []}, "Pedagogía de las Ciencias Experimentales - Química y Biología": {"variantes": ["PEDAGOGIA DE LAS CIENCIAS EXPERIMENTALES QUIMICA Y BIOLOGIA"], "cupos": [{"periodo": "2024", "valor": 40, "modalidades": {}}], "matriculas": [], "retencion": [], "titulacion": [], "eficiencia_terminal": []}, "Pedagogía de las Ciencias Experimentales (general)": {"variantes": ["PEDAGOGIA DE LAS CIENCIAS EXPERIMENTALES"], "cupos": [{"periodo": "2019", "valor": 46, "modalidades": {"PRESENCIAL": 46}}, {"periodo": "2020", "valor": 70, "modalidades": {"PRESENCIAL": 70}}, {"periodo": "2021", "valor": 80, "modalidades": {"PRESENCIAL": 80}}, {"periodo": "2022", "valor": 80, "modalidades": {"PRESENCIAL": 80}}, {"periodo": "2023", "valor": 95, "modalidades": {"PRESENCIAL": 95}}], "matriculas": [], "retencion": [{"periodo": "Cohorte 2018", "estudiantes_p1": 55, "estudiantes_p3": 55, "valor": 1.0}, {"periodo": "Cohorte 2019", "estudiantes_p1": 50, "estudiantes_p3": 43, "valor": 0.86}, {"periodo": "Cohorte 2020", "estudiantes_p1": 75, "estudiantes_p3": 58, "valor": 0.7733}, {"periodo": "Cohorte 2021", "estudiantes_p1": 74, "estudiantes_p3": 53, "valor": 0.7162}, {"periodo": "Cohorte 2022", "estudiantes_p1": 36, "estudiantes_p3": 34, "valor": 0.9444}, {"periodo": "Cohorte 2023", "estudiantes_p1": 60, "estudiantes_p3": 59, "valor": 0.9833}, {"periodo": "Cohorte 2024", "estudiantes_p1": 96, "estudiantes_p3": 85, "valor": 0.8854}], "titulacion": [{"periodo": "Cohorte 2017", "valor": 0.7, "matriculados": 60, "graduados": 42}, {"periodo": "Cohorte 2018", "valor": 0.8182, "matriculados": 55, "graduados": 45}], "eficiencia_terminal": [{"periodo": "Cohorte 2017", "valor": 0.5333, "matriculados": 60, "eft": 32}, {"periodo": "Cohorte 2018", "valor": 0.7091, "matriculados": 55, "eft": 39}]}}}}, "inconsistencias": [{"categoria": "Nombres de carrera homogenizados", "hoja": "Todas", "severidad": "resuelta", "titulo": "Se homogenizaron 31 carreras con nombres inconsistentes entre hojas", "descripcion": "Se detectaron variantes de escritura (tildes, mayúsculas, \"/\", sufijos \"2024\", \"-NUEVA\", errores de tipeo) registradas como carreras distintas y se unificaron bajo un nombre canónico. Por decisión explícita de la mesa técnica, \"Administración de Empresas\" (presencial) y \"Administración de Empresas Dual\" se mantienen como carreras separadas y NO se unificaron entre sí.", "ejemplos": ["Facultad de Ciencias Médicas → \"Estimulación Temprana en Salud\" agrupa: ESTIMULACION TEMPRANA, ESTIMULACIÓN TEMPRANA EN SALUD", "Facultad de Ciencias Médicas → \"Fisioterapia\" agrupa: FISIOTERAPIA, TERAPIA FISICA", "Facultad de Ciencias Médicas → \"Imagenología y Radiología\" agrupa: IMAGENOLOGIA, IMAGENOLOGIA Y RADIOLOGIA", "Facultad de Ciencias Médicas → \"Medicina\" agrupa: MEDICINA, MEDICINA Y CIRUGIA", "Facultad de Psicología → \"Psicología\" agrupa: PSICOLOGIA, PSICOLOGIA SOCIAL", "Facultad de Psicología → \"Psicología Educativa\" agrupa: PSICOLOGIA EDUCATIVA, PSICOLOGIA EDUCATIVA 2024", "Facultad de Ciencias Económicas y Administrativas → \"Administración de Empresas Dual\" agrupa: ADMINISTRACION DE EMPRESAS, ADMINISTRACION DE EMPRESAS - DUAL, ADMINISTRACION DE EMPRESAS-DUAL", "Facultad de Ciencias Económicas y Administrativas → \"Administración de Empresas\" agrupa: ADMINISTRACION DE EMPRESAS, EMPRESAS, INGENIERIA DE EMPRESAS", "Facultad de Ciencias Económicas y Administrativas → \"Mercadotecnia\" agrupa: MARKETING, MERCADOTECNIA, MERCADOTECNIA/MARKETING", "Facultad de Ciencias Económicas y Administrativas → \"Sociología\" agrupa: SOCIOLOGIA, SOCIOLOGÍA 2024", "Facultad de Ingeniería → \"Computación / Sistemas\" agrupa: COMPUTACION, COMPUTACION REDISEÑO/SISTEMAS, INGENIERIA DE SISTEMAS", "Facultad de Ingeniería → \"Electricidad\" agrupa: ELECTRICIDAD, INGENIERIA ELECTRICA", "Facultad de Ingeniería → \"Telecomunicaciones\" agrupa: INGENIERIA EN ELECTRONICA Y TELECOMUNICACIONES, TELECOMUNICACIONES", "Facultad de Ciencias de la Hospitalidad → \"Hospitalidad y Hotelería\" agrupa: HOSPITALIDAD Y HOTELERIA, HOTELERIA", "Facultad de Ciencias de la Hospitalidad → \"Turismo\" agrupa: LICENCIATURA EN ADMINISTRACION TURISTICA, TURISMO, TURISMOS", "Facultad de Jurisprudencia y Ciencias Políticas y Sociales → \"Género y Desarrollo\" agrupa: GENERO Y DESARROLLO, LICENCIATURA EN GENERO Y DESARROLLO", "Facultad de Jurisprudencia y Ciencias Políticas y Sociales → \"Orientación Familiar\" agrupa: ORIENTACION FAMILIAR, ORIENTACIÓN FAMILIAR", "Facultad de Ciencias Agropecuarias → \"Agronomía\" agrupa: AGRONOMIA, INGENIERIA AGRONOMICA", "Facultad de Ciencias Agropecuarias → \"Medicina Veterinaria\" agrupa: MEDICINA VETERINARIA, MEDICINA VETERINARIA Y ZOOTECNIA", "Facultad de Artes → \"Artes Escénicas / Danza - Teatro\" agrupa: ARTES ESCENICAS, ARTES ESCENICAS/DANZA - TEATRO, DANZA  TEATRO", "Facultad de Artes → \"Diseño Gráfico\" agrupa: DISENO GRAFICO, DISEÑO GRAFICO", "Facultad de Filosofía, Letras y Ciencias de la Educación → \"Cine\" agrupa: CINE, CINE Y AUDIOVISUALES", "Facultad de Filosofía, Letras y Ciencias de la Educación → \"Comunicación\" agrupa: COMUNICACION, LICENCIATURA EN CIENCIAS DE LA COMUNICACION SOCIAL", "Facultad de Filosofía, Letras y Ciencias de la Educación → \"Educación Básica\" agrupa: EDUCACION BASICA, EDUCACION GENERAL BASICA", "Facultad de Filosofía, Letras y Ciencias de la Educación → \"Educación Inicial\" agrupa: EDUCACION INICIAL, EDUCACION INICIAL-NUEVA", "Facultad de Filosofía, Letras y Ciencias de la Educación → \"Pedagogía de la Actividad Física y Deporte\" agrupa: CIENCIAS DE LA EDUCACION EN LA ESPECIALIZACION DE CULTURA FISICA, PEDAGOGIA DE LA ACTIVIDAD FISICA Y DEPORTE", "Facultad de Filosofía, Letras y Ciencias de la Educación → \"Pedagogía de la Historia y las Ciencias Sociales\" agrupa: CIENCIAS DE LA EDUCACION EN LA ESPECIALIZACION DE HISTORIA Y GEOGRAFIA, PEDAGOGIA DE LA HISTORIA Y LAS CIENCIAS SOCIALES, PEDAGOGIA DE LA HISTORIA Y LAS CIENCIAS SOCIALES/HISTORIA Y GEOGRAFIA", "Facultad de Filosofía, Letras y Ciencias de la Educación → \"Pedagogía de la Lengua y la Literatura\" agrupa: CIENCIAS DE LA EDUCACION EN LA ESPECIALIZACION DE LENGUA LITERATURA Y LENGUAJES AUDIOVISUALES, PEDAGOGIA DE LA LENGUA Y LA LITERATURA, PEDAGOGIA DE LA LENGUA Y LA LITERATURA/LENGUAJES AUDIOVISUALES", "Facultad de Filosofía, Letras y Ciencias de la Educación → \"Pedagogía de las Artes y las Humanidades\" agrupa: CIENCIAS DE LA EDUCACION EN LA ESPECIALIZACION DE FILOSOFIA SOCIOLOGIA Y ECONOMIA, PEDAGOGIA DE LAS ARTES Y LAS HUMANIDADES, PEDAGOGIA DE LAS ARTES Y LAS HUMANIDADES/SOCIOLOGIA Y ECONOMIA", "Facultad de Filosofía, Letras y Ciencias de la Educación → \"Pedagogía de las Ciencias Experimentales - Matemáticas y Física\" agrupa: CIENCIAS DE LA EDUCACION EN LA ESPECIALIZACION DE MATEMATICAS Y FISICA, PEDAGOGIA DE LAS CIENCIAS EXPERIMENTALES MATEMÁTICAS Y FÍSICA, PEDAGOGIA DE LAS CIENCIAS EXPERIMENTALES/MATEMATICAS Y FISICA", "Facultad de Filosofía, Letras y Ciencias de la Educación → \"Pedagogía de los Idiomas Nacionales y Extranjeros\" agrupa: CIENCIAS DE LA EDUCACION EN LA ESPECIALIZACION DE LENGUA Y LITERATURA INGLESA, PEDAGOGIA DE LOS IDIOMAS NACIONALES Y EXTRANJEROS, PEDAGOGIA DE LOS IDIOMAS NACIONALES Y EXTRANJEROS/LITERATURA INGLESA"]}, {"categoria": "Cambio de estructura de la fuente", "hoja": "Retención", "severidad": "informativa", "titulo": "La hoja \"Retención\" cambió de periodo/semestre a año de cohorte", "descripcion": "La nueva versión del archivo reporta Retención por \"Cohorte\" (año de ingreso) en vez de por periodo académico/semestre. El tablero se actualizó para tratar este indicador como anual. Además, en esta hoja el nombre de la Facultad de Filosofía llegó sin la coma (\"...FILOSOFÍA LETRAS...\") y se normalizó para que coincida con el resto de hojas; y aparecieron variantes adicionales de carrera (p. ej. \"DISENO GRAFICO\" sin tilde, \"ADMINISTRACION DE EMPRESAS - DUAL\" con espacios, \"ORIENTACION FAMILIAR\" sin tilde, \"INGENIERIA ELECTRICA\") que se homogenizaron con el resto del tablero.", "ejemplos": ["FACULTAD DE ARTES · \"Diseño (general)\": cohortes 2019-2021 con nombre de carrera genérico \"DISEÑO\", previas al desdoble en Diseño Gráfico y Diseño de Interiores — se dejó como carrera aparte porque no es evidente a cuál de las dos correspondería cada cohorte; se recomienda que la mesa técnica lo confirme."]}, {"categoria": "Dato incompleto", "hoja": "Cupos", "severidad": "advertencia", "titulo": "Registros de cupos sin especificar modalidad", "descripcion": "3 registro(s) de la hoja \"Cupos\" no indican la modalidad (Presencial, Dual, Híbrida). El cupo se contabilizó igualmente en el total, pero se recomienda completar el dato para desagregar por modalidad.", "ejemplos": ["Facultad de Ciencias Económicas y Administrativas · Emprendimiento e Innovación · 2024", "Facultad de Psicología · Psicología Educativa · 2024", "Facultad de Filosofía, Letras y Ciencias de la Educación · Pedagogía de las Ciencias Experimentales - Química y Biología · 2024"]}, {"categoria": "Dato suprimido", "hoja": "Retención", "severidad": "resuelta", "titulo": "Se suprimieron 2 observación(es) con solo 1 estudiante en el III periodo", "descripcion": "Por instrucción de la mesa técnica, se excluyeron los registros donde \"Nro. Estudiantes III Periodo\" es igual a 1, por tratarse de cohortes residuales no representativas para calcular una tasa de retención.", "ejemplos": ["Facultad de Artes · DISENO · cohorte 2021", "Facultad de Ingeniería · INGENIERIA ELECTRICA · cohorte 2018"]}, {"categoria": "Nombres homogenizados", "hoja": "Titulación", "severidad": "informativa", "titulo": "Titulación y Eficiencia Terminal recalculadas (ponderadas) al unificar variantes de nombre", "descripcion": "Al homogenizar variantes de nombre dentro de una misma carrera y cohorte (3 caso(s)) — incluyendo nombres de mallas antiguas como \"INGENIERIA DE EMPRESAS\" o \"EDUCACION GENERAL BASICA\" — las tasas se recalculan sumando total_matriculados, total_graduados y total_eft de todas las variantes y dividiendo, en vez de promediar las tasas ya calculadas. Esto es más preciso que el enfoque anterior.", "ejemplos": ["Facultad de Ciencias Económicas y Administrativas · Administración de Empresas · cohorte 2015", "Facultad de Ciencias Económicas y Administrativas · Administración de Empresas · cohorte 2016", "Facultad de Ciencias Económicas y Administrativas · Administración de Empresas · cohorte 2017"]}, {"categoria": "Carrera sin datos suficientes", "hoja": "Varias", "severidad": "advertencia", "titulo": "1 carrera(s) quedaron sin ningún registro en las hojas consideradas", "descripcion": "Estas carreras no tienen ningún dato en Cupos, Matrículas, Retención o Titulación/Eficiencia Terminal (las únicas hojas que este tablero procesa), por lo que no aparecen. Se recomienda validar si corresponden a programas cerrados, en extinción o con muy baja demanda histórica.", "ejemplos": ["Facultad de Psicología · Psicología Educativa en Educación Inicial"]}, {"categoria": "Alcance de la mesa técnica", "hoja": "Mesas", "severidad": "informativa", "titulo": "Facultades y unidades de la Mesa 3 excluidas de este tablero", "descripcion": "Conforme a la hoja \"Mesas\", este tablero muestra únicamente las facultades de las Mesas Técnicas 1 y 2. Se excluyeron intencionalmente las siguientes unidades (Mesa 3), incluyendo los cursos de nivelación, que no son carreras de grado:", "ejemplos": ["UNIDAD ACADÉMICA DE FORMACIÓN TÉCNICA Y TECNOLÓGICA SALVADOR ALLENDE", "UNIDAD DE NIVELACION"]}, {"categoria": "Cambio de alcance", "hoja": "Aprobación / Repitencia", "severidad": "informativa", "titulo": "Aprobación y Repitencia ya no se muestran en este tablero", "descripcion": "Por instrucción de la mesa técnica, los indicadores de Aprobación y Repitencia se retiraron del tablero. Los datos de esas hojas ya no se procesan ni se validan; si se requieren de nuevo en el futuro, deberán revisarse otra vez sus reglas de calidad.", "ejemplos": []}, {"categoria": "Nota metodológica", "hoja": "Varias", "severidad": "informativa", "titulo": "Los indicadores no comparten la misma ventana temporal", "descripcion": "Cupos (2019-2024, solo semestre II de cada año), Matrículas (2020-2024), Retención (cohortes 2018-2024, un dato anual por cohorte de ingreso) y Titulación / Eficiencia Terminal (cohortes 2015-2018, un dato anual por cohorte de ingreso) cubren periodos distintos. Al comparar entre indicadores, la mesa técnica debe considerar que \"el periodo más reciente\" no es el mismo calendario para todos. Aprobación y Repitencia ya no forman parte de este tablero (ver nota más abajo).", "ejemplos": []}, {"categoria": "Resumen de depuración", "hoja": "Varias", "severidad": "informativa", "titulo": "2 observaciones suprimidas en total por criterios de calidad de datos", "descripcion": "Retención: 2 · Titulación: 0. Estos criterios fueron definidos por la mesa técnica para excluir observaciones no representativas (cohortes residuales o sin egresados registrados aún).", "ejemplos": []}]};
+
+</script>
+<script>
+/* =========================================================
+   Tablero de Indicadores Académicos — lógica de aplicación
+   ========================================================= */
+(function(){
+'use strict';
+
+const INDICADORES = {
+  cupos:       { label:'Oferta de cupos',         corto:'Cupos',        esPorcentaje:false, menorEsMejor:false, colorHex:'#155096', periodicidad:'anual' },
+  matriculas:  { label:'Estudiantes matriculados', corto:'Matriculados', esPorcentaje:false, menorEsMejor:false, colorHex:'#1C63B4', periodicidad:'anual' },
+  retencion:   { label:'Retención temprana',       corto:'Retención',    esPorcentaje:true,  menorEsMejor:false, colorHex:'#2E7D5B', periodicidad:'anual (por cohorte de ingreso)' },
+  titulacion:  { label:'Tasa de Titulación',       corto:'Titulación',   esPorcentaje:true,  menorEsMejor:false, colorHex:'#d97706', periodicidad:'anual (por cohorte de ingreso)' },
+  eficiencia_terminal: { label:'Eficiencia Terminal', corto:'Ef. Terminal', esPorcentaje:true, menorEsMejor:false, colorHex:'#8C6323', periodicidad:'anual (por cohorte de ingreso)' },
+};
+const ORDEN_IND = ['cupos','matriculas','retencion','titulacion','eficiencia_terminal'];
+
+const state = {
+  mesa: 1,
+  vista: 'panorama',
+  indicador: 'cupos',
+  facultadExpandida: null,
+  busquedaPanorama: '',
+  busquedaComparativa: '',
+  chipFacultad: null,
+  sortComparativa: { col:'facultad', dir:1 },
+  evo: { facultad:null, carrera:null, indicador:'cupos' },
+};
+
+// ---------- Utilidades numéricas ----------
+const fmtEntero = new Intl.NumberFormat('es-EC');
+function fmtNum(v){ return (v===null||v===undefined||isNaN(v)) ? '—' : fmtEntero.format(Math.round(v)); }
+function fmtPct(v){ return (v===null||v===undefined||isNaN(v)) ? '—' : (v*100).toFixed(1)+'%'; }
+function fmtValor(v, esPorcentaje){ return esPorcentaje ? fmtPct(v) : fmtNum(v); }
+
+function ultimoValor(serie){
+  if(!serie || !serie.length) return null;
+  return serie[serie.length-1];
+}
+function penultimoValor(serie){
+  if(!serie || serie.length<2) return null;
+  return serie[serie.length-2];
+}
+
+function facultadesDeMesa(mesa){
+  return DATA.mesas[String(mesa)].facultades;
+}
+function todasLasFacultades(){
+  return DATA.facultad_orden;
+}
+function todasCarrerasFacultad(facKey){
+  return DATA.facultades[facKey].carreras;
+}
+
+// Clasificación cualitativa para insignias
+function clasificarTasa(valor, indKey){
+  if(valor===null||valor===undefined) return 'na';
+  const menorEsMejor = INDICADORES[indKey].menorEsMejor;
+  const v = menorEsMejor ? 1-valor : valor;
+  if(v>=0.8) return 'buena';
+  if(v>=0.6) return 'media';
+  return 'baja';
+}
+
+// ---------- Agregados por facultad para el indicador activo ----------
+function agregadoFacultad(facKey, indKey){
+  const carreras = todasCarrerasFacultad(facKey);
+  const nombres = Object.keys(carreras);
+  let sumaVal=0, nVal=0, sumaNum=0, hayNum=false, periodo=null;
+  nombres.forEach(nombre=>{
+    const serie = carreras[nombre][indKey];
+    const u = ultimoValor(serie);
+    if(!u) return;
+    if(u.valor!==null && u.valor!==undefined){
+      if(INDICADORES[indKey].esPorcentaje){ sumaVal += u.valor; nVal++; }
+      else { sumaNum += u.valor; hayNum=true; }
+    }
+    if(!periodo || (u.periodo && u.periodo > periodo)) periodo = u.periodo;
+  });
+  return { total: hayNum ? sumaNum : null, promedio: nVal ? sumaVal/nVal : null, nCarreras: nombres.length, periodo };
+}
+
+// Totales para un conjunto arbitrario de claves de facultad (usado por mesa y por universidad)
+function totalesDeFacultades(facKeys, indKey){
+  let total=0, hayNum=false, sumaPct=0, nPct=0, nCarreras=0;
+  facKeys.forEach(fac=>{
+    const carreras = todasCarrerasFacultad(fac);
+    Object.keys(carreras).forEach(nombre=>{
+      nCarreras++;
+      const u = ultimoValor(carreras[nombre][indKey]);
+      if(!u || u.valor===null || u.valor===undefined) return;
+      if(INDICADORES[indKey].esPorcentaje){ sumaPct+=u.valor; nPct++; }
+      else { total+=u.valor; hayNum=true; }
+    });
+  });
+  return { total: hayNum?total:null, promedio: nPct? sumaPct/nPct : null, nCarreras, nFacultades: facKeys.length };
+}
+function totalesMesa(mesa, indKey){ return totalesDeFacultades(facultadesDeMesa(mesa), indKey); }
+function totalesUniversidad(indKey){ return totalesDeFacultades(todasLasFacultades(), indKey); }
+
+// ---------- RENDER: encabezado / mesa switch / nav ----------
+function renderMesaSwitch(){
+  document.querySelectorAll('#mesaSwitch button').forEach(b=>{
+    b.classList.toggle('active', Number(b.dataset.mesa)===state.mesa);
+  });
+}
+function renderNav(){
+  document.querySelectorAll('#appNav button').forEach(b=>{
+    b.classList.toggle('active', b.dataset.vista===state.vista);
+  });
+  document.querySelectorAll('.vista').forEach(v=>v.hidden=true);
+  const map = { panorama:'vistaPanorama', comparativa:'vistaComparativa', evolucion:'vistaEvolucion', calidad:'vistaCalidad' };
+  document.getElementById(map[state.vista]).hidden = false;
+  if(state.vista==='evolucion') renderEvolucion();
+}
+
+// ---------- RENDER: hero resumen (siempre a nivel Universidad, las 12 facultades) ----------
+function renderHero(){
+  const uni = todasLasFacultades();
+  const cupos = totalesUniversidad('cupos');
+  const matriculas = totalesUniversidad('matriculas');
+  const reten = totalesUniversidad('retencion');
+  const titu = totalesUniversidad('titulacion');
+  const eft = totalesUniversidad('eficiencia_terminal');
+
+  document.getElementById('resumenHero').innerHTML = `
+    <div class="resumen-hero__top">
+      <div>
+        <p class="resumen-hero__eyebrow">Universidad de Cuenca · Diagnóstico situacional inicial</p>
+        <h1>Panorama académico de ${uni.length} facultades para validar prioridades 2026–2031</h1>
+        <p>Datos agregados de todas las facultades de las Mesas Técnicas 1 y 2, independientemente del filtro seleccionado abajo. Retención, Titulación y Eficiencia Terminal son el promedio del último periodo/cohorte disponible de cada carrera.</p>
+      </div>
+      <div class="resumen-hero__badge">
+        <b>${uni.length}</b><span>Facultades</span>
+      </div>
+    </div>
+    <div class="kpi-row">
+      <div class="kpi-card">
+        <div class="lbl">Oferta de cupos (último año)</div>
+        <div class="val">${fmtNum(cupos.total)}</div>
+        <div class="sub">2024 · admisión</div>
+      </div>
+      <div class="kpi-card">
+        <div class="lbl">Estudiantes matriculados</div>
+        <div class="val">${fmtNum(matriculas.total)}</div>
+        <div class="sub">2024</div>
+      </div>
+      <div class="kpi-card">
+        <div class="lbl">Retención temprana promedio</div>
+        <div class="val">${fmtPct(reten.promedio)}</div>
+        <div class="sub">última cohorte con dato</div>
+      </div>
+      <div class="kpi-card">
+        <div class="lbl">Titulación promedio</div>
+        <div class="val">${fmtPct(titu.promedio)}</div>
+        <div class="sub">última cohorte con dato</div>
+      </div>
+      <div class="kpi-card">
+        <div class="lbl">Eficiencia Terminal promedio</div>
+        <div class="val">${fmtPct(eft.promedio)}</div>
+        <div class="sub">última cohorte con dato</div>
+      </div>
+    </div>
+  `;
+}
+
+// ---------- RENDER: grid de facultades (filtrado por mesa) ----------
+function coincideBusqueda(texto, facKey){
+  if(!texto) return true;
+  const t = texto.toLowerCase();
+  if(DATA.facultades[facKey].nombre.toLowerCase().includes(t)) return true;
+  const carreras = Object.keys(todasCarrerasFacultad(facKey));
+  return carreras.some(c=>c.toLowerCase().includes(t));
+}
+
+function renderFacultadesGrid(){
+  const facs = facultadesDeMesa(state.mesa).filter(f=>coincideBusqueda(state.busquedaPanorama, f));
+  const grid = document.getElementById('facultadesGrid');
+  const ind = state.indicador;
+  const meta = INDICADORES[ind];
+
+  grid.innerHTML = facs.map(facKey=>{
+    const fdata = DATA.facultades[facKey];
+    const agg = agregadoFacultad(facKey, ind);
+    const valorPrincipal = meta.esPorcentaje ? fmtPct(agg.promedio) : fmtNum(agg.total);
+    return `
+      <article class="fac-card" data-fac="${facKey}">
+        <div>
+          <p class="fac-card__mesa">Mesa Técnica ${fdata.mesa}</p>
+          <h3>${fdata.nombre}</h3>
+          <div class="fac-card__stats">
+            <div><span class="n">${valorPrincipal}</span><span class="l">${meta.label}${agg.periodo ? ' · '+agg.periodo : ''}</span></div>
+          </div>
+        </div>
+        <p class="fac-card__carreras-count"><b>${agg.nCarreras}</b> carreras registradas en esta facultad</p>
+      </article>
+    `;
+  }).join('') || `<p style="color:var(--tinta-suave); padding:20px;">No se encontraron facultades o carreras que coincidan con la búsqueda.</p>`;
+
+  grid.querySelectorAll('.fac-card').forEach(card=>{
+    card.addEventListener('click', ()=>{
+      state.facultadExpandida = card.dataset.fac;
+      renderFacultadDetalle();
+      document.getElementById('facDetalleContainer').scrollIntoView({behavior:'smooth', block:'nearest'});
+    });
+  });
+}
+
+// ---------- RENDER: detalle de facultad (tabla de carreras + fila de resumen) ----------
+function valorParaOrden(carreraObj, indKey){
+  const u = ultimoValor(carreraObj[indKey]);
+  return u && u.valor!==null && u.valor!==undefined ? u.valor : -Infinity;
+}
+
+function celdaIndicador(u, ik){
+  const meta = INDICADORES[ik];
+  if(!u || u.valor===null || u.valor===undefined){
+    return `<td class="num"><span class="badge-tasa na">s/d</span></td>`;
+  }
+  if(meta.esPorcentaje){
+    const clase = clasificarTasa(u.valor, ik);
+    return `<td class="num"><span class="badge-tasa ${clase}">${fmtPct(u.valor)}</span></td>`;
+  }
+  return `<td class="num">${fmtNum(u.valor)}</td>`;
+}
+
+function todosLosParesUniversidad(){
+  // Todas las combinaciones (facultad, carrera) de las 12 facultades, sin importar el filtro de mesa
+  const pares = [];
+  todasLasFacultades().forEach(fac=>{
+    Object.keys(todasCarrerasFacultad(fac)).forEach(nombre=> pares.push({fac, nombre}));
+  });
+  return pares;
+}
+
+function calcularResumenPares(pares){
+  // Devuelve, por cada indicador, total (cupos/matriculas) o promedio (tasas) de los pares dados,
+  // usando siempre el último periodo/cohorte disponible de cada carrera.
+  const out = {};
+  ORDEN_IND.forEach(ik=>{
+    const meta = INDICADORES[ik];
+    let suma=0, n=0;
+    pares.forEach(({fac, nombre})=>{
+      const u = ultimoValor(DATA.facultades[fac].carreras[nombre][ik]);
+      if(!u || u.valor===null || u.valor===undefined) return;
+      suma += u.valor; n++;
+    });
+    if(!n){ out[ik]=null; return; }
+    out[ik] = meta.esPorcentaje ? (suma/n) : suma;
+  });
+  return out;
+}
+
+function filaResumenHtml(etiqueta, resumen, colspanIzquierdo, claseExtra){
+  const cells = ORDEN_IND.map(ik=>{
+    const meta = INDICADORES[ik];
+    const v = resumen[ik];
+    if(v===null||v===undefined) return `<td class="num">—</td>`;
+    return `<td class="num">${meta.esPorcentaje ? fmtPct(v) : fmtNum(v)}</td>`;
+  }).join('');
+  return `<tr class="fila-resumen ${claseExtra||''}"><td colspan="${colspanIzquierdo}">${etiqueta}</td>${cells}</tr>`;
+}
+
+function renderFacultadDetalle(){
+  const cont = document.getElementById('facDetalleContainer');
+  if(!state.facultadExpandida){ cont.innerHTML=''; return; }
+  const facKey = state.facultadExpandida;
+  const fdata = DATA.facultades[facKey];
+  const carreras = fdata.carreras;
+  let nombres = Object.keys(carreras);
+  nombres.sort((a,b)=> valorParaOrden(carreras[b], state.indicador) - valorParaOrden(carreras[a], state.indicador));
+
+  const rows = nombres.map(nombre=>{
+    const c = carreras[nombre];
+    const cells = ORDEN_IND.map(ik=> celdaIndicador(ultimoValor(c[ik]), ik)).join('');
+    return `<tr data-fac="${facKey}" data-carrera="${escapeAttr(nombre)}">
+      <td class="carrera-nombre">${nombre}</td>
+      ${cells}
+    </tr>`;
+  }).join('');
+
+  const resumenFacultad = calcularResumenPares(nombres.map(n=>({fac:facKey, nombre:n})));
+  const filaFacultad = filaResumenHtml(`Total / promedio de ${nombres.length} carreras · ${fdata.nombre}`, resumenFacultad, 1);
+
+  const resumenUniversidad = calcularResumenPares(todosLosParesUniversidad());
+  const filaUniversidad = filaResumenHtml(`Referencia institucional · Universidad (12 facultades)`, resumenUniversidad, 1, 'fila-resumen-universidad');
+
+  cont.innerHTML = `
+    <div class="fac-detalle">
+      <div class="fac-detalle__head">
+        <h2>${fdata.nombre}</h2>
+        <button id="cerrarFacDetalle">Cerrar ✕</button>
+      </div>
+      <div class="carreras-tabla-wrap">
+        <table class="carreras-tabla">
+          <thead><tr>
+            <th>Carrera</th>
+            <th class="th-center">Cupos</th><th class="th-center">Matriculados</th><th class="th-center">Retención</th>
+            <th class="th-center">Titulación</th><th class="th-center">Eficiencia Terminal</th>
+          </tr></thead>
+          <tbody>${rows}${filaFacultad}${filaUniversidad}</tbody>
+        </table>
+      </div>
+    </div>
+  `;
+
+  document.getElementById('cerrarFacDetalle').addEventListener('click', ()=>{
+    state.facultadExpandida = null;
+    renderFacultadDetalle();
+  });
+  cont.querySelectorAll('tbody tr[data-fac]').forEach(tr=>{
+    tr.addEventListener('click', ()=> abrirDrawer(tr.dataset.fac, tr.dataset.carrera));
+  });
+}
+
+function escapeAttr(s){ return s.replace(/"/g,'&quot;'); }
+
+// ---------- Gráfico de líneas en SVG puro (sin dependencias externas) ----------
+function construirLineChartSVG(serie, meta, opts){
+  opts = opts || {};
+  const w = opts.width || 640;
+  const h = opts.height || 90;
+  const mostrarEjes = opts.mostrarEjes !== false;
+  const mostrarPuntos = opts.mostrarPuntos !== false;
+  const radioPunto = opts.radioPunto || 3;
+  const padL = mostrarEjes ? (meta.esPorcentaje ? 42 : 50) : 6;
+  const padR = 10;
+  const padT = 10;
+  const padB = mostrarEjes ? 24 : 6;
+
+  const puntosValidos = serie.map((s,i)=>({i, v:s.valor})).filter(p=>p.v!==null && p.v!==undefined && !isNaN(p.v));
+
+  if(serie.length===0 || puntosValidos.length===0){
+    return `<div class="mini-chart__vacio">Sin datos suficientes para graficar.</div>`;
+  }
+
+  let vMin = Math.min(...puntosValidos.map(p=>p.v));
+  let vMax = Math.max(...puntosValidos.map(p=>p.v));
+  if(vMin===vMax){
+    const delta = vMin===0 ? (meta.esPorcentaje?0.1:1) : Math.abs(vMin)*0.15;
+    vMin -= delta; vMax += delta;
+  } else {
+    const pad = (vMax-vMin)*0.15;
+    vMin -= pad; vMax += pad;
+  }
+  if(meta.esPorcentaje){ vMin = Math.max(0, vMin); vMax = Math.min(1.02, vMax); }
+  else { vMin = Math.min(vMin, 0); } // los conteos parten razonablemente desde 0 si están cerca
+
+  const n = serie.length;
+  const xAt = (i)=> n<=1 ? (padL + (w-padL-padR)/2) : padL + (i/(n-1)) * (w-padL-padR);
+  const yAt = (v)=> padT + (1 - (v-vMin)/(vMax-vMin)) * (h-padT-padB);
+
+  // Segmentos continuos (se saltan los nulos, uniendo el siguiente punto válido — equivalente a spanGaps)
+  let dLine = '';
+  puntosValidos.forEach((p,idx)=>{
+    const x = xAt(p.i), y = yAt(p.v);
+    dLine += (idx===0 ? 'M' : 'L') + x.toFixed(1) + ',' + y.toFixed(1) + ' ';
+  });
+  const primero = puntosValidos[0], ultimo = puntosValidos[puntosValidos.length-1];
+  const dArea = `M${xAt(primero.i).toFixed(1)},${(h-padB).toFixed(1)} ` +
+    puntosValidos.map(p=>`L${xAt(p.i).toFixed(1)},${yAt(p.v).toFixed(1)}`).join(' ') +
+    ` L${xAt(ultimo.i).toFixed(1)},${(h-padB).toFixed(1)} Z`;
+
+  // Ejes
+  let ejesSvg = '';
+  if(mostrarEjes){
+    const nTicks = 4;
+    for(let t=0;t<=nTicks;t++){
+      const v = vMin + (vMax-vMin)*(t/nTicks);
+      const y = yAt(v);
+      const label = meta.esPorcentaje ? (v*100).toFixed(0)+'%' : fmtNum(v);
+      ejesSvg += `<line x1="${padL}" y1="${y.toFixed(1)}" x2="${w-padR}" y2="${y.toFixed(1)}" stroke="#EDF3FA" stroke-width="1"/>`;
+      ejesSvg += `<text x="${padL-8}" y="${(y+3).toFixed(1)}" text-anchor="end" font-size="9.5" fill="#4A5D77" font-family="monospace">${label}</text>`;
+    }
+    // Etiquetas del eje X: máximo ~6 para que no se amontonen
+    const maxEtiquetas = Math.min(n, opts.maxEtiquetasX || 6);
+    const paso = Math.max(1, Math.round((n-1)/(maxEtiquetas-1)) || 1);
+    serie.forEach((s,i)=>{
+      if(i % paso !== 0 && i !== n-1) return;
+      const x = xAt(i);
+      const corto = s.periodo.length>14 ? s.periodo.slice(0,12)+'…' : s.periodo;
+      ejesSvg += `<text x="${x.toFixed(1)}" y="${h-6}" text-anchor="middle" font-size="9" fill="#4A5D77" font-family="Inter, sans-serif">${corto}</text>`;
+    });
+  }
+
+  // Puntos con tooltip nativo (title)
+  let puntosSvg = '';
+  if(mostrarPuntos){
+    puntosValidos.forEach(p=>{
+      const x = xAt(p.i), y = yAt(p.v);
+      const label = serie[p.i].periodo + ': ' + (meta.esPorcentaje ? fmtPct(p.v) : fmtNum(p.v));
+      puntosSvg += `<circle class="pt-dato" cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${radioPunto}" fill="${meta.colorHex}" stroke="#fff" stroke-width="${radioPunto>=5?2:1}"><title>${label}</title></circle>`;
+    });
+  }
+
+  return `
+    <svg viewBox="0 0 ${w} ${h}" preserveAspectRatio="none" width="100%" height="${h}" role="img" aria-label="Tendencia de ${meta.label}">
+      <defs>
+        <linearGradient id="grad-${meta.corto.replace(/\s|\+/g,'')}" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="${meta.colorHex}" stop-opacity="0.28"/>
+          <stop offset="100%" stop-color="${meta.colorHex}" stop-opacity="0.02"/>
+        </linearGradient>
+      </defs>
+      ${ejesSvg}
+      <path d="${dArea}" fill="url(#grad-${meta.corto.replace(/\s|\+/g,'')})" stroke="none"/>
+      <path d="${dLine}" fill="none" stroke="${meta.colorHex}" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"/>
+      ${puntosSvg}
+    </svg>
+  `;
+}
+
+// ---------- RENDER: drawer de carrera con gráficos ----------
+function abrirDrawer(facKey, carreraNombre){
+  const fdata = DATA.facultades[facKey];
+  const c = fdata.carreras[carreraNombre];
+  document.getElementById('drawerFacultad').textContent = fdata.nombre + ' · Mesa Técnica ' + fdata.mesa;
+  document.getElementById('drawerTitulo').textContent = carreraNombre;
+  document.getElementById('drawerVariantes').textContent = c.variantes.length>1
+    ? 'Nombres homogenizados desde la base original: ' + c.variantes.join(' · ')
+    : '';
+
+  const body = document.getElementById('drawerBody');
+  body.innerHTML = ORDEN_IND.map(ik=>`
+    <div class="indicador-panel">
+      <div class="indicador-panel__head">
+        <h4>${INDICADORES[ik].label}</h4>
+        <span class="periodo" id="periodo-${ik}"></span>
+      </div>
+      <div class="indicador-panel__value" id="valor-${ik}"></div>
+      <div class="mini-chart" id="chart-${ik}"></div>
+      <p class="indicador-panel__nota" id="nota-${ik}"></p>
+    </div>
+  `).join('');
+
+  ORDEN_IND.forEach(ik=>renderIndicadorPanel(ik, c[ik]));
+
+  document.getElementById('overlay').classList.add('open');
+  document.getElementById('drawer').classList.add('open');
+}
+
+function cerrarDrawer(){
+  document.getElementById('overlay').classList.remove('open');
+  document.getElementById('drawer').classList.remove('open');
+}
+
+function renderIndicadorPanel(ik, serie){
+  const meta = INDICADORES[ik];
+  const u = ultimoValor(serie);
+  const p = penultimoValor(serie);
+
+  document.getElementById('periodo-'+ik).textContent = u ? u.periodo : 'Sin datos';
+
+  let deltaHtml = '';
+  if(u && p && u.valor!==null && p.valor!==null && u.valor!==undefined && p.valor!==undefined){
+    const diff = u.valor - p.valor;
+    const mejora = meta.menorEsMejor ? diff<0 : diff>0;
+    const clase = Math.abs(diff) < 1e-6 ? 'flat' : (mejora ? 'up':'down');
+    const txt = meta.esPorcentaje ? (diff>=0?'+':'')+(diff*100).toFixed(1)+' pp' : (diff>=0?'+':'')+fmtNum(diff);
+    deltaHtml = `<span class="delta ${clase}">${txt} vs. periodo anterior</span>`;
+  }
+
+  document.getElementById('valor-'+ik).innerHTML = `
+    <span class="v">${u && u.valor!==null && u.valor!==undefined ? fmtValor(u.valor, meta.esPorcentaje) : 'Sin dato'}</span>
+    ${deltaHtml}
+  `;
+
+  const notaEl = document.getElementById('nota-'+ik);
+  if(ik==='cupos' && u && u.modalidades && Object.keys(u.modalidades).length){
+    notaEl.textContent = 'Por modalidad: ' + Object.entries(u.modalidades).map(([k,v])=>`${k.toLowerCase()} ${fmtNum(v)}`).join(' · ');
+  } else if(ik==='retencion' && u && u.estudiantes_p1!==undefined){
+    notaEl.textContent = u.estudiantes_p3!==null && u.estudiantes_p3!==undefined
+      ? `${fmtNum(u.estudiantes_p3)} de ${fmtNum(u.estudiantes_p1)} estudiantes continuaron al III periodo.`
+      : `Dato de III periodo no disponible en la fuente para este periodo.`;
+  } else if(ik==='titulacion' && u && u.matriculados!==undefined){
+    notaEl.textContent = `${fmtNum(u.graduados)} graduados de ${fmtNum(u.matriculados)} matriculados en esa cohorte.`;
+  } else if(ik==='eficiencia_terminal' && u && u.matriculados!==undefined){
+    notaEl.textContent = `${fmtNum(u.eft)} egresados a tiempo (EFT) de ${fmtNum(u.matriculados)} matriculados en esa cohorte.`;
+  } else if(!serie || !serie.length){
+    notaEl.textContent = 'No hay registros para esta carrera en la hoja correspondiente.';
+  } else {
+    notaEl.textContent = '';
+  }
+
+  const cont = document.getElementById('chart-'+ik);
+  cont.innerHTML = construirLineChartSVG(serie || [], meta, { height:90, mostrarEjes:false, mostrarPuntos:true });
+}
+
+// ---------- RENDER: comparativa ----------
+function filasComparativa(){
+  const facs = facultadesDeMesa(state.mesa);
+  let filas = [];
+  facs.forEach(facKey=>{
+    if(state.chipFacultad && state.chipFacultad!==facKey) return;
+    const fdata = DATA.facultades[facKey];
+    Object.keys(fdata.carreras).forEach(nombre=>{
+      const c = fdata.carreras[nombre];
+      const texto = (fdata.nombre+' '+nombre).toLowerCase();
+      if(state.busquedaComparativa && !texto.includes(state.busquedaComparativa.toLowerCase())) return;
+      const row = { facultad: fdata.nombre, facKey, carrera: nombre };
+      ORDEN_IND.forEach(ik=>{
+        const u = ultimoValor(c[ik]);
+        row[ik] = u ? u.valor : null;
+      });
+      filas.push(row);
+    });
+  });
+  const { col, dir } = state.sortComparativa;
+  filas.sort((a,b)=>{
+    let va=a[col], vb=b[col];
+    if(typeof va === 'string' || va===null){ va = va===null? '': va; vb = vb===null? '': vb;
+      return dir * String(va).localeCompare(String(vb), 'es'); }
+    va = va===null ? -Infinity : va; vb = vb===null ? -Infinity : vb;
+    return dir * (va-vb);
+  });
+  return filas;
+}
+
+function renderChipsFacultad(){
+  const facs = facultadesDeMesa(state.mesa);
+  const cont = document.getElementById('chipsFacultad');
+  cont.innerHTML = `<button class="chip ${!state.chipFacultad?'active':''}" data-fac="">Todas</button>` +
+    facs.map(f=>`<button class="chip ${state.chipFacultad===f?'active':''}" data-fac="${f}">${DATA.facultades[f].nombre.replace('Facultad de ','')}</button>`).join('');
+  cont.querySelectorAll('.chip').forEach(ch=>{
+    ch.addEventListener('click', ()=>{
+      state.chipFacultad = ch.dataset.fac || null;
+      renderChipsFacultad();
+      renderComparativa();
+    });
+  });
+}
+
+const COLS_COMPARATIVA = [
+  {key:'facultad', label:'Facultad', center:false},
+  {key:'carrera', label:'Carrera', center:false},
+  {key:'cupos', label:'Cupos', center:true},
+  {key:'matriculas', label:'Matric.', center:true},
+  {key:'retencion', label:'Retención', center:true},
+  {key:'titulacion', label:'Titulación', center:true},
+  {key:'eficiencia_terminal', label:'Ef. Terminal', center:true},
+];
+
+function renderComparativa(){
+  const thead = document.getElementById('theadComparativa');
+  thead.innerHTML = COLS_COMPARATIVA.map(c=>{
+    const clases = [ state.sortComparativa.col===c.key ? 'sorted' : '', c.center ? 'th-center':'' ].filter(Boolean).join(' ');
+    return `<th class="${clases}" data-col="${c.key}">${c.label}</th>`;
+  }).join('');
+  thead.querySelectorAll('th').forEach(th=>{
+    th.addEventListener('click', ()=>{
+      const col = th.dataset.col;
+      if(state.sortComparativa.col===col) state.sortComparativa.dir *= -1;
+      else state.sortComparativa = { col, dir: (col==='facultad'||col==='carrera') ? 1 : -1 };
+      renderComparativa();
+    });
+  });
+
+  const filas = filasComparativa();
+  const tbody = document.getElementById('tbodyComparativa');
+  tbody.innerHTML = filas.map(f=>{
+    const cells = ORDEN_IND.map(ik=>{
+      const meta = INDICADORES[ik];
+      if(f[ik]===null||f[ik]===undefined) return `<td class="num"><span class="badge-tasa na">s/d</span></td>`;
+      if(meta.esPorcentaje){
+        const clase = clasificarTasa(f[ik], ik);
+        return `<td class="num"><span class="badge-tasa ${clase}">${fmtPct(f[ik])}</span></td>`;
+      }
+      return `<td class="num">${fmtNum(f[ik])}</td>`;
+    }).join('');
+    return `<tr data-fac="${f.facKey}" data-carrera="${escapeAttr(f.carrera)}">
+      <td>${f.facultad.replace('Facultad de ','')}</td>
+      <td class="carrera-nombre">${f.carrera}</td>
+      ${cells}
+    </tr>`;
+  }).join('') || `<tr><td colspan="7" style="padding:24px; color:var(--tinta-suave);">Sin resultados para este filtro.</td></tr>`;
+
+  if(filas.length){
+    const resumen = {};
+    ORDEN_IND.forEach(ik=>{
+      const meta = INDICADORES[ik];
+      const vals = filas.map(f=>f[ik]).filter(v=>v!==null && v!==undefined);
+      if(!vals.length){ resumen[ik]=null; return; }
+      const suma = vals.reduce((a,b)=>a+b,0);
+      resumen[ik] = meta.esPorcentaje ? suma/vals.length : suma;
+    });
+    tbody.insertAdjacentHTML('beforeend', filaResumenHtml(`Total / promedio de ${filas.length} carreras mostradas`, resumen, 2));
+  }
+
+  const resumenUniversidad = calcularResumenPares(todosLosParesUniversidad());
+  tbody.insertAdjacentHTML('beforeend', filaResumenHtml(`Referencia institucional · Universidad (12 facultades)`, resumenUniversidad, 2, 'fila-resumen-universidad'));
+
+  tbody.querySelectorAll('tr[data-fac]').forEach(tr=>{
+    tr.addEventListener('click', ()=> abrirDrawer(tr.dataset.fac, tr.dataset.carrera));
+  });
+}
+
+// ---------- RENDER: evolución temporal ----------
+function poblarSelectFacultadEvo(){
+  const sel = document.getElementById('evoFacultad');
+  const facs = facultadesDeMesa(state.mesa);
+  sel.innerHTML = facs.map(f=>`<option value="${f}">${DATA.facultades[f].nombre}</option>`).join('');
+  if(!state.evo.facultad || !facs.includes(state.evo.facultad)){
+    state.evo.facultad = facs[0];
+  }
+  sel.value = state.evo.facultad;
+}
+function poblarSelectCarreraEvo(){
+  const sel = document.getElementById('evoCarrera');
+  const fdata = DATA.facultades[state.evo.facultad];
+  const nombres = fdata ? Object.keys(fdata.carreras).sort() : [];
+  sel.innerHTML = nombres.map(n=>`<option value="${escapeAttr(n)}">${n}</option>`).join('');
+  if(!state.evo.carrera || !nombres.includes(state.evo.carrera)){
+    state.evo.carrera = nombres[0] || null;
+  }
+  if(state.evo.carrera) sel.value = state.evo.carrera;
+}
+
+function renderEvolucion(){
+  poblarSelectFacultadEvo();
+  poblarSelectCarreraEvo();
+  document.getElementById('evoIndicador').value = state.evo.indicador;
+  dibujarEvolucion();
+}
+
+let chartEvolucion = null;
+function dibujarEvolucion(){
+  const fac = state.evo.facultad;
+  const carrera = state.evo.carrera;
+  const ik = state.evo.indicador;
+  const meta = INDICADORES[ik];
+  const fdata = DATA.facultades[fac];
+  const cont = document.getElementById('evoChart');
+  if(!fdata || !carrera || !fdata.carreras[carrera]){
+    document.getElementById('evoTitulo').textContent = 'Sin selección disponible';
+    document.getElementById('evoSubtitulo').textContent = '';
+    document.getElementById('evoValorActual').innerHTML = '';
+    cont.innerHTML = `<div class="mini-chart__vacio">Elige una facultad y carrera con datos disponibles.</div>`;
+    document.getElementById('evoTablaBody').innerHTML = `<tr><td colspan="2" style="padding:18px; color:var(--tinta-suave);">Sin registros.</td></tr>`;
+    return;
+  }
+  const serie = fdata.carreras[carrera][ik] || [];
+
+  document.getElementById('evoTitulo').textContent = `${meta.label} · ${carrera}`;
+  document.getElementById('evoSubtitulo').textContent = `${fdata.nombre} · periodicidad: ${meta.periodicidad}`;
+
+  const u = ultimoValor(serie);
+  document.getElementById('evoValorActual').innerHTML = u && u.valor!==null && u.valor!==undefined
+    ? `<span class="v">${fmtValor(u.valor, meta.esPorcentaje)}</span><span class="p">${u.periodo}</span>`
+    : `<span class="v">—</span><span class="p">Sin datos</span>`;
+
+  cont.innerHTML = construirLineChartSVG(serie, meta, { width:1180, height:280, mostrarEjes:true, mostrarPuntos:true, maxEtiquetasX:8, radioPunto:8 });
+
+  const tbody = document.getElementById('evoTablaBody');
+  tbody.innerHTML = [...serie].reverse().map(s=>`
+    <tr><td>${s.periodo}</td><td class="num">${s.valor!==null && s.valor!==undefined ? fmtValor(s.valor, meta.esPorcentaje) : 's/d'}</td></tr>
+  `).join('') || `<tr><td colspan="2" style="padding:18px; color:var(--tinta-suave);">Sin registros históricos para esta combinación.</td></tr>`;
+}
+
+// ---------- RENDER: calidad de datos ----------
+function renderCalidad(){
+  const list = document.getElementById('inconsistList');
+  list.innerHTML = DATA.inconsistencias.map(inc=>{
+    const ejemplos = (inc.ejemplos||[]);
+    const mostrarComoDetails = ejemplos.length > 6;
+    const chips = ejemplos.map(e=>`<span>${e}</span>`).join('');
+    return `
+      <article class="inconsist-card severidad-${inc.severidad}">
+        <div class="inconsist-card__top">
+          <span class="inconsist-card__badge">${inc.severidad}</span>
+          <span class="inconsist-card__hoja">Hoja: ${inc.hoja}</span>
+        </div>
+        <h3>${inc.titulo}</h3>
+        <p>${inc.descripcion}</p>
+        ${ejemplos.length ? (mostrarComoDetails
+          ? `<details><summary>Ver ${ejemplos.length} ejemplo(s)</summary><div class="inconsist-card__ejemplos">${chips}</div></details>`
+          : `<div class="inconsist-card__ejemplos">${chips}</div>`) : ''}
+      </article>
+    `;
+  }).join('');
+  document.getElementById('tagInconsist').textContent = DATA.inconsistencias.length;
+}
+
+// ---------- Nota metodológica en panorama ----------
+function renderNotaMetodologica(){
+  const nota = DATA.inconsistencias.find(i=>i.categoria==='Nota metodológica');
+  document.getElementById('notaMetodologica').textContent = nota ? nota.descripcion : '';
+}
+
+// ---------- Render global ----------
+function renderTodo(){
+  renderMesaSwitch();
+  renderNav();
+  renderHero();
+  renderFacultadesGrid();
+  renderFacultadDetalle();
+  renderChipsFacultad();
+  renderComparativa();
+  renderCalidad();
+  renderNotaMetodologica();
+}
+
+// ---------- Eventos ----------
+document.getElementById('mesaSwitch').addEventListener('click', (e)=>{
+  const btn = e.target.closest('button[data-mesa]');
+  if(!btn) return;
+  state.mesa = Number(btn.dataset.mesa);
+  state.facultadExpandida = null;
+  state.chipFacultad = null;
+  state.evo.facultad = null;
+  state.evo.carrera = null;
+  renderTodo();
+});
+
+document.getElementById('appNav').addEventListener('click', (e)=>{
+  const btn = e.target.closest('button[data-vista]');
+  if(!btn) return;
+  state.vista = btn.dataset.vista;
+  renderNav();
+});
+
+document.getElementById('selectIndicador').addEventListener('click', (e)=>{
+  const btn = e.target.closest('button[data-ind]');
+  if(!btn) return;
+  state.indicador = btn.dataset.ind;
+  document.querySelectorAll('#selectIndicador button').forEach(b=>b.classList.toggle('active', b===btn));
+  renderHero();
+  renderFacultadesGrid();
+  renderFacultadDetalle();
+});
+
+document.getElementById('buscadorFacultad').addEventListener('input', (e)=>{
+  state.busquedaPanorama = e.target.value;
+  renderFacultadesGrid();
+});
+document.getElementById('buscadorComparativa').addEventListener('input', (e)=>{
+  state.busquedaComparativa = e.target.value;
+  renderComparativa();
+});
+
+document.getElementById('evoFacultad').addEventListener('change', (e)=>{
+  state.evo.facultad = e.target.value;
+  state.evo.carrera = null;
+  poblarSelectCarreraEvo();
+  dibujarEvolucion();
+});
+document.getElementById('evoCarrera').addEventListener('change', (e)=>{
+  state.evo.carrera = e.target.value;
+  dibujarEvolucion();
+});
+document.getElementById('evoIndicador').addEventListener('change', (e)=>{
+  state.evo.indicador = e.target.value;
+  dibujarEvolucion();
+});
+
+document.getElementById('drawerClose').addEventListener('click', cerrarDrawer);
+document.getElementById('overlay').addEventListener('click', cerrarDrawer);
+document.addEventListener('keydown', (e)=>{ if(e.key==='Escape') cerrarDrawer(); });
+
+// ---------- Inicio ----------
+renderTodo();
+
+})();
+
+</script>
+
+<script>
+// Scroll-collapse resumen-hero on scroll
+(function(){
+  var scrolled = false;
+  window.addEventListener('scroll', function(){
+    var now = window.scrollY > 120;
+    if(now !== scrolled){
+      scrolled = now;
+      document.querySelectorAll('.resumen-hero, .kpi-row').forEach(function(el){
+        el.classList.toggle('hero-collapsed', scrolled);
+      });
+    }
+  }, {passive:true});
+})();
+</script>
+
+</body>
+</html>

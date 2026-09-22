@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PEDI 2026–2031 · Eje Académico · Universidad de Cuenca</title>
+<style>
+:root{
+  --navy:#0d2d5a;--royal:#1a56db;--sky:#3b82f6;--light:#93c5fd;--pale:#eff6ff;
+  --text:#1e293b;--muted:#64748b;--bg:#f1f5f9;--card:#fff;
+  --border:#e2e8f0;--shadow:0 2px 14px rgba(13,45,90,.09);--r:12px;
+  --font:"Segoe UI",system-ui,-apple-system,sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:100vh}
+
+/* TOP BAR */
+.topbar{background:linear-gradient(135deg,#091e42 0%,#0d2d5a 60%,#163a80 100%);
+  padding:14px 28px;display:flex;align-items:center;gap:18px;position:relative;z-index:10}
+.topbar-logo{width:130px;height:70px;border-radius:10px;background:rgba(255,255,255,.92);
+  display:flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0;
+  border:2px solid rgba(255,255,255,.5);box-shadow:0 4px 18px rgba(0,0,0,.18);padding:8px}
+.topbar-logo img{width:100%;height:100%;object-fit:contain}
+.topbar-title{color:#fff;flex:1}
+.topbar-title h1{font-size:clamp(.95rem,2.2vw,1.3rem);font-weight:800;letter-spacing:-.015em;line-height:1.2}
+.topbar-title p{font-size:.78rem;opacity:.72;margin-top:3px}
+.topbar-badge{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;
+  background:rgba(255,255,255,.13);border:1.5px solid rgba(255,255,255,.25);
+  color:rgba(255,255,255,.9);padding:5px 14px;border-radius:50px;white-space:nowrap;flex-shrink:0}
+
+/* COVER */
+.cover-wrap{position:relative;width:100%;max-height:600px;overflow:hidden;background:var(--navy)}
+.cover-wrap img{width:100%;max-height:600px;object-fit:cover;object-position:center 30%;display:block}
+.cover-wrap::after{content:"";position:absolute;inset:0;
+  background:linear-gradient(to bottom,transparent 0%,transparent 50%,rgba(9,30,66,.50) 80%,rgba(9,30,66,.80) 100%)}
+.cover-caption{position:absolute;bottom:0;left:0;right:0;z-index:2;padding:22px 32px;color:#fff}
+.cover-caption h2{font-size:clamp(1.1rem,2.8vw,1.7rem);font-weight:800;letter-spacing:-.02em;
+  line-height:1.2;text-shadow:0 2px 12px rgba(0,0,0,.4)}
+.cover-caption p{font-size:.85rem;opacity:.85;margin-top:5px;text-shadow:0 1px 6px rgba(0,0,0,.3)}
+
+/* MAIN */
+.main{max-width:1280px;margin:0 auto;padding:36px 24px 64px}
+.section-label{font-size:.68rem;font-weight:800;text-transform:uppercase;letter-spacing:.1em;
+  color:var(--royal);margin-bottom:16px;display:flex;align-items:center;gap:10px}
+.section-label::after{content:"";flex:1;height:1.5px;background:var(--border)}
+
+/* CARDS */
+.cards-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,340px),1fr));
+  gap:22px;margin-bottom:48px}
+.dash-card{background:var(--card);border-radius:var(--r);box-shadow:var(--shadow);
+  border:1px solid var(--border);overflow:hidden;text-decoration:none;color:var(--text);
+  transition:transform .22s ease,box-shadow .22s ease,border-color .22s ease;
+  display:flex;flex-direction:column;
+  animation:fadeUp .5s ease both}
+.dash-card:nth-child(2){animation-delay:.1s}
+.dash-card:nth-child(3){animation-delay:.2s}
+.dash-card:hover{transform:translateY(-4px);box-shadow:0 12px 36px rgba(13,45,90,.16);border-color:var(--light)}
+.card-accent{height:5px;width:100%}
+.card-body{padding:22px 24px 20px;flex:1;display:flex;flex-direction:column;gap:10px}
+.card-icon{width:46px;height:46px;border-radius:10px;display:flex;align-items:center;
+  justify-content:center;font-size:1.5rem;background:var(--pale);flex-shrink:0}
+.card-meta{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;
+  color:var(--muted);margin-bottom:2px}
+.card-title{font-size:1.05rem;font-weight:800;line-height:1.3;color:var(--text)}
+.card-desc{font-size:.83rem;color:var(--muted);line-height:1.5;flex:1}
+.card-chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:4px}
+.chip{font-size:.68rem;font-weight:700;padding:3px 9px;border-radius:50px;
+  background:var(--pale);color:var(--royal)}
+.card-cta{display:flex;align-items:center;justify-content:space-between;
+  padding:12px 24px;background:var(--bg);border-top:1px solid var(--border);
+  font-size:.78rem;font-weight:700;color:var(--royal)}
+.card-cta span{opacity:.55;font-size:.9rem}
+
+/* STATS BAND */
+.stats-band{background:linear-gradient(135deg,var(--navy) 0%,#163a80 100%);
+  border-radius:var(--r);padding:28px 32px;display:flex;gap:0;flex-wrap:wrap;
+  margin-bottom:48px;box-shadow:0 4px 24px rgba(13,45,90,.18)}
+.stat-item{flex:1 1 180px;padding:10px 20px;color:#fff;
+  border-right:1px solid rgba(255,255,255,.14)}
+.stat-item:last-child{border-right:none}
+.stat-item .n{font-size:1.9rem;font-weight:800;letter-spacing:-.02em;line-height:1;display:block}
+.stat-item .l{font-size:.72rem;opacity:.72;text-transform:uppercase;letter-spacing:.07em;
+  margin-top:5px;display:block}
+
+/* ABOUT */
+.about-box{background:var(--card);border-radius:var(--r);padding:26px 28px;
+  border:1px solid var(--border);box-shadow:var(--shadow);
+  display:grid;grid-template-columns:1fr 1fr;gap:28px}
+.about-box h3{font-size:1rem;font-weight:800;color:var(--navy);margin-bottom:10px}
+.about-box p{font-size:.85rem;color:var(--muted);line-height:1.65}
+.about-box ul{font-size:.85rem;color:var(--muted);line-height:1.65;padding-left:18px}
+
+/* FOOTER */
+footer{background:var(--navy);color:rgba(255,255,255,.65);padding:24px 28px;font-size:.77rem;line-height:1.7}
+.fi{max-width:1280px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
+footer strong{color:rgba(255,255,255,.9)}
+
+/* RESPONSIVE */
+@media(max-width:640px){
+  .topbar{padding:12px 16px;gap:12px}
+  .topbar-badge{display:none}
+  .cover-caption{padding:14px 18px}
+  .main{padding:24px 16px 48px}
+  .stats-band{padding:20px 16px}
+  .stat-item{border-right:none;border-bottom:1px solid rgba(255,255,255,.14);padding:8px 0}
+  .stat-item:last-child{border-bottom:none}
+  .about-box{grid-template-columns:1fr}
+}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+</style>
+</head>
+<body>
+
+<!-- TOP BAR: logo + title always visible above the image -->
+<div class="topbar">
+  <div class="topbar-logo">
+    <img src="https://i.postimg.cc/CMJQpYVF/Logotipo-UCuenca.png" alt="Logo Universidad de Cuenca">
+  </div>
+  <div class="topbar-title">
+    <h1>Plan Estratégico de Desarrollo Institucional</h1>
+    <p>PEDI 2026–2031 &middot; Universidad de Cuenca &middot; Eje Académico</p>
+  </div>
+  <span class="topbar-badge">Análisis de datos</span>
+</div>
+
+<!-- COVER IMAGE — full width, no heavy overlay -->
+<div class="cover-wrap">
+  <img src="https://i.postimg.cc/k5DcZPHL/Portada_Académico.png"
+       alt="Portada PEDI 2026-2031 Universidad de Cuenca"
+       onerror="this.parentElement.style.minHeight='220px'">
+  <div class="cover-caption">
+    <h2>Tableros de análisis del eje académico</h2>
+    <p>Encuesta prospectiva, datos e indicadores de grado y posgrado para la planificación 2026–2031</p>
+  </div>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="main">
+
+  <div class="section-label">Tableros disponibles</div>
+
+  <div class="cards-grid">
+
+    <a href="Tablero_Encuesta.html" class="dash-card">
+      <div class="card-accent" style="background:linear-gradient(90deg,#0d2d5a,#1a56db)"></div>
+      <div class="card-body">
+        <div class="card-icon" style="background:#eff6ff">📋</div>
+        <div>
+          <div class="card-meta">Diagnóstico &middot; Encuesta prospectiva</div>
+          <div class="card-title">Encuesta &middot; Eje Académico</div>
+        </div>
+        <div class="card-desc">Resultados de la encuesta prospectiva a 480 docentes. Análisis por género, facultad y eje temático de 21 preguntas clave para el PEDI.</div>
+        <div class="card-chips">
+          <span class="chip">480 docentes</span>
+          <span class="chip">21 preguntas</span>
+          <span class="chip">Comparativa género</span>
+        </div>
+      </div>
+      <div class="card-cta">Ver tablero <span>→</span></div>
+    </a>
+
+    <a href="Tablero_Grado.html" class="dash-card">
+      <div class="card-accent" style="background:linear-gradient(90deg,#163a80,#3b82f6)"></div>
+      <div class="card-body">
+        <div class="card-icon" style="background:#eff6ff">🎓</div>
+        <div>
+          <div class="card-meta">Indicadores &middot; Mesas técnicas 1 y 2</div>
+          <div class="card-title">Indicadores de Grado</div>
+        </div>
+        <div class="card-desc">Panorama de indicadores académicos por facultad y carrera: cupos, matrículas, retención, titulación y eficiencia terminal para las dos mesas técnicas.</div>
+        <div class="card-chips">
+          <span class="chip">12 facultades</span>
+          <span class="chip">5 indicadores</span>
+          <span class="chip">2 mesas técnicas</span>
+        </div>
+      </div>
+      <div class="card-cta">Ver tablero <span>→</span></div>
+    </a>
+
+    <a href="Tablero_Posgrado.html" class="dash-card">
+      <div class="card-accent" style="background:linear-gradient(90deg,#059669,#3b82f6)"></div>
+      <div class="card-body">
+        <div class="card-icon" style="background:#ecfdf5">🚀</div>
+        <div>
+          <div class="card-meta">Diagnóstico &middot; Posgrados UC 2031</div>
+          <div class="card-title">Tablero de Posgrados</div>
+        </div>
+        <div class="card-desc">Análisis de oferta, apertura y matrícula de posgrados 2021–2026. Tasas de despegue por facultad, modalidad y tamaño de cohorte.</div>
+        <div class="card-chips">
+          <span class="chip">135 cohortes</span>
+          <span class="chip">63 en ejecución</span>
+          <span class="chip">27 sin abrir</span>
+        </div>
+      </div>
+      <div class="card-cta">Ver tablero <span>→</span></div>
+    </a>
+
+  </div>
+
+  <div class="stats-band">
+    <div class="stat-item">
+      <span class="n">480</span>
+      <span class="l">Docentes encuestados</span>
+    </div>
+    <div class="stat-item">
+      <span class="n">12</span>
+      <span class="l">Facultades analizadas</span>
+    </div>
+    <div class="stat-item">
+      <span class="n">63</span>
+      <span class="l">Cohortes de posgrado en ejecución</span>
+    </div>
+    <div class="stat-item">
+      <span class="n">2026–2031</span>
+      <span class="l">Período del PEDI</span>
+    </div>
+  </div>
+
+  <div class="section-label">Sobre este portal</div>
+  <div class="about-box">
+    <div>
+      <h3>¿Qué es el PEDI?</h3>
+      <p>El Plan Estratégico de Desarrollo Institucional (PEDI) 2026–2031 de la Universidad de Cuenca establece las líneas de acción prioritarias para el eje académico. Este portal reúne los tableros de datos que sustentan el diagnóstico situacional para las mesas técnicas de planificación.</p>
+    </div>
+    <div>
+      <h3>Contenido del eje académico</h3>
+      <ul>
+        <li>Resultados de la encuesta prospectiva a docentes</li>
+        <li>Indicadores de grado: cupos, matrículas, retención, titulación y eficiencia terminal por facultad y carrera</li>
+        <li>Diagnóstico de oferta y apertura de programas de posgrado 2021–2026</li>
+      </ul>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <div class="fi">
+    <div><strong>Universidad de Cuenca</strong> &middot; PEDI 2026–2031 &middot; Eje Académico</div>
+    <div>&middot; <strong>Septiembre de 2026</strong></div>
+  </div>
+</footer>
+
+</body>
+</html>
