@@ -45,7 +45,7 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
 .section-label::after{content:"";flex:1;height:1.5px;background:var(--border)}
 
 /* CARDS */
-.cards-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,340px),1fr));
+.cards-grid{display:grid;grid-template-columns:repeat(2,1fr);
   gap:22px;margin-bottom:48px}
 .dash-card{background:var(--card);border-radius:var(--r);box-shadow:var(--shadow);
   border:1px solid var(--border);overflow:hidden;text-decoration:none;color:var(--text);
@@ -54,6 +54,7 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
   animation:fadeUp .5s ease both}
 .dash-card:nth-child(2){animation-delay:.1s}
 .dash-card:nth-child(3){animation-delay:.2s}
+.dash-card:nth-child(4){animation-delay:.3s}
 .dash-card:hover{transform:translateY(-4px);box-shadow:0 12px 36px rgba(13,45,90,.16);border-color:var(--light)}
 .card-accent{height:5px;width:100%}
 .card-body{padding:22px 24px 20px;flex:1;display:flex;flex-direction:column;gap:10px}
@@ -101,6 +102,7 @@ footer strong{color:rgba(255,255,255,.9)}
   .topbar-badge{display:none}
   .cover-caption{padding:14px 18px}
   .main{padding:24px 16px 48px}
+  .cards-grid{grid-template-columns:1fr}
   .stats-band{padding:20px 16px}
   .stat-item{border-right:none;border-bottom:1px solid rgba(255,255,255,.14);padding:8px 0}
   .stat-item:last-child{border-bottom:none}
@@ -125,12 +127,12 @@ footer strong{color:rgba(255,255,255,.9)}
 
 <!-- COVER IMAGE — full width, no heavy overlay -->
 <div class="cover-wrap">
-  <img src="https://i.postimg.cc/k5DcZPHL/Portada_Académico.png"
+  <img src="https://i.postimg.cc/P5dBp0wH/Portada-PEDI.png"
        alt="Portada PEDI 2026-2031 Universidad de Cuenca"
        onerror="this.parentElement.style.minHeight='220px'">
   <div class="cover-caption">
     <h2>Tableros de análisis del eje académico</h2>
-    <p>Encuesta prospectiva, datos e indicadores de grado y posgrado para la planificación 2026–2031</p>
+    <p>Encuesta prospectiva, indicadores de grado y datos de posgrado para la planificación 2026–2031</p>
   </div>
 </div>
 
@@ -164,7 +166,7 @@ footer strong{color:rgba(255,255,255,.9)}
       <div class="card-body">
         <div class="card-icon" style="background:#eff6ff">🎓</div>
         <div>
-          <div class="card-meta">Indicadores &middot; Mesas técnicas 1 y 2</div>
+          <div class="card-meta">Diagnóstico &middot; Mesas técnicas 1 y 2</div>
           <div class="card-title">Indicadores de Grado</div>
         </div>
         <div class="card-desc">Panorama de indicadores académicos por facultad y carrera: cupos, matrículas, retención, titulación y eficiencia terminal para las dos mesas técnicas.</div>
@@ -183,13 +185,31 @@ footer strong{color:rgba(255,255,255,.9)}
         <div class="card-icon" style="background:#ecfdf5">🚀</div>
         <div>
           <div class="card-meta">Diagnóstico &middot; Posgrados UC 2031</div>
-          <div class="card-title">Tablero de Posgrados</div>
+          <div class="card-title">Indicadores de Posgrados</div>
         </div>
         <div class="card-desc">Análisis de oferta, apertura y matrícula de posgrados 2021–2026. Tasas de despegue por facultad, modalidad y tamaño de cohorte.</div>
         <div class="card-chips">
           <span class="chip">135 cohortes</span>
           <span class="chip">63 en ejecución</span>
           <span class="chip">27 sin abrir</span>
+        </div>
+      </div>
+      <div class="card-cta">Ver tablero <span>→</span></div>
+    </a>
+
+    <a href="Tablero_Caracterización.html" class="dash-card">
+      <div class="card-accent" style="background:linear-gradient(90deg,#7c3aed,#3b82f6)"></div>
+      <div class="card-body">
+        <div class="card-icon" style="background:#f5f3ff">🔍</div>
+        <div>
+          <div class="card-meta">Diagnóstico &middot; Caracterización estudiantes</div>
+          <div class="card-title">Caracterización de los estudiantes </div>
+        </div>
+        <div class="card-desc">Perfil y Caracterización de los estudiantes de la Universidad de Cuenca, con base en la información de la Ficha Socioeconómica.</div>
+        <div class="card-chips">
+          <span class="chip">12 facultades</span>
+          <span class="chip">2 periodos</span>
+          <span class="chip">Levantamiento 2024</span>
         </div>
       </div>
       <div class="card-cta">Ver tablero <span>→</span></div>
@@ -237,7 +257,7 @@ footer strong{color:rgba(255,255,255,.9)}
 <footer>
   <div class="fi">
     <div><strong>Universidad de Cuenca</strong> &middot; PEDI 2026–2031 &middot; Eje Académico</div>
-    <div>&middot; <strong>Septiembre de 2026</strong></div>
+    <div>Dirección de Planificación Institucional &middot; <strong>Sep 2026</strong></div>
   </div>
 </footer>
 

@@ -1,0 +1,3760 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Caracterización del Estudiante | Universidad de Cuenca</title>
+<style>
+:root{
+  --navy:#0d2d5a;--royal:#1a56db;--sky:#3b82f6;--light:#93c5fd;--pale:#eff6ff;
+  --text:#1e293b;--muted:#64748b;--bg:#f1f5f9;--card:#fff;
+  --border:#e2e8f0;--shadow:0 2px 14px rgba(13,45,90,.09);--r:12px;
+  --font:"Segoe UI",system-ui,-apple-system,sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:100vh}
+
+/* ── HEADER · mismo lenguaje visual de Tablero_Encuesta ── */
+.hdr{background:linear-gradient(135deg,#091e42 0%,#0d2d5a 40%,#163a80 70%,#1a56db 100%);
+  color:#fff;position:relative;overflow:hidden;padding:28px 20px 56px}
+.hdr-geo{position:absolute;top:0;right:0;opacity:.07;pointer-events:none}
+.hdr-circ{position:absolute;bottom:-90px;left:-60px;width:280px;height:280px;
+  border-radius:50%;background:rgba(255,255,255,.04);pointer-events:none}
+.hdr-inner{max-width:1280px;margin:0 auto;display:flex;align-items:center;gap:22px;
+  position:relative;z-index:1;flex-wrap:wrap}
+.hdr-logo{width:155px;height:82px;border-radius:14px;
+  background:rgba(255,255,255,.90);display:flex;align-items:center;
+  justify-content:center;overflow:hidden;flex-shrink:0;backdrop-filter:blur(24px);
+  border:2px solid rgba(255,255,255,.55);box-shadow:0 6px 28px rgba(0,0,0,.20);padding:10px}
+.hdr-logo img{width:100%;height:100%;object-fit:contain}
+.hdr-txt{flex:1;min-width:200px}
+.hdr-txt h1{font-size:clamp(1.05rem,2.8vw,1.5rem);font-weight:800;letter-spacing:-.02em;line-height:1.2}
+.hdr-txt p{margin-top:5px;font-size:.84rem;opacity:.72;line-height:1.45}
+.hdr-stats{display:flex;gap:10px;flex-shrink:0}
+.stat{background:rgba(255,255,255,.12);border:1.5px solid rgba(255,255,255,.22);
+  border-radius:50px;padding:8px 18px;text-align:center;backdrop-filter:blur(10px);min-width:105px}
+.stat .n{font-size:1.28rem;font-weight:800;display:block;line-height:1;white-space:nowrap}
+.stat .l{font-size:.63rem;opacity:.76;text-transform:uppercase;letter-spacing:.07em;white-space:nowrap}
+.hdr-wave{position:absolute;bottom:0;left:0;right:0;height:40px;width:100%}
+
+/* ── HOME BUTTON ── */
+.home-btn{position:fixed;top:14px;right:18px;z-index:9999;display:inline-flex;align-items:center;gap:7px;
+  padding:7px 16px 7px 12px;border-radius:50px;background:#fff;border:2px solid #e2e8f0;
+  color:#0d2d5a;font-size:.78rem;font-weight:800;text-decoration:none;letter-spacing:.04em;
+  text-transform:uppercase;box-shadow:0 4px 16px rgba(13,45,90,.20);
+  transition:background .18s,box-shadow .18s,border-color .18s;cursor:pointer}
+.home-btn:hover{background:#eff6ff;border-color:#93c5fd;box-shadow:0 6px 24px rgba(13,45,90,.28)}
+.home-btn svg{width:15px;height:15px;flex-shrink:0}
+
+/* ── FILTERS ── */
+.flt-wrap{position:sticky;top:0;z-index:100;background:#fff;border-bottom:1px solid var(--border);
+  box-shadow:0 3px 12px rgba(0,0,0,.07)}
+.flt{max-width:1280px;margin:0 auto;padding:10px 20px;display:flex;flex-direction:column;gap:8px}
+.flt-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.flt-lbl{font-size:.67rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;
+  color:var(--muted);width:64px;flex-shrink:0}
+.flt select{min-width:min(100%,360px);max-width:520px;padding:6px 34px 6px 12px;border-radius:50px;
+  font-family:var(--font);font-size:.79rem;font-weight:600;border:1.5px solid var(--border);
+  background:#fff;color:var(--muted);cursor:pointer;outline:none;line-height:1.4;transition:all .18s ease}
+.flt select:hover{border-color:var(--sky);color:var(--royal)}
+.flt select:focus{border-color:var(--royal);box-shadow:0 2px 8px rgba(26,86,219,.18);color:var(--text)}
+.filter-note{margin-left:auto;font-size:.69rem;color:var(--muted);font-weight:600}
+
+/* ── MAIN ── */
+.main{max-width:1280px;margin:0 auto;padding:24px 20px 52px}
+.block{margin-bottom:36px}
+.block-header{display:flex;align-items:center;gap:14px;padding:16px 24px;
+  background:linear-gradient(135deg,var(--navy) 0%,#163a80 100%);border-radius:var(--r);
+  color:#fff;margin-bottom:20px;box-shadow:0 4px 16px rgba(13,45,90,.18)}
+.block-num{font-size:1rem;width:50px;height:50px;display:flex;align-items:center;justify-content:center;
+  background:rgba(255,255,255,.14);border-radius:10px;flex-shrink:0;font-weight:800;color:#fff}
+.block-title{font-size:1.02rem;font-weight:800;line-height:1.3;color:#fff;text-transform:none;letter-spacing:0}
+.block-divider{display:none}
+
+/* ── CARDS ── */
+.tiles-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,220px),1fr));gap:20px}
+.tile{background:var(--card);border-radius:var(--r);box-shadow:var(--shadow);overflow:hidden;
+  border:1px solid var(--border);min-height:138px;display:flex;flex-direction:column;position:relative}
+.tile::before{content:"";display:block;height:4px;background:linear-gradient(90deg,var(--royal),var(--sky))}
+.tile-value{font-size:1.65rem;font-weight:800;line-height:1.05;letter-spacing:-.025em;color:var(--navy);
+  padding:18px 18px 0}
+.tile-unit{font-size:.82rem;font-weight:700;color:var(--royal);margin-left:2px}
+.tile-label{font-size:.78rem;font-weight:600;line-height:1.45;color:var(--text);padding:5px 18px 10px;flex:1}
+.tile-label small{font-size:.69rem;font-weight:500;color:var(--muted)}
+.tile-bar{height:5px;margin:4px 18px 17px;background:#edf2f7;border-radius:50px;overflow:hidden}
+.tile-bar-fill{height:100%;border-radius:50px;background:linear-gradient(90deg,var(--royal),var(--sky));transition:width .5s ease}
+.tile-currency .tile-value{font-size:1.48rem}
+.tile:hover{box-shadow:0 7px 24px rgba(13,45,90,.13);transform:translateY(-1px);transition:.18s ease}
+
+/* ligeras variaciones por bloque, manteniendo una sola identidad PEDI */
+.b2 .tile::before,.b2 .tile-bar-fill{background:linear-gradient(90deg,#163a80,#3b82f6)}
+.b3 .tile::before,.b3 .tile-bar-fill{background:linear-gradient(90deg,#2563eb,#60a5fa)}
+.b4 .tile::before,.b4 .tile-bar-fill{background:linear-gradient(90deg,#0f5fa8,#38bdf8)}
+
+/* ── FOOTER ── */
+footer.footer{background:var(--navy);color:rgba(255,255,255,.72);padding:28px 20px;font-size:.77rem;line-height:1.75;
+  border:0;text-align:left}
+.footer .fi{max-width:1280px;margin:0 auto}
+.footer strong{color:rgba(255,255,255,.94)}
+.footer p+p{margin-top:6px}
+
+/* ── RESPONSIVE ── */
+@media(max-width:760px){
+  .hdr{padding-top:24px}.hdr-stats{display:none}.hdr-inner{gap:14px}.hdr-logo{width:130px;height:74px}
+  .flt-lbl{width:56px;font-size:.62rem}.flt select{flex:1;min-width:0;width:calc(100% - 65px)}
+  .filter-note{display:none}.tiles-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+  .block-header{padding:13px 16px}.block-num{width:42px;height:42px}.block-title{font-size:.92rem}
+  .tile-value{font-size:1.42rem;padding:15px 14px 0}.tile-label{padding:5px 14px 9px}.tile-bar{margin:4px 14px 14px}
+  .home-btn{padding:7px 10px;right:10px}.home-btn span{display:none}
+}
+@media(max-width:430px){.tiles-grid{grid-template-columns:1fr}.main{padding-left:14px;padding-right:14px}}
+</style>
+</head>
+<body>
+<a href="index.html" class="home-btn" aria-label="Volver al inicio">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z"/>
+    <path d="M9 21V12h6v9"/>
+  </svg>
+  <span>INICIO</span>
+</a>
+
+<!-- HEADER -->
+<header class="hdr">
+  <svg class="hdr-geo" width="520" height="420" viewBox="0 0 520 420" aria-hidden="true">
+    <circle cx="420" cy="60" r="130" fill="none" stroke="white" stroke-width="1.5"/>
+    <circle cx="420" cy="60" r="90" fill="none" stroke="white" stroke-width="1"/>
+    <circle cx="420" cy="60" r="50" fill="none" stroke="white" stroke-width=".7"/>
+    <polygon points="390,20 450,20 480,70 450,120 390,120 360,70" fill="none" stroke="white" stroke-width="1.2"/>
+    <line x1="290" y1="60" x2="520" y2="60" stroke="white" stroke-width=".8"/>
+    <line x1="420" y1="-70" x2="420" y2="190" stroke="white" stroke-width=".8"/>
+    <circle cx="150" cy="320" r="80" fill="none" stroke="white" stroke-width="1"/>
+    <circle cx="150" cy="320" r="40" fill="none" stroke="white" stroke-width=".6"/>
+  </svg>
+  <div class="hdr-circ"></div>
+  <div class="hdr-inner">
+    <div class="hdr-logo">
+      <img id="logoImg" src="https://i.postimg.cc/CMJQpYVF/Logotipo-UCuenca.png" alt="Logo Universidad de Cuenca">
+    </div>
+    <div class="hdr-txt">
+      <h1>Caracterización del Estudiante</h1>
+      <p>PEDI 2026&ndash;2031 &middot; Universidad de Cuenca &middot; Ficha Socioeconómica</p>
+    </div>
+    <div class="hdr-stats">
+      <div class="stat"><span class="n" id="badge-count">31,354</span><span class="l">Registros</span></div>
+      <div class="stat"><span class="n">2</span><span class="l">Períodos</span></div>
+      <div class="stat"><span class="n">2024</span><span class="l">Levantamiento</span></div>
+    </div>
+  </div>
+  <svg class="hdr-wave" viewBox="0 0 1440 40" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M0,20L80,24C160,28,320,36,480,36C640,36,800,28,960,22C1120,16,1280,10,1360,7L1440,4L1440,40L0,40Z" fill="#f1f5f9"/>
+  </svg>
+</header>
+
+<!-- FILTERS -->
+<div class="flt-wrap" role="navigation" aria-label="Filtros del dashboard">
+  <div class="flt">
+    <div class="flt-row">
+      <label class="flt-lbl" for="sel-fac">Facultad</label>
+      <select id="sel-fac" onchange="onFacChange()"><option value="__GLOBAL__">Todas las facultades</option></select>
+      <span class="filter-note">Seleccione una facultad para habilitar sus carreras</span>
+    </div>
+    <div class="flt-row">
+      <label class="flt-lbl" for="sel-car">Carrera</label>
+      <select id="sel-car" onchange="onCarChange()"><option value="__GLOBAL__">Todas las carreras</option></select>
+    </div>
+  </div>
+</div>
+
+<!-- CONTENIDO -->
+<main class="main">
+
+  <!-- BLOQUE 1 -->
+  <div class="block b1">
+    <div class="block-header">
+      <div class="block-num">1</div>
+      <div class="block-title">Perfil General</div>
+      <div class="block-divider"></div>
+    </div>
+    <div class="tiles-grid">
+      <div class="tile">
+        <div class="tile-value"><span id="t-mujeres">—</span><span class="tile-unit">%</span></div>
+        <div class="tile-label">Mujeres</div>
+        <div class="tile-bar"><div class="tile-bar-fill" id="b-mujeres" style="width:0%"></div></div>
+      </div>
+      <div class="tile tile-currency">
+        <div class="tile-value">USD&thinsp;<span id="t-ipc">—</span></div>
+        <div class="tile-label">Ingreso familiar per cápita (mediana mensual)</div>
+      </div>
+      <div class="tile">
+        <div class="tile-value"><span id="t-arrendada">—</span><span class="tile-unit">%</span></div>
+        <div class="tile-label">Vivienda arrendada</div>
+        <div class="tile-bar"><div class="tile-bar-fill" id="b-arrendada" style="width:0%"></div></div>
+      </div>
+      <div class="tile">
+        <div class="tile-value"><span id="t-urbana">—</span><span class="tile-unit">%</span></div>
+        <div class="tile-label">Zona urbana</div>
+        <div class="tile-bar"><div class="tile-bar-fill" id="b-urbana" style="width:0%"></div></div>
+      </div>
+      <div class="tile">
+        <div class="tile-value"><span id="t-rural">—</span><span class="tile-unit">%</span></div>
+        <div class="tile-label">Zona rural</div>
+        <div class="tile-bar"><div class="tile-bar-fill" id="b-rural" style="width:0%"></div></div>
+      </div>
+      <div class="tile">
+        <div class="tile-value"><span id="t-fuera-fam">—</span><span class="tile-unit">%</span></div>
+        <div class="tile-label">Hogar fuera del cantón Cuenca<br><small style="opacity:.7">(vivienda familiar)</small></div>
+        <div class="tile-bar"><div class="tile-bar-fill" id="b-fuera-fam" style="width:0%"></div></div>
+      </div>
+      <div class="tile">
+        <div class="tile-value"><span id="t-fuera-dom">—</span><span class="tile-unit">%</span></div>
+        <div class="tile-label">Domicilio estudiantil fuera de Cuenca</div>
+        <div class="tile-bar"><div class="tile-bar-fill" id="b-fuera-dom" style="width:0%"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BLOQUE 2 -->
+  <div class="block b2">
+    <div class="block-header">
+      <div class="block-num">2</div>
+      <div class="block-title">Condición Socioeconómica y Educativa</div>
+      <div class="block-divider"></div>
+    </div>
+    <div class="tiles-grid">
+      <div class="tile">
+        <div class="tile-value"><span id="t-ipc-bajo">—</span><span class="tile-unit">%</span></div>
+        <div class="tile-label">Ingreso per cápita &lt; USD 230<br><small style="opacity:.7">(mitad del salario básico 2024)</small></div>
+        <div class="tile-bar"><div class="tile-bar-fill" id="b-ipc-bajo" style="width:0%"></div></div>
+      </div>
+      <div class="tile">
+        <div class="tile-value"><span id="t-primera">—</span><span class="tile-unit">%</span></div>
+        <div class="tile-label">Primera generación universitaria<br><small style="opacity:.7">(sin progenitores con formación superior)</small></div>
+        <div class="tile-bar"><div class="tile-bar-fill" id="b-primera" style="width:0%"></div></div>
+      </div>
+      <div class="tile">
+        <div class="tile-value"><span id="t-fin-prop">—</span><span class="tile-unit">%</span></div>
+        <div class="tile-label">Financia estudios con recursos propios</div>
+        <div class="tile-bar"><div class="tile-bar-fill" id="b-fin-prop" style="width:0%"></div></div>
+      </div>
+      <div class="tile">
+        <div class="tile-value"><span id="t-trabaja">—</span><span class="tile-unit">%</span></div>
+        <div class="tile-label">Trabaja</div>
+        <div class="tile-bar"><div class="tile-bar-fill" id="b-trabaja" style="width:0%"></div></div>
+      </div>
+      <div class="tile">
+        <div class="tile-value"><span id="t-bus">—</span><span class="tile-unit">%</span></div>
+        <div class="tile-label">Usa bus como transporte principal (prioridad 1)</div>
+        <div class="tile-bar"><div class="tile-bar-fill" id="b-bus" style="width:0%"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BLOQUE 3 -->
+  <div class="block b3">
+    <div class="block-header">
+      <div class="block-num">3</div>
+      <div class="block-title">Bienestar y Trayectoria</div>
+      <div class="block-divider"></div>
+    </div>
+    <div class="tiles-grid">
+      <div class="tile">
+        <div class="tile-value"><span id="t-discap">—</span><span class="tile-unit">%</span></div>
+        <div class="tile-label">Con discapacidad</div>
+        <div class="tile-bar"><div class="tile-bar-fill" id="b-discap" style="width:0%"></div></div>
+      </div>
+      <div class="tile">
+        <div class="tile-value"><span id="t-afeccion">—</span><span class="tile-unit">%</span></div>
+        <div class="tile-label">Declara afección emocional</div>
+        <div class="tile-bar"><div class="tile-bar-fill" id="b-afeccion" style="width:0%"></div></div>
+      </div>
+      <div class="tile">
+        <div class="tile-value"><span id="t-psi">—</span><span class="tile-unit">%</span></div>
+        <div class="tile-label">En tratamiento psicológico</div>
+        <div class="tile-bar"><div class="tile-bar-fill" id="b-psi" style="width:0%"></div></div>
+      </div>
+      <div class="tile">
+        <div class="tile-value"><span id="t-otra-uc">—</span><span class="tile-unit">%</span></div>
+        <div class="tile-label">Había postulado a otra universidad o cursado otra carrera</div>
+        <div class="tile-bar"><div class="tile-bar-fill" id="b-otra-uc" style="width:0%"></div></div>
+      </div>
+      <div class="tile tile-currency">
+        <div class="tile-value"><span id="t-nota">—</span><span class="tile-unit">/10</span></div>
+        <div class="tile-label">Nota de bachillerato (mediana)</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BLOQUE 4 -->
+  <div class="block b4">
+    <div class="block-header">
+      <div class="block-num">4</div>
+      <div class="block-title">Otras Características</div>
+      <div class="block-divider"></div>
+    </div>
+    <div class="tiles-grid">
+      <div class="tile">
+        <div class="tile-value"><span id="t-mudarse">—</span><span class="tile-unit">%</span></div>
+        <div class="tile-label">Planea mudarse</div>
+        <div class="tile-bar"><div class="tile-bar-fill" id="b-mudarse" style="width:0%"></div></div>
+      </div>
+      <div class="tile">
+        <div class="tile-value"><span id="t-cuotas">—</span><span class="tile-unit">%</span></div>
+        <div class="tile-label">Cupo por política de cuotas</div>
+        <div class="tile-bar"><div class="tile-bar-fill" id="b-cuotas" style="width:0%"></div></div>
+      </div>
+      <div class="tile">
+        <div class="tile-value"><span id="t-indigena">—</span><span class="tile-unit">%</span></div>
+        <div class="tile-label">Se autoidentifica como indígena</div>
+        <div class="tile-bar"><div class="tile-bar-fill" id="b-indigena" style="width:0%"></div></div>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<footer class="footer">
+  <div class="fi">
+    <p><strong>Caracterización del Estudiante.</strong> Indicadores construidos a partir de la Ficha Socioeconómica de la Universidad de Cuenca.</p>
+    <p>Períodos Mar&ndash;Ago 2024 y Sep 2024&ndash;Feb 2025 &middot; Datos: 31,354 registros.</p>
+    <p>PEDI 2026&ndash;2031 &middot; Universidad de Cuenca &middot; Eje Académico</p>
+  </div>
+</footer>
+
+<script>
+// Logo fallback, coherente con el tablero PEDI
+document.getElementById('logoImg').onerror = function(){
+  this.onerror=null;
+  this.parentNode.innerHTML = '<div style="color:#0d2d5a;font-weight:900;text-align:center;line-height:1.05">UC<br>UENCA</div>';
+};
+/* ══ DATOS ══════════════════════════════════════════════════ */
+const DATA = {
+  "__GLOBAL__": {
+    "__GLOBAL__": {
+      "n": 31354,
+      "pct_mujeres": 58.1,
+      "mediana_ipc": 150.0,
+      "pct_arrendada": 36.7,
+      "pct_urbana": 54.9,
+      "pct_rural": 45.1,
+      "pct_fuera_fam": 31.2,
+      "pct_fuera_dom": 20.5,
+      "pct_ipc_bajo": 72.7,
+      "pct_primera_gen": 68.7,
+      "pct_fin_propios": 17.6,
+      "pct_trabaja": 14.1,
+      "pct_bus": 76.1,
+      "pct_discapacidad": 0.7,
+      "pct_afeccion": 28.8,
+      "pct_tratamiento_psi": 9.7,
+      "pct_otra_uc": 7.0,
+      "mediana_nota": 9.1,
+      "pct_mudarse": 20.8,
+      "pct_cuotas": 4.4,
+      "pct_indigena": 4.1
+    }
+  },
+  "FACULTAD DE ARQUITECTURA Y URBANISMO  ": {
+    "__GLOBAL__": {
+      "n": 1541,
+      "pct_mujeres": 51.9,
+      "mediana_ipc": 200.0,
+      "pct_arrendada": 29.1,
+      "pct_urbana": 64.0,
+      "pct_rural": 36.0,
+      "pct_fuera_fam": 36.5,
+      "pct_fuera_dom": 21.7,
+      "pct_ipc_bajo": 57.2,
+      "pct_primera_gen": 52.9,
+      "pct_fin_propios": 11.3,
+      "pct_trabaja": 11.3,
+      "pct_bus": 63.8,
+      "pct_discapacidad": 0.5,
+      "pct_afeccion": 24.8,
+      "pct_tratamiento_psi": 7.5,
+      "pct_otra_uc": 5.3,
+      "mediana_nota": 9.37,
+      "pct_mudarse": 24.5,
+      "pct_cuotas": 3.8,
+      "pct_indigena": 4.0
+    },
+    "ARQUITECTURA": {
+      "n": 18,
+      "pct_mujeres": 77.8,
+      "mediana_ipc": 178.57,
+      "pct_arrendada": 27.8,
+      "pct_urbana": 55.6,
+      "pct_rural": 44.4,
+      "pct_fuera_fam": 33.3,
+      "pct_fuera_dom": 11.1,
+      "pct_ipc_bajo": 66.7,
+      "pct_primera_gen": 44.4,
+      "pct_fin_propios": 11.1,
+      "pct_trabaja": 0.0,
+      "pct_bus": 66.7,
+      "pct_discapacidad": 0.0,
+      "pct_afeccion": 55.6,
+      "pct_tratamiento_psi": 22.2,
+      "pct_otra_uc": 5.6,
+      "mediana_nota": 9.0,
+      "pct_mudarse": 33.3,
+      "pct_cuotas": 0.0,
+      "pct_indigena": 0.0
+    },
+    "ARQUITECTURA  REDISEÑO": {
+      "n": 1523,
+      "pct_mujeres": 51.6,
+      "mediana_ipc": 200.0,
+      "pct_arrendada": 29.1,
+      "pct_urbana": 64.1,
+      "pct_rural": 35.9,
+      "pct_fuera_fam": 36.5,
+      "pct_fuera_dom": 21.8,
+      "pct_ipc_bajo": 57.1,
+      "pct_primera_gen": 53.0,
+      "pct_fin_propios": 11.3,
+      "pct_trabaja": 11.4,
+      "pct_bus": 63.8,
+      "pct_discapacidad": 0.5,
+      "pct_afeccion": 24.4,
+      "pct_tratamiento_psi": 7.3,
+      "pct_otra_uc": 5.3,
+      "mediana_nota": 9.37,
+      "pct_mudarse": 24.4,
+      "pct_cuotas": 3.9,
+      "pct_indigena": 4.1
+    }
+  },
+  "FACULTAD DE ARTES": {
+    "__GLOBAL__": {
+      "n": 1662,
+      "pct_mujeres": 54.8,
+      "mediana_ipc": 180.0,
+      "pct_arrendada": 36.2,
+      "pct_urbana": 62.6,
+      "pct_rural": 37.4,
+      "pct_fuera_fam": 28.0,
+      "pct_fuera_dom": 17.4,
+      "pct_ipc_bajo": 62.8,
+      "pct_primera_gen": 60.2,
+      "pct_fin_propios": 19.6,
+      "pct_trabaja": 15.3,
+      "pct_bus": 66.4,
+      "pct_discapacidad": 1.0,
+      "pct_afeccion": 33.1,
+      "pct_tratamiento_psi": 11.7,
+      "pct_otra_uc": 11.7,
+      "mediana_nota": 8.96,
+      "pct_mudarse": 19.3,
+      "pct_cuotas": 3.0,
+      "pct_indigena": 3.3
+    },
+    "ARTES ESCENICAS REDISEÑO": {
+      "n": 167,
+      "pct_mujeres": 69.5,
+      "mediana_ipc": 150.0,
+      "pct_arrendada": 44.9,
+      "pct_urbana": 69.5,
+      "pct_rural": 30.5,
+      "pct_fuera_fam": 22.8,
+      "pct_fuera_dom": 14.4,
+      "pct_ipc_bajo": 70.1,
+      "pct_primera_gen": 65.3,
+      "pct_fin_propios": 21.6,
+      "pct_trabaja": 16.8,
+      "pct_bus": 69.5,
+      "pct_discapacidad": 0.6,
+      "pct_afeccion": 44.9,
+      "pct_tratamiento_psi": 18.6,
+      "pct_otra_uc": 13.8,
+      "mediana_nota": 8.61,
+      "pct_mudarse": 17.4,
+      "pct_cuotas": 1.8,
+      "pct_indigena": 2.4
+    },
+    "ARTES MUSICALES": {
+      "n": 10,
+      "pct_mujeres": 0.0,
+      "mediana_ipc": 133.33,
+      "pct_arrendada": 30.0,
+      "pct_urbana": 70.0,
+      "pct_rural": 30.0,
+      "pct_fuera_fam": 30.0,
+      "pct_fuera_dom": 0.0,
+      "pct_ipc_bajo": 80.0,
+      "pct_primera_gen": 50.0,
+      "pct_fin_propios": 50.0,
+      "pct_trabaja": 70.0,
+      "pct_bus": 30.0,
+      "pct_discapacidad": 0.0,
+      "pct_afeccion": 30.0,
+      "pct_tratamiento_psi": 30.0,
+      "pct_otra_uc": 30.0,
+      "mediana_nota": 8.6,
+      "pct_mudarse": 30.0,
+      "pct_cuotas": 0.0,
+      "pct_indigena": 0.0
+    },
+    "ARTES MUSICALES REDISEÑO": {
+      "n": 317,
+      "pct_mujeres": 29.3,
+      "mediana_ipc": 200.0,
+      "pct_arrendada": 36.3,
+      "pct_urbana": 61.8,
+      "pct_rural": 38.2,
+      "pct_fuera_fam": 29.0,
+      "pct_fuera_dom": 14.8,
+      "pct_ipc_bajo": 61.8,
+      "pct_primera_gen": 51.1,
+      "pct_fin_propios": 38.2,
+      "pct_trabaja": 29.0,
+      "pct_bus": 48.9,
+      "pct_discapacidad": 0.0,
+      "pct_afeccion": 27.1,
+      "pct_tratamiento_psi": 9.8,
+      "pct_otra_uc": 16.1,
+      "mediana_nota": 8.6,
+      "pct_mudarse": 22.7,
+      "pct_cuotas": 2.8,
+      "pct_indigena": 6.6
+    },
+    "ARTES VISUALES": {
+      "n": 9,
+      "pct_mujeres": 22.2,
+      "mediana_ipc": 137.5,
+      "pct_arrendada": 55.6,
+      "pct_urbana": 22.2,
+      "pct_rural": 77.8,
+      "pct_fuera_fam": 11.1,
+      "pct_fuera_dom": 11.1,
+      "pct_ipc_bajo": 100.0,
+      "pct_primera_gen": 100.0,
+      "pct_fin_propios": 66.7,
+      "pct_trabaja": 44.4,
+      "pct_bus": 77.8,
+      "pct_discapacidad": 0.0,
+      "pct_afeccion": 22.2,
+      "pct_tratamiento_psi": 22.2,
+      "pct_otra_uc": 0.0,
+      "mediana_nota": 8.0,
+      "pct_mudarse": 11.1,
+      "pct_cuotas": 0.0,
+      "pct_indigena": 0.0
+    },
+    "ARTES VISUALES REDISEÑO": {
+      "n": 395,
+      "pct_mujeres": 52.2,
+      "mediana_ipc": 183.33,
+      "pct_arrendada": 36.5,
+      "pct_urbana": 64.8,
+      "pct_rural": 35.2,
+      "pct_fuera_fam": 27.6,
+      "pct_fuera_dom": 15.4,
+      "pct_ipc_bajo": 62.8,
+      "pct_primera_gen": 61.0,
+      "pct_fin_propios": 15.9,
+      "pct_trabaja": 12.2,
+      "pct_bus": 70.1,
+      "pct_discapacidad": 3.8,
+      "pct_afeccion": 40.3,
+      "pct_tratamiento_psi": 13.9,
+      "pct_otra_uc": 7.6,
+      "mediana_nota": 8.8,
+      "pct_mudarse": 17.0,
+      "pct_cuotas": 1.8,
+      "pct_indigena": 2.5
+    },
+    "DANZA  TEATRO": {
+      "n": 2,
+      "pct_mujeres": 0.0,
+      "mediana_ipc": 125.0,
+      "pct_arrendada": 100.0,
+      "pct_urbana": 0.0,
+      "pct_rural": 100.0,
+      "pct_fuera_fam": 50.0,
+      "pct_fuera_dom": 0.0,
+      "pct_ipc_bajo": 100.0,
+      "pct_primera_gen": 100.0,
+      "pct_fin_propios": 100.0,
+      "pct_trabaja": 0.0,
+      "pct_bus": 50.0,
+      "pct_discapacidad": 0.0,
+      "pct_afeccion": 50.0,
+      "pct_tratamiento_psi": 0.0,
+      "pct_otra_uc": 0.0,
+      "mediana_nota": 8.5,
+      "pct_mudarse": 50.0,
+      "pct_cuotas": 0.0,
+      "pct_indigena": 50.0
+    },
+    "DISEÑO": {
+      "n": 14,
+      "pct_mujeres": 14.3,
+      "mediana_ipc": 176.67,
+      "pct_arrendada": 35.7,
+      "pct_urbana": 64.3,
+      "pct_rural": 35.7,
+      "pct_fuera_fam": 28.6,
+      "pct_fuera_dom": 28.6,
+      "pct_ipc_bajo": 78.6,
+      "pct_primera_gen": 78.6,
+      "pct_fin_propios": 78.6,
+      "pct_trabaja": 57.1,
+      "pct_bus": 50.0,
+      "pct_discapacidad": 0.0,
+      "pct_afeccion": 57.1,
+      "pct_tratamiento_psi": 14.3,
+      "pct_otra_uc": 35.7,
+      "mediana_nota": 8.5,
+      "pct_mudarse": 14.3,
+      "pct_cuotas": 7.1,
+      "pct_indigena": 7.1
+    },
+    "DISEÑO DE INTERIORES": {
+      "n": 350,
+      "pct_mujeres": 79.1,
+      "mediana_ipc": 175.0,
+      "pct_arrendada": 35.4,
+      "pct_urbana": 62.3,
+      "pct_rural": 37.7,
+      "pct_fuera_fam": 29.7,
+      "pct_fuera_dom": 23.1,
+      "pct_ipc_bajo": 60.3,
+      "pct_primera_gen": 63.4,
+      "pct_fin_propios": 12.0,
+      "pct_trabaja": 9.4,
+      "pct_bus": 71.4,
+      "pct_discapacidad": 0.0,
+      "pct_afeccion": 27.1,
+      "pct_tratamiento_psi": 7.7,
+      "pct_otra_uc": 10.0,
+      "mediana_nota": 9.12,
+      "pct_mudarse": 20.9,
+      "pct_cuotas": 4.6,
+      "pct_indigena": 1.7
+    },
+    "DISEÑO GRAFICO REDISEÑO": {
+      "n": 398,
+      "pct_mujeres": 54.0,
+      "mediana_ipc": 183.33,
+      "pct_arrendada": 32.4,
+      "pct_urbana": 59.5,
+      "pct_rural": 40.5,
+      "pct_fuera_fam": 28.6,
+      "pct_fuera_dom": 18.1,
+      "pct_ipc_bajo": 60.8,
+      "pct_primera_gen": 60.3,
+      "pct_fin_propios": 9.8,
+      "pct_trabaja": 8.5,
+      "pct_bus": 72.4,
+      "pct_discapacidad": 0.0,
+      "pct_afeccion": 30.4,
+      "pct_tratamiento_psi": 10.8,
+      "pct_otra_uc": 12.1,
+      "mediana_nota": 9.2,
+      "pct_mudarse": 18.1,
+      "pct_cuotas": 3.5,
+      "pct_indigena": 3.0
+    }
+  },
+  "FACULTAD DE CIENCIAS AGROPECUARIAS": {
+    "__GLOBAL__": {
+      "n": 2549,
+      "pct_mujeres": 61.7,
+      "mediana_ipc": 118.75,
+      "pct_arrendada": 35.2,
+      "pct_urbana": 46.6,
+      "pct_rural": 53.4,
+      "pct_fuera_fam": 35.3,
+      "pct_fuera_dom": 24.8,
+      "pct_ipc_bajo": 81.7,
+      "pct_primera_gen": 74.8,
+      "pct_fin_propios": 21.2,
+      "pct_trabaja": 19.1,
+      "pct_bus": 78.5,
+      "pct_discapacidad": 0.5,
+      "pct_afeccion": 32.1,
+      "pct_tratamiento_psi": 12.1,
+      "pct_otra_uc": 5.1,
+      "mediana_nota": 8.82,
+      "pct_mudarse": 23.5,
+      "pct_cuotas": 2.7,
+      "pct_indigena": 2.5
+    },
+    "AGRONOMIA  REDISEÑO": {
+      "n": 863,
+      "pct_mujeres": 53.7,
+      "mediana_ipc": 108.33,
+      "pct_arrendada": 30.5,
+      "pct_urbana": 35.5,
+      "pct_rural": 64.5,
+      "pct_fuera_fam": 35.5,
+      "pct_fuera_dom": 25.4,
+      "pct_ipc_bajo": 87.9,
+      "pct_primera_gen": 84.0,
+      "pct_fin_propios": 17.0,
+      "pct_trabaja": 17.1,
+      "pct_bus": 82.9,
+      "pct_discapacidad": 0.2,
+      "pct_afeccion": 24.0,
+      "pct_tratamiento_psi": 6.1,
+      "pct_otra_uc": 3.7,
+      "mediana_nota": 8.69,
+      "pct_mudarse": 24.3,
+      "pct_cuotas": 2.9,
+      "pct_indigena": 2.2
+    },
+    "INGENIERIA AGRONOMICA": {
+      "n": 31,
+      "pct_mujeres": 48.4,
+      "mediana_ipc": 112.5,
+      "pct_arrendada": 51.6,
+      "pct_urbana": 48.4,
+      "pct_rural": 51.6,
+      "pct_fuera_fam": 6.5,
+      "pct_fuera_dom": 9.7,
+      "pct_ipc_bajo": 93.5,
+      "pct_primera_gen": 87.1,
+      "pct_fin_propios": 48.4,
+      "pct_trabaja": 41.9,
+      "pct_bus": 71.0,
+      "pct_discapacidad": 3.2,
+      "pct_afeccion": 19.4,
+      "pct_tratamiento_psi": 0.0,
+      "pct_otra_uc": 6.5,
+      "mediana_nota": 8.33,
+      "pct_mudarse": 9.7,
+      "pct_cuotas": 0.0,
+      "pct_indigena": 3.2
+    },
+    "MEDICINA VETERINARIA": {
+      "n": 1571,
+      "pct_mujeres": 67.7,
+      "mediana_ipc": 125.0,
+      "pct_arrendada": 37.2,
+      "pct_urbana": 52.8,
+      "pct_rural": 47.2,
+      "pct_fuera_fam": 36.5,
+      "pct_fuera_dom": 25.5,
+      "pct_ipc_bajo": 77.5,
+      "pct_primera_gen": 69.3,
+      "pct_fin_propios": 21.2,
+      "pct_trabaja": 18.7,
+      "pct_bus": 76.4,
+      "pct_discapacidad": 0.6,
+      "pct_afeccion": 36.3,
+      "pct_tratamiento_psi": 15.7,
+      "pct_otra_uc": 5.9,
+      "mediana_nota": 8.91,
+      "pct_mudarse": 23.7,
+      "pct_cuotas": 2.7,
+      "pct_indigena": 2.8
+    },
+    "MEDICINA VETERINARIA Y ZOOTECNIA": {
+      "n": 84,
+      "pct_mujeres": 38.1,
+      "mediana_ipc": 101.0,
+      "pct_arrendada": 41.7,
+      "pct_urbana": 45.2,
+      "pct_rural": 54.8,
+      "pct_fuera_fam": 20.2,
+      "pct_fuera_dom": 10.7,
+      "pct_ipc_bajo": 90.5,
+      "pct_primera_gen": 79.8,
+      "pct_fin_propios": 53.6,
+      "pct_trabaja": 39.3,
+      "pct_bus": 77.4,
+      "pct_discapacidad": 0.0,
+      "pct_afeccion": 41.7,
+      "pct_tratamiento_psi": 11.9,
+      "pct_otra_uc": 6.0,
+      "mediana_nota": 8.5,
+      "pct_mudarse": 15.5,
+      "pct_cuotas": 2.4,
+      "pct_indigena": 0.0
+    }
+  },
+  "FACULTAD DE CIENCIAS DE LA HOSPITALIDAD": {
+    "__GLOBAL__": {
+      "n": 1540,
+      "pct_mujeres": 63.4,
+      "mediana_ipc": 132.45,
+      "pct_arrendada": 42.5,
+      "pct_urbana": 51.0,
+      "pct_rural": 49.0,
+      "pct_fuera_fam": 22.0,
+      "pct_fuera_dom": 15.3,
+      "pct_ipc_bajo": 79.1,
+      "pct_primera_gen": 78.2,
+      "pct_fin_propios": 17.0,
+      "pct_trabaja": 14.4,
+      "pct_bus": 80.5,
+      "pct_discapacidad": 0.7,
+      "pct_afeccion": 24.4,
+      "pct_tratamiento_psi": 7.3,
+      "pct_otra_uc": 6.4,
+      "mediana_nota": 8.82,
+      "pct_mudarse": 15.6,
+      "pct_cuotas": 3.8,
+      "pct_indigena": 4.5
+    },
+    "GASTRONOMIA": {
+      "n": 9,
+      "pct_mujeres": 22.2,
+      "mediana_ipc": 104.0,
+      "pct_arrendada": 55.6,
+      "pct_urbana": 44.4,
+      "pct_rural": 55.6,
+      "pct_fuera_fam": 0.0,
+      "pct_fuera_dom": 0.0,
+      "pct_ipc_bajo": 77.8,
+      "pct_primera_gen": 88.9,
+      "pct_fin_propios": 66.7,
+      "pct_trabaja": 55.6,
+      "pct_bus": 55.6,
+      "pct_discapacidad": 0.0,
+      "pct_afeccion": 22.2,
+      "pct_tratamiento_psi": 22.2,
+      "pct_otra_uc": 0.0,
+      "mediana_nota": 8.5,
+      "pct_mudarse": 0.0,
+      "pct_cuotas": 0.0,
+      "pct_indigena": 11.1
+    },
+    "GASTRONOMIA REDISEÑO": {
+      "n": 289,
+      "pct_mujeres": 53.3,
+      "mediana_ipc": 150.0,
+      "pct_arrendada": 37.0,
+      "pct_urbana": 51.6,
+      "pct_rural": 48.4,
+      "pct_fuera_fam": 29.8,
+      "pct_fuera_dom": 16.3,
+      "pct_ipc_bajo": 70.2,
+      "pct_primera_gen": 70.9,
+      "pct_fin_propios": 17.3,
+      "pct_trabaja": 16.3,
+      "pct_bus": 73.4,
+      "pct_discapacidad": 1.0,
+      "pct_afeccion": 26.6,
+      "pct_tratamiento_psi": 8.7,
+      "pct_otra_uc": 7.6,
+      "mediana_nota": 9.11,
+      "pct_mudarse": 21.1,
+      "pct_cuotas": 4.5,
+      "pct_indigena": 6.6
+    },
+    "GASTRONOMIA-REDISEÑO": {
+      "n": 260,
+      "pct_mujeres": 53.1,
+      "mediana_ipc": 150.0,
+      "pct_arrendada": 35.8,
+      "pct_urbana": 56.2,
+      "pct_rural": 43.8,
+      "pct_fuera_fam": 24.6,
+      "pct_fuera_dom": 15.0,
+      "pct_ipc_bajo": 72.3,
+      "pct_primera_gen": 69.6,
+      "pct_fin_propios": 17.3,
+      "pct_trabaja": 15.0,
+      "pct_bus": 72.3,
+      "pct_discapacidad": 0.8,
+      "pct_afeccion": 26.9,
+      "pct_tratamiento_psi": 9.6,
+      "pct_otra_uc": 10.8,
+      "mediana_nota": 9.04,
+      "pct_mudarse": 18.8,
+      "pct_cuotas": 2.3,
+      "pct_indigena": 4.6
+    },
+    "HOSPITALIDAD Y HOTELERIA": {
+      "n": 469,
+      "pct_mujeres": 68.0,
+      "mediana_ipc": 125.0,
+      "pct_arrendada": 47.3,
+      "pct_urbana": 52.9,
+      "pct_rural": 47.1,
+      "pct_fuera_fam": 16.4,
+      "pct_fuera_dom": 11.9,
+      "pct_ipc_bajo": 85.7,
+      "pct_primera_gen": 84.9,
+      "pct_fin_propios": 16.2,
+      "pct_trabaja": 12.4,
+      "pct_bus": 83.8,
+      "pct_discapacidad": 0.9,
+      "pct_afeccion": 20.9,
+      "pct_tratamiento_psi": 4.5,
+      "pct_otra_uc": 3.2,
+      "mediana_nota": 8.6,
+      "pct_mudarse": 13.4,
+      "pct_cuotas": 3.6,
+      "pct_indigena": 1.7
+    },
+    "HOTELERIA": {
+      "n": 7,
+      "pct_mujeres": 71.4,
+      "mediana_ipc": 75.0,
+      "pct_arrendada": 14.3,
+      "pct_urbana": 0.0,
+      "pct_rural": 100.0,
+      "pct_fuera_fam": 42.9,
+      "pct_fuera_dom": 14.3,
+      "pct_ipc_bajo": 100.0,
+      "pct_primera_gen": 100.0,
+      "pct_fin_propios": 85.7,
+      "pct_trabaja": 57.1,
+      "pct_bus": 100.0,
+      "pct_discapacidad": 0.0,
+      "pct_afeccion": 14.3,
+      "pct_tratamiento_psi": 14.3,
+      "pct_otra_uc": 14.3,
+      "mediana_nota": 8.0,
+      "pct_mudarse": 28.6,
+      "pct_cuotas": 0.0,
+      "pct_indigena": 28.6
+    },
+    "TURISMO": {
+      "n": 10,
+      "pct_mujeres": 0.0,
+      "mediana_ipc": 116.25,
+      "pct_arrendada": 50.0,
+      "pct_urbana": 30.0,
+      "pct_rural": 70.0,
+      "pct_fuera_fam": 30.0,
+      "pct_fuera_dom": 10.0,
+      "pct_ipc_bajo": 70.0,
+      "pct_primera_gen": 90.0,
+      "pct_fin_propios": 40.0,
+      "pct_trabaja": 40.0,
+      "pct_bus": 80.0,
+      "pct_discapacidad": 10.0,
+      "pct_afeccion": 40.0,
+      "pct_tratamiento_psi": 30.0,
+      "pct_otra_uc": 0.0,
+      "mediana_nota": 7.98,
+      "pct_mudarse": 0.0,
+      "pct_cuotas": 0.0,
+      "pct_indigena": 0.0
+    },
+    "TURISMO REDISEÑO": {
+      "n": 496,
+      "pct_mujeres": 72.2,
+      "mediana_ipc": 125.83,
+      "pct_arrendada": 44.6,
+      "pct_urbana": 47.4,
+      "pct_rural": 52.6,
+      "pct_fuera_fam": 21.4,
+      "pct_fuera_dom": 18.5,
+      "pct_ipc_bajo": 81.5,
+      "pct_primera_gen": 79.8,
+      "pct_fin_propios": 15.1,
+      "pct_trabaja": 13.1,
+      "pct_bus": 85.9,
+      "pct_discapacidad": 0.2,
+      "pct_afeccion": 25.0,
+      "pct_tratamiento_psi": 7.1,
+      "pct_otra_uc": 6.5,
+      "mediana_nota": 8.79,
+      "pct_mudarse": 13.3,
+      "pct_cuotas": 4.6,
+      "pct_indigena": 5.4
+    }
+  },
+  "FACULTAD DE CIENCIAS ECONÓMICAS Y ADMINISTRATIVAS": {
+    "__GLOBAL__": {
+      "n": 4291,
+      "pct_mujeres": 61.5,
+      "mediana_ipc": 137.5,
+      "pct_arrendada": 41.3,
+      "pct_urbana": 55.0,
+      "pct_rural": 45.0,
+      "pct_fuera_fam": 23.4,
+      "pct_fuera_dom": 17.2,
+      "pct_ipc_bajo": 78.3,
+      "pct_primera_gen": 76.7,
+      "pct_fin_propios": 21.2,
+      "pct_trabaja": 16.2,
+      "pct_bus": 80.7,
+      "pct_discapacidad": 0.4,
+      "pct_afeccion": 28.3,
+      "pct_tratamiento_psi": 9.2,
+      "pct_otra_uc": 7.2,
+      "mediana_nota": 9.03,
+      "pct_mudarse": 12.7,
+      "pct_cuotas": 3.1,
+      "pct_indigena": 2.7
+    },
+    "ADMINISTRACION DE EMPRESAS": {
+      "n": 14,
+      "pct_mujeres": 100.0,
+      "mediana_ipc": 175.0,
+      "pct_arrendada": 71.4,
+      "pct_urbana": 42.9,
+      "pct_rural": 57.1,
+      "pct_fuera_fam": 28.6,
+      "pct_fuera_dom": 14.3,
+      "pct_ipc_bajo": 71.4,
+      "pct_primera_gen": 100.0,
+      "pct_fin_propios": 42.9,
+      "pct_trabaja": 42.9,
+      "pct_bus": 71.4,
+      "pct_discapacidad": 0.0,
+      "pct_afeccion": 42.9,
+      "pct_tratamiento_psi": 42.9,
+      "pct_otra_uc": 21.4,
+      "mediana_nota": 9.0,
+      "pct_mudarse": 35.7,
+      "pct_cuotas": 0.0,
+      "pct_indigena": 0.0
+    },
+    "ADMINISTRACION DE EMPRESAS DUAL REDISEÑO": {
+      "n": 279,
+      "pct_mujeres": 63.1,
+      "mediana_ipc": 200.0,
+      "pct_arrendada": 34.8,
+      "pct_urbana": 63.8,
+      "pct_rural": 36.2,
+      "pct_fuera_fam": 16.8,
+      "pct_fuera_dom": 13.3,
+      "pct_ipc_bajo": 56.3,
+      "pct_primera_gen": 60.9,
+      "pct_fin_propios": 13.3,
+      "pct_trabaja": 10.0,
+      "pct_bus": 63.8,
+      "pct_discapacidad": 0.4,
+      "pct_afeccion": 24.7,
+      "pct_tratamiento_psi": 7.9,
+      "pct_otra_uc": 6.5,
+      "mediana_nota": 9.4,
+      "pct_mudarse": 9.0,
+      "pct_cuotas": 3.9,
+      "pct_indigena": 1.8
+    },
+    "ADMINISTRACION DE EMPRESAS REDISEÑO": {
+      "n": 405,
+      "pct_mujeres": 59.5,
+      "mediana_ipc": 130.0,
+      "pct_arrendada": 35.3,
+      "pct_urbana": 53.8,
+      "pct_rural": 46.2,
+      "pct_fuera_fam": 24.4,
+      "pct_fuera_dom": 17.5,
+      "pct_ipc_bajo": 79.0,
+      "pct_primera_gen": 74.6,
+      "pct_fin_propios": 21.2,
+      "pct_trabaja": 17.3,
+      "pct_bus": 78.5,
+      "pct_discapacidad": 0.7,
+      "pct_afeccion": 27.9,
+      "pct_tratamiento_psi": 8.6,
+      "pct_otra_uc": 9.4,
+      "mediana_nota": 9.14,
+      "pct_mudarse": 12.1,
+      "pct_cuotas": 3.5,
+      "pct_indigena": 4.2
+    },
+    "ADMINISTRACION DE EMPRESAS-REDISEÑO": {
+      "n": 371,
+      "pct_mujeres": 58.8,
+      "mediana_ipc": 128.57,
+      "pct_arrendada": 39.4,
+      "pct_urbana": 53.9,
+      "pct_rural": 45.8,
+      "pct_fuera_fam": 22.6,
+      "pct_fuera_dom": 16.7,
+      "pct_ipc_bajo": 79.8,
+      "pct_primera_gen": 75.7,
+      "pct_fin_propios": 19.7,
+      "pct_trabaja": 15.4,
+      "pct_bus": 79.5,
+      "pct_discapacidad": 0.8,
+      "pct_afeccion": 25.1,
+      "pct_tratamiento_psi": 9.4,
+      "pct_otra_uc": 9.2,
+      "mediana_nota": 9.08,
+      "pct_mudarse": 11.1,
+      "pct_cuotas": 3.0,
+      "pct_indigena": 4.0
+    },
+    "CONTABILIDAD Y AUDITORIA": {
+      "n": 28,
+      "pct_mujeres": 67.9,
+      "mediana_ipc": 100.0,
+      "pct_arrendada": 67.9,
+      "pct_urbana": 64.3,
+      "pct_rural": 35.7,
+      "pct_fuera_fam": 21.4,
+      "pct_fuera_dom": 14.3,
+      "pct_ipc_bajo": 85.7,
+      "pct_primera_gen": 100.0,
+      "pct_fin_propios": 53.6,
+      "pct_trabaja": 25.0,
+      "pct_bus": 92.9,
+      "pct_discapacidad": 0.0,
+      "pct_afeccion": 10.7,
+      "pct_tratamiento_psi": 3.6,
+      "pct_otra_uc": 14.3,
+      "mediana_nota": 9.0,
+      "pct_mudarse": 10.7,
+      "pct_cuotas": 0.0,
+      "pct_indigena": 0.0
+    },
+    "CONTABILIDAD Y AUDITORIA REDISEÑO": {
+      "n": 657,
+      "pct_mujeres": 73.2,
+      "mediana_ipc": 128.57,
+      "pct_arrendada": 42.3,
+      "pct_urbana": 51.8,
+      "pct_rural": 48.2,
+      "pct_fuera_fam": 23.9,
+      "pct_fuera_dom": 18.6,
+      "pct_ipc_bajo": 82.8,
+      "pct_primera_gen": 84.6,
+      "pct_fin_propios": 19.3,
+      "pct_trabaja": 15.1,
+      "pct_bus": 86.0,
+      "pct_discapacidad": 0.6,
+      "pct_afeccion": 22.7,
+      "pct_tratamiento_psi": 6.2,
+      "pct_otra_uc": 5.5,
+      "mediana_nota": 9.13,
+      "pct_mudarse": 12.9,
+      "pct_cuotas": 3.2,
+      "pct_indigena": 2.4
+    },
+    "CONTABILIDAD Y AUDITORIA-REDISEÑO": {
+      "n": 559,
+      "pct_mujeres": 71.9,
+      "mediana_ipc": 130.0,
+      "pct_arrendada": 42.2,
+      "pct_urbana": 50.1,
+      "pct_rural": 49.9,
+      "pct_fuera_fam": 22.2,
+      "pct_fuera_dom": 18.6,
+      "pct_ipc_bajo": 84.4,
+      "pct_primera_gen": 82.6,
+      "pct_fin_propios": 17.4,
+      "pct_trabaja": 14.8,
+      "pct_bus": 85.7,
+      "pct_discapacidad": 0.4,
+      "pct_afeccion": 26.1,
+      "pct_tratamiento_psi": 6.1,
+      "pct_otra_uc": 5.7,
+      "mediana_nota": 9.1,
+      "pct_mudarse": 11.4,
+      "pct_cuotas": 1.8,
+      "pct_indigena": 2.3
+    },
+    "ECONOMIA": {
+      "n": 9,
+      "pct_mujeres": 33.3,
+      "mediana_ipc": 200.0,
+      "pct_arrendada": 33.3,
+      "pct_urbana": 77.8,
+      "pct_rural": 22.2,
+      "pct_fuera_fam": 11.1,
+      "pct_fuera_dom": 11.1,
+      "pct_ipc_bajo": 88.9,
+      "pct_primera_gen": 88.9,
+      "pct_fin_propios": 66.7,
+      "pct_trabaja": 33.3,
+      "pct_bus": 88.9,
+      "pct_discapacidad": 0.0,
+      "pct_afeccion": 22.2,
+      "pct_tratamiento_psi": 11.1,
+      "pct_otra_uc": 11.1,
+      "mediana_nota": 8.89,
+      "pct_mudarse": 11.1,
+      "pct_cuotas": 0.0,
+      "pct_indigena": 0.0
+    },
+    "ECONOMIA REDISEÑO": {
+      "n": 444,
+      "pct_mujeres": 47.7,
+      "mediana_ipc": 133.33,
+      "pct_arrendada": 40.8,
+      "pct_urbana": 55.2,
+      "pct_rural": 44.8,
+      "pct_fuera_fam": 26.6,
+      "pct_fuera_dom": 18.9,
+      "pct_ipc_bajo": 80.4,
+      "pct_primera_gen": 73.9,
+      "pct_fin_propios": 19.6,
+      "pct_trabaja": 15.8,
+      "pct_bus": 80.6,
+      "pct_discapacidad": 0.2,
+      "pct_afeccion": 30.2,
+      "pct_tratamiento_psi": 10.4,
+      "pct_otra_uc": 7.4,
+      "mediana_nota": 9.11,
+      "pct_mudarse": 16.7,
+      "pct_cuotas": 3.4,
+      "pct_indigena": 3.2
+    },
+    "ECONOMIA-REDISEÑO": {
+      "n": 393,
+      "pct_mujeres": 47.3,
+      "mediana_ipc": 128.0,
+      "pct_arrendada": 38.4,
+      "pct_urbana": 51.9,
+      "pct_rural": 48.1,
+      "pct_fuera_fam": 25.7,
+      "pct_fuera_dom": 18.3,
+      "pct_ipc_bajo": 80.7,
+      "pct_primera_gen": 75.3,
+      "pct_fin_propios": 22.6,
+      "pct_trabaja": 17.6,
+      "pct_bus": 79.9,
+      "pct_discapacidad": 0.3,
+      "pct_afeccion": 31.0,
+      "pct_tratamiento_psi": 10.7,
+      "pct_otra_uc": 7.6,
+      "mediana_nota": 9.07,
+      "pct_mudarse": 14.5,
+      "pct_cuotas": 3.1,
+      "pct_indigena": 2.5
+    },
+    "MARKETING": {
+      "n": 26,
+      "pct_mujeres": 65.4,
+      "mediana_ipc": 129.58,
+      "pct_arrendada": 46.2,
+      "pct_urbana": 42.3,
+      "pct_rural": 57.7,
+      "pct_fuera_fam": 3.8,
+      "pct_fuera_dom": 3.8,
+      "pct_ipc_bajo": 88.5,
+      "pct_primera_gen": 96.2,
+      "pct_fin_propios": 61.5,
+      "pct_trabaja": 46.2,
+      "pct_bus": 76.9,
+      "pct_discapacidad": 0.0,
+      "pct_afeccion": 26.9,
+      "pct_tratamiento_psi": 0.0,
+      "pct_otra_uc": 3.8,
+      "mediana_nota": 8.72,
+      "pct_mudarse": 3.8,
+      "pct_cuotas": 0.0,
+      "pct_indigena": 0.0
+    },
+    "MERCADOTECNIA": {
+      "n": 586,
+      "pct_mujeres": 61.4,
+      "mediana_ipc": 150.0,
+      "pct_arrendada": 43.9,
+      "pct_urbana": 57.7,
+      "pct_rural": 42.3,
+      "pct_fuera_fam": 21.2,
+      "pct_fuera_dom": 15.5,
+      "pct_ipc_bajo": 72.9,
+      "pct_primera_gen": 73.9,
+      "pct_fin_propios": 26.6,
+      "pct_trabaja": 18.8,
+      "pct_bus": 81.1,
+      "pct_discapacidad": 0.3,
+      "pct_afeccion": 31.1,
+      "pct_tratamiento_psi": 9.2,
+      "pct_otra_uc": 7.0,
+      "mediana_nota": 9.0,
+      "pct_mudarse": 11.4,
+      "pct_cuotas": 3.4,
+      "pct_indigena": 2.2
+    },
+    "SOCIOLOGIA": {
+      "n": 6,
+      "pct_mujeres": 66.7,
+      "mediana_ipc": 125.0,
+      "pct_arrendada": 33.3,
+      "pct_urbana": 66.7,
+      "pct_rural": 33.3,
+      "pct_fuera_fam": 33.3,
+      "pct_fuera_dom": 16.7,
+      "pct_ipc_bajo": 83.3,
+      "pct_primera_gen": 66.7,
+      "pct_fin_propios": 66.7,
+      "pct_trabaja": 50.0,
+      "pct_bus": 66.7,
+      "pct_discapacidad": 0.0,
+      "pct_afeccion": 50.0,
+      "pct_tratamiento_psi": 50.0,
+      "pct_otra_uc": 0.0,
+      "mediana_nota": 8.3,
+      "pct_mudarse": 16.7,
+      "pct_cuotas": 0.0,
+      "pct_indigena": 0.0
+    },
+    "SOCIOLOGIA  REDISEÑO": {
+      "n": 206,
+      "pct_mujeres": 60.7,
+      "mediana_ipc": 133.33,
+      "pct_arrendada": 43.2,
+      "pct_urbana": 57.8,
+      "pct_rural": 42.2,
+      "pct_fuera_fam": 27.7,
+      "pct_fuera_dom": 18.9,
+      "pct_ipc_bajo": 77.2,
+      "pct_primera_gen": 72.8,
+      "pct_fin_propios": 22.3,
+      "pct_trabaja": 14.1,
+      "pct_bus": 80.1,
+      "pct_discapacidad": 0.5,
+      "pct_afeccion": 39.3,
+      "pct_tratamiento_psi": 17.0,
+      "pct_otra_uc": 7.8,
+      "mediana_nota": 8.49,
+      "pct_mudarse": 15.5,
+      "pct_cuotas": 3.9,
+      "pct_indigena": 2.4
+    },
+    "SOCIOLOGIA - REDISEÑO": {
+      "n": 225,
+      "pct_mujeres": 61.3,
+      "mediana_ipc": 130.0,
+      "pct_arrendada": 44.4,
+      "pct_urbana": 59.1,
+      "pct_rural": 40.9,
+      "pct_fuera_fam": 28.9,
+      "pct_fuera_dom": 18.2,
+      "pct_ipc_bajo": 79.1,
+      "pct_primera_gen": 76.0,
+      "pct_fin_propios": 23.1,
+      "pct_trabaja": 16.9,
+      "pct_bus": 77.8,
+      "pct_discapacidad": 0.0,
+      "pct_afeccion": 36.0,
+      "pct_tratamiento_psi": 16.4,
+      "pct_otra_uc": 6.2,
+      "mediana_nota": 8.5,
+      "pct_mudarse": 15.1,
+      "pct_cuotas": 3.1,
+      "pct_indigena": 2.2
+    },
+    "SOCIOLOGÍA 2024": {
+      "n": 83,
+      "pct_mujeres": 49.4,
+      "mediana_ipc": 175.0,
+      "pct_arrendada": 56.6,
+      "pct_urbana": 71.1,
+      "pct_rural": 28.9,
+      "pct_fuera_fam": 16.9,
+      "pct_fuera_dom": 9.6,
+      "pct_ipc_bajo": 73.5,
+      "pct_primera_gen": 77.1,
+      "pct_fin_propios": 16.9,
+      "pct_trabaja": 13.3,
+      "pct_bus": 88.0,
+      "pct_discapacidad": 0.0,
+      "pct_afeccion": 27.7,
+      "pct_tratamiento_psi": 4.8,
+      "pct_otra_uc": 10.8,
+      "mediana_nota": 8.5,
+      "pct_mudarse": 9.6,
+      "pct_cuotas": 3.6,
+      "pct_indigena": 4.8
+    }
+  },
+  "FACULTAD DE CIENCIAS MÉDICAS": {
+    "__GLOBAL__": {
+      "n": 4377,
+      "pct_mujeres": 74.7,
+      "mediana_ipc": 150.0,
+      "pct_arrendada": 33.2,
+      "pct_urbana": 55.2,
+      "pct_rural": 44.8,
+      "pct_fuera_fam": 44.5,
+      "pct_fuera_dom": 24.5,
+      "pct_ipc_bajo": 68.7,
+      "pct_primera_gen": 61.7,
+      "pct_fin_propios": 12.1,
+      "pct_trabaja": 10.4,
+      "pct_bus": 66.9,
+      "pct_discapacidad": 0.8,
+      "pct_afeccion": 32.6,
+      "pct_tratamiento_psi": 11.2,
+      "pct_otra_uc": 6.1,
+      "mediana_nota": 9.38,
+      "pct_mudarse": 31.3,
+      "pct_cuotas": 8.1,
+      "pct_indigena": 7.6
+    },
+    "ENFERMERIA REDISEÑO": {
+      "n": 731,
+      "pct_mujeres": 85.0,
+      "mediana_ipc": 123.33,
+      "pct_arrendada": 33.4,
+      "pct_urbana": 42.1,
+      "pct_rural": 57.9,
+      "pct_fuera_fam": 43.2,
+      "pct_fuera_dom": 28.0,
+      "pct_ipc_bajo": 82.4,
+      "pct_primera_gen": 86.9,
+      "pct_fin_propios": 12.4,
+      "pct_trabaja": 10.7,
+      "pct_bus": 78.5,
+      "pct_discapacidad": 1.1,
+      "pct_afeccion": 24.8,
+      "pct_tratamiento_psi": 5.3,
+      "pct_otra_uc": 3.4,
+      "mediana_nota": 9.36,
+      "pct_mudarse": 30.0,
+      "pct_cuotas": 9.3,
+      "pct_indigena": 7.7
+    },
+    "ESTIMULACIÓN TEMPRANA EN SALUD": {
+      "n": 221,
+      "pct_mujeres": 94.1,
+      "mediana_ipc": 172.0,
+      "pct_arrendada": 28.1,
+      "pct_urbana": 57.9,
+      "pct_rural": 42.1,
+      "pct_fuera_fam": 28.5,
+      "pct_fuera_dom": 22.2,
+      "pct_ipc_bajo": 62.4,
+      "pct_primera_gen": 66.1,
+      "pct_fin_propios": 8.6,
+      "pct_trabaja": 10.4,
+      "pct_bus": 76.9,
+      "pct_discapacidad": 0.9,
+      "pct_afeccion": 22.2,
+      "pct_tratamiento_psi": 10.0,
+      "pct_otra_uc": 8.1,
+      "mediana_nota": 9.24,
+      "pct_mudarse": 15.8,
+      "pct_cuotas": 3.6,
+      "pct_indigena": 1.4
+    },
+    "FISIOTERAPIA": {
+      "n": 303,
+      "pct_mujeres": 72.9,
+      "mediana_ipc": 180.0,
+      "pct_arrendada": 33.0,
+      "pct_urbana": 61.4,
+      "pct_rural": 38.6,
+      "pct_fuera_fam": 36.0,
+      "pct_fuera_dom": 27.7,
+      "pct_ipc_bajo": 60.4,
+      "pct_primera_gen": 52.5,
+      "pct_fin_propios": 7.3,
+      "pct_trabaja": 9.2,
+      "pct_bus": 76.9,
+      "pct_discapacidad": 0.0,
+      "pct_afeccion": 25.1,
+      "pct_tratamiento_psi": 7.6,
+      "pct_otra_uc": 5.0,
+      "mediana_nota": 9.35,
+      "pct_mudarse": 18.5,
+      "pct_cuotas": 5.0,
+      "pct_indigena": 8.3
+    },
+    "FONOAUDIOLOGIA REDISEÑO": {
+      "n": 360,
+      "pct_mujeres": 83.3,
+      "mediana_ipc": 150.0,
+      "pct_arrendada": 36.9,
+      "pct_urbana": 61.1,
+      "pct_rural": 38.9,
+      "pct_fuera_fam": 36.9,
+      "pct_fuera_dom": 24.4,
+      "pct_ipc_bajo": 71.7,
+      "pct_primera_gen": 64.4,
+      "pct_fin_propios": 13.6,
+      "pct_trabaja": 13.1,
+      "pct_bus": 80.0,
+      "pct_discapacidad": 1.1,
+      "pct_afeccion": 32.2,
+      "pct_tratamiento_psi": 11.1,
+      "pct_otra_uc": 3.9,
+      "mediana_nota": 9.11,
+      "pct_mudarse": 23.3,
+      "pct_cuotas": 2.2,
+      "pct_indigena": 1.1
+    },
+    "IMAGENOLOGIA Y RADIOLOGIA": {
+      "n": 300,
+      "pct_mujeres": 71.7,
+      "mediana_ipc": 151.67,
+      "pct_arrendada": 41.3,
+      "pct_urbana": 56.0,
+      "pct_rural": 44.0,
+      "pct_fuera_fam": 49.7,
+      "pct_fuera_dom": 24.3,
+      "pct_ipc_bajo": 71.7,
+      "pct_primera_gen": 59.3,
+      "pct_fin_propios": 13.3,
+      "pct_trabaja": 11.0,
+      "pct_bus": 69.7,
+      "pct_discapacidad": 1.3,
+      "pct_afeccion": 32.3,
+      "pct_tratamiento_psi": 8.7,
+      "pct_otra_uc": 8.0,
+      "mediana_nota": 9.28,
+      "pct_mudarse": 36.0,
+      "pct_cuotas": 8.0,
+      "pct_indigena": 9.0
+    },
+    "LABORATORIO CLINICO": {
+      "n": 1,
+      "pct_mujeres": 0.0,
+      "mediana_ipc": 114.29,
+      "pct_arrendada": 0.0,
+      "pct_urbana": 100.0,
+      "pct_rural": 0.0,
+      "pct_fuera_fam": 0.0,
+      "pct_fuera_dom": 0.0,
+      "pct_ipc_bajo": 100.0,
+      "pct_primera_gen": 100.0,
+      "pct_fin_propios": 0.0,
+      "pct_trabaja": 0.0,
+      "pct_bus": 100.0,
+      "pct_discapacidad": 0.0,
+      "pct_afeccion": 100.0,
+      "pct_tratamiento_psi": 0.0,
+      "pct_otra_uc": 0.0,
+      "mediana_nota": 8.5,
+      "pct_mudarse": 0.0,
+      "pct_cuotas": 0.0,
+      "pct_indigena": 0.0
+    },
+    "LABORATORIO CLINICO  REDISEÑO": {
+      "n": 300,
+      "pct_mujeres": 68.0,
+      "mediana_ipc": 150.0,
+      "pct_arrendada": 34.7,
+      "pct_urbana": 58.7,
+      "pct_rural": 41.3,
+      "pct_fuera_fam": 42.7,
+      "pct_fuera_dom": 24.0,
+      "pct_ipc_bajo": 73.3,
+      "pct_primera_gen": 70.7,
+      "pct_fin_propios": 9.3,
+      "pct_trabaja": 7.7,
+      "pct_bus": 75.7,
+      "pct_discapacidad": 2.0,
+      "pct_afeccion": 35.0,
+      "pct_tratamiento_psi": 10.7,
+      "pct_otra_uc": 8.7,
+      "mediana_nota": 9.23,
+      "pct_mudarse": 28.3,
+      "pct_cuotas": 6.0,
+      "pct_indigena": 5.3
+    },
+    "MEDICINA": {
+      "n": 1916,
+      "pct_mujeres": 68.2,
+      "mediana_ipc": 160.0,
+      "pct_arrendada": 31.4,
+      "pct_urbana": 56.5,
+      "pct_rural": 43.5,
+      "pct_fuera_fam": 50.6,
+      "pct_fuera_dom": 23.0,
+      "pct_ipc_bajo": 64.5,
+      "pct_primera_gen": 52.1,
+      "pct_fin_propios": 12.7,
+      "pct_trabaja": 10.4,
+      "pct_bus": 56.3,
+      "pct_discapacidad": 0.5,
+      "pct_afeccion": 37.8,
+      "pct_tratamiento_psi": 14.7,
+      "pct_otra_uc": 6.4,
+      "mediana_nota": 9.5,
+      "pct_mudarse": 37.9,
+      "pct_cuotas": 10.4,
+      "pct_indigena": 10.0
+    },
+    "MEDICINA Y CIRUGIA": {
+      "n": 35,
+      "pct_mujeres": 60.0,
+      "mediana_ipc": 114.29,
+      "pct_arrendada": 40.0,
+      "pct_urbana": 57.1,
+      "pct_rural": 42.9,
+      "pct_fuera_fam": 28.6,
+      "pct_fuera_dom": 14.3,
+      "pct_ipc_bajo": 85.7,
+      "pct_primera_gen": 77.1,
+      "pct_fin_propios": 37.1,
+      "pct_trabaja": 28.6,
+      "pct_bus": 57.1,
+      "pct_discapacidad": 0.0,
+      "pct_afeccion": 54.3,
+      "pct_tratamiento_psi": 17.1,
+      "pct_otra_uc": 14.3,
+      "mediana_nota": 9.0,
+      "pct_mudarse": 17.1,
+      "pct_cuotas": 14.3,
+      "pct_indigena": 5.7
+    },
+    "NUTRICION Y DIETETICA REDISEÑO": {
+      "n": 122,
+      "pct_mujeres": 81.1,
+      "mediana_ipc": 203.75,
+      "pct_arrendada": 36.1,
+      "pct_urbana": 62.3,
+      "pct_rural": 37.7,
+      "pct_fuera_fam": 34.4,
+      "pct_fuera_dom": 26.2,
+      "pct_ipc_bajo": 59.8,
+      "pct_primera_gen": 53.3,
+      "pct_fin_propios": 12.3,
+      "pct_trabaja": 6.6,
+      "pct_bus": 63.9,
+      "pct_discapacidad": 0.8,
+      "pct_afeccion": 27.0,
+      "pct_tratamiento_psi": 12.3,
+      "pct_otra_uc": 7.4,
+      "mediana_nota": 9.33,
+      "pct_mudarse": 23.8,
+      "pct_cuotas": 5.7,
+      "pct_indigena": 4.1
+    },
+    "NUTRICION Y DIETETICA-REDISEÑO": {
+      "n": 83,
+      "pct_mujeres": 84.3,
+      "mediana_ipc": 170.0,
+      "pct_arrendada": 31.3,
+      "pct_urbana": 61.4,
+      "pct_rural": 38.6,
+      "pct_fuera_fam": 32.5,
+      "pct_fuera_dom": 25.3,
+      "pct_ipc_bajo": 59.0,
+      "pct_primera_gen": 50.6,
+      "pct_fin_propios": 10.8,
+      "pct_trabaja": 7.2,
+      "pct_bus": 57.8,
+      "pct_discapacidad": 0.0,
+      "pct_afeccion": 28.9,
+      "pct_tratamiento_psi": 6.0,
+      "pct_otra_uc": 7.2,
+      "mediana_nota": 9.41,
+      "pct_mudarse": 25.3,
+      "pct_cuotas": 3.6,
+      "pct_indigena": 4.8
+    },
+    "TERAPIA FISICA": {
+      "n": 5,
+      "pct_mujeres": 100.0,
+      "mediana_ipc": 83.33,
+      "pct_arrendada": 40.0,
+      "pct_urbana": 40.0,
+      "pct_rural": 60.0,
+      "pct_fuera_fam": 40.0,
+      "pct_fuera_dom": 40.0,
+      "pct_ipc_bajo": 80.0,
+      "pct_primera_gen": 100.0,
+      "pct_fin_propios": 20.0,
+      "pct_trabaja": 20.0,
+      "pct_bus": 40.0,
+      "pct_discapacidad": 0.0,
+      "pct_afeccion": 40.0,
+      "pct_tratamiento_psi": 20.0,
+      "pct_otra_uc": 40.0,
+      "mediana_nota": 8.42,
+      "pct_mudarse": 0.0,
+      "pct_cuotas": 0.0,
+      "pct_indigena": 0.0
+    }
+  },
+  "FACULTAD DE CIENCIAS QUÍMICAS": {
+    "__GLOBAL__": {
+      "n": 2712,
+      "pct_mujeres": 53.7,
+      "mediana_ipc": 150.0,
+      "pct_arrendada": 35.2,
+      "pct_urbana": 54.9,
+      "pct_rural": 45.1,
+      "pct_fuera_fam": 31.9,
+      "pct_fuera_dom": 20.4,
+      "pct_ipc_bajo": 72.1,
+      "pct_primera_gen": 67.3,
+      "pct_fin_propios": 17.1,
+      "pct_trabaja": 13.5,
+      "pct_bus": 80.6,
+      "pct_discapacidad": 0.4,
+      "pct_afeccion": 27.2,
+      "pct_tratamiento_psi": 9.1,
+      "pct_otra_uc": 5.4,
+      "mediana_nota": 9.11,
+      "pct_mudarse": 20.2,
+      "pct_cuotas": 3.5,
+      "pct_indigena": 2.1
+    },
+    "BIOQUIMICA Y FARMACIA": {
+      "n": 5,
+      "pct_mujeres": 60.0,
+      "mediana_ipc": 70.0,
+      "pct_arrendada": 20.0,
+      "pct_urbana": 20.0,
+      "pct_rural": 80.0,
+      "pct_fuera_fam": 0.0,
+      "pct_fuera_dom": 0.0,
+      "pct_ipc_bajo": 100.0,
+      "pct_primera_gen": 100.0,
+      "pct_fin_propios": 100.0,
+      "pct_trabaja": 40.0,
+      "pct_bus": 80.0,
+      "pct_discapacidad": 0.0,
+      "pct_afeccion": 40.0,
+      "pct_tratamiento_psi": 60.0,
+      "pct_otra_uc": 0.0,
+      "mediana_nota": 8.5,
+      "pct_mudarse": 0.0,
+      "pct_cuotas": 0.0,
+      "pct_indigena": 0.0
+    },
+    "BIOQUIMICA Y FARMACIA REDISEÑO": {
+      "n": 795,
+      "pct_mujeres": 72.6,
+      "mediana_ipc": 157.92,
+      "pct_arrendada": 32.7,
+      "pct_urbana": 58.7,
+      "pct_rural": 41.3,
+      "pct_fuera_fam": 35.2,
+      "pct_fuera_dom": 20.9,
+      "pct_ipc_bajo": 66.9,
+      "pct_primera_gen": 63.0,
+      "pct_fin_propios": 13.7,
+      "pct_trabaja": 10.1,
+      "pct_bus": 78.6,
+      "pct_discapacidad": 0.5,
+      "pct_afeccion": 29.4,
+      "pct_tratamiento_psi": 10.7,
+      "pct_otra_uc": 6.5,
+      "mediana_nota": 9.33,
+      "pct_mudarse": 23.6,
+      "pct_cuotas": 3.9,
+      "pct_indigena": 1.9
+    },
+    "INGENIERIA AMBIENTAL": {
+      "n": 2,
+      "pct_mujeres": 0.0,
+      "mediana_ipc": 181.25,
+      "pct_arrendada": 100.0,
+      "pct_urbana": 100.0,
+      "pct_rural": 0.0,
+      "pct_fuera_fam": 0.0,
+      "pct_fuera_dom": 0.0,
+      "pct_ipc_bajo": 100.0,
+      "pct_primera_gen": 0.0,
+      "pct_fin_propios": 100.0,
+      "pct_trabaja": 100.0,
+      "pct_bus": 50.0,
+      "pct_discapacidad": 0.0,
+      "pct_afeccion": 0.0,
+      "pct_tratamiento_psi": 0.0,
+      "pct_otra_uc": 0.0,
+      "mediana_nota": 8.6,
+      "pct_mudarse": 0.0,
+      "pct_cuotas": 0.0,
+      "pct_indigena": 0.0
+    },
+    "INGENIERIA AMBIENTAL REDISEÑO": {
+      "n": 597,
+      "pct_mujeres": 49.1,
+      "mediana_ipc": 135.0,
+      "pct_arrendada": 37.4,
+      "pct_urbana": 51.6,
+      "pct_rural": 48.4,
+      "pct_fuera_fam": 35.3,
+      "pct_fuera_dom": 22.6,
+      "pct_ipc_bajo": 78.9,
+      "pct_primera_gen": 72.5,
+      "pct_fin_propios": 21.9,
+      "pct_trabaja": 18.4,
+      "pct_bus": 81.7,
+      "pct_discapacidad": 0.5,
+      "pct_afeccion": 29.1,
+      "pct_tratamiento_psi": 8.9,
+      "pct_otra_uc": 6.0,
+      "mediana_nota": 8.88,
+      "pct_mudarse": 20.4,
+      "pct_cuotas": 4.4,
+      "pct_indigena": 2.2
+    },
+    "INGENIERIA INDUSTRIAL REDISEÑO": {
+      "n": 654,
+      "pct_mujeres": 34.7,
+      "mediana_ipc": 150.0,
+      "pct_arrendada": 37.3,
+      "pct_urbana": 52.4,
+      "pct_rural": 47.6,
+      "pct_fuera_fam": 25.8,
+      "pct_fuera_dom": 17.7,
+      "pct_ipc_bajo": 74.6,
+      "pct_primera_gen": 69.4,
+      "pct_fin_propios": 19.9,
+      "pct_trabaja": 15.4,
+      "pct_bus": 82.6,
+      "pct_discapacidad": 0.5,
+      "pct_afeccion": 23.4,
+      "pct_tratamiento_psi": 6.6,
+      "pct_otra_uc": 5.4,
+      "mediana_nota": 9.02,
+      "pct_mudarse": 17.0,
+      "pct_cuotas": 1.4,
+      "pct_indigena": 2.9
+    },
+    "INGENIERIA QUIMICA REDISEÑO": {
+      "n": 659,
+      "pct_mujeres": 54.0,
+      "mediana_ipc": 153.33,
+      "pct_arrendada": 34.1,
+      "pct_urbana": 55.8,
+      "pct_rural": 44.2,
+      "pct_fuera_fam": 31.1,
+      "pct_fuera_dom": 20.8,
+      "pct_ipc_bajo": 69.2,
+      "pct_primera_gen": 65.6,
+      "pct_fin_propios": 13.2,
+      "pct_trabaja": 10.6,
+      "pct_bus": 80.1,
+      "pct_discapacidad": 0.0,
+      "pct_afeccion": 26.4,
+      "pct_tratamiento_psi": 9.6,
+      "pct_otra_uc": 3.5,
+      "mediana_nota": 9.13,
+      "pct_mudarse": 19.4,
+      "pct_cuotas": 4.6,
+      "pct_indigena": 1.4
+    }
+  },
+  "FACULTAD DE FILOSOFÍA, LETRAS Y CIENCIAS DE LA EDUCACIÓN": {
+    "__GLOBAL__": {
+      "n": 3839,
+      "pct_mujeres": 58.8,
+      "mediana_ipc": 130.0,
+      "pct_arrendada": 39.5,
+      "pct_urbana": 51.9,
+      "pct_rural": 48.1,
+      "pct_fuera_fam": 27.2,
+      "pct_fuera_dom": 20.0,
+      "pct_ipc_bajo": 78.4,
+      "pct_primera_gen": 77.3,
+      "pct_fin_propios": 17.4,
+      "pct_trabaja": 13.3,
+      "pct_bus": 80.7,
+      "pct_discapacidad": 1.4,
+      "pct_afeccion": 27.1,
+      "pct_tratamiento_psi": 8.0,
+      "pct_otra_uc": 9.7,
+      "mediana_nota": 8.93,
+      "pct_mudarse": 18.4,
+      "pct_cuotas": 3.9,
+      "pct_indigena": 3.5
+    },
+    "CIENCIAS DE LA EDUCACION EN LA ESPECIALIZACION DE CULTURA FISICA": {
+      "n": 4,
+      "pct_mujeres": 25.0,
+      "mediana_ipc": 203.33,
+      "pct_arrendada": 75.0,
+      "pct_urbana": 75.0,
+      "pct_rural": 25.0,
+      "pct_fuera_fam": 50.0,
+      "pct_fuera_dom": 50.0,
+      "pct_ipc_bajo": 100.0,
+      "pct_primera_gen": 75.0,
+      "pct_fin_propios": 100.0,
+      "pct_trabaja": 75.0,
+      "pct_bus": 0.0,
+      "pct_discapacidad": 0.0,
+      "pct_afeccion": 0.0,
+      "pct_tratamiento_psi": 0.0,
+      "pct_otra_uc": 0.0,
+      "mediana_nota": 8.16,
+      "pct_mudarse": 0.0,
+      "pct_cuotas": 0.0,
+      "pct_indigena": 0.0
+    },
+    "CIENCIAS DE LA EDUCACION EN LA ESPECIALIZACION DE FILOSOFIA SOCIOLOGIA Y ECONOMIA": {
+      "n": 2,
+      "pct_mujeres": 0.0,
+      "mediana_ipc": 108.33,
+      "pct_arrendada": 50.0,
+      "pct_urbana": 50.0,
+      "pct_rural": 50.0,
+      "pct_fuera_fam": 0.0,
+      "pct_fuera_dom": 0.0,
+      "pct_ipc_bajo": 100.0,
+      "pct_primera_gen": 100.0,
+      "pct_fin_propios": 100.0,
+      "pct_trabaja": 100.0,
+      "pct_bus": 0.0,
+      "pct_discapacidad": 0.0,
+      "pct_afeccion": 0.0,
+      "pct_tratamiento_psi": 0.0,
+      "pct_otra_uc": 0.0,
+      "mediana_nota": 8.3,
+      "pct_mudarse": 50.0,
+      "pct_cuotas": 0.0,
+      "pct_indigena": 0.0
+    },
+    "CIENCIAS DE LA EDUCACION EN LA ESPECIALIZACION DE HISTORIA Y GEOGRAFIA": {
+      "n": 7,
+      "pct_mujeres": 14.3,
+      "mediana_ipc": 175.0,
+      "pct_arrendada": 85.7,
+      "pct_urbana": 71.4,
+      "pct_rural": 28.6,
+      "pct_fuera_fam": 0.0,
+      "pct_fuera_dom": 0.0,
+      "pct_ipc_bajo": 85.7,
+      "pct_primera_gen": 100.0,
+      "pct_fin_propios": 57.1,
+      "pct_trabaja": 42.9,
+      "pct_bus": 100.0,
+      "pct_discapacidad": 0.0,
+      "pct_afeccion": 42.9,
+      "pct_tratamiento_psi": 0.0,
+      "pct_otra_uc": 0.0,
+      "mediana_nota": 8.0,
+      "pct_mudarse": 14.3,
+      "pct_cuotas": 0.0,
+      "pct_indigena": 0.0
+    },
+    "CIENCIAS DE LA EDUCACION EN LA ESPECIALIZACION DE LENGUA LITERATURA Y LENGUAJES AUDIOVISUALES": {
+      "n": 5,
+      "pct_mujeres": 80.0,
+      "mediana_ipc": 164.0,
+      "pct_arrendada": 60.0,
+      "pct_urbana": 80.0,
+      "pct_rural": 20.0,
+      "pct_fuera_fam": 20.0,
+      "pct_fuera_dom": 20.0,
+      "pct_ipc_bajo": 100.0,
+      "pct_primera_gen": 100.0,
+      "pct_fin_propios": 80.0,
+      "pct_trabaja": 60.0,
+      "pct_bus": 80.0,
+      "pct_discapacidad": 0.0,
+      "pct_afeccion": 40.0,
+      "pct_tratamiento_psi": 20.0,
+      "pct_otra_uc": 20.0,
+      "mediana_nota": 8.4,
+      "pct_mudarse": 0.0,
+      "pct_cuotas": 0.0,
+      "pct_indigena": 0.0
+    },
+    "CIENCIAS DE LA EDUCACION EN LA ESPECIALIZACION DE LENGUA Y LITERATURA INGLESA": {
+      "n": 11,
+      "pct_mujeres": 72.7,
+      "mediana_ipc": 283.33,
+      "pct_arrendada": 81.8,
+      "pct_urbana": 63.6,
+      "pct_rural": 36.4,
+      "pct_fuera_fam": 0.0,
+      "pct_fuera_dom": 0.0,
+      "pct_ipc_bajo": 36.4,
+      "pct_primera_gen": 90.9,
+      "pct_fin_propios": 81.8,
+      "pct_trabaja": 72.7,
+      "pct_bus": 100.0,
+      "pct_discapacidad": 0.0,
+      "pct_afeccion": 18.2,
+      "pct_tratamiento_psi": 0.0,
+      "pct_otra_uc": 9.1,
+      "mediana_nota": 8.5,
+      "pct_mudarse": 18.2,
+      "pct_cuotas": 0.0,
+      "pct_indigena": 0.0
+    },
+    "CIENCIAS DE LA EDUCACION EN LA ESPECIALIZACION DE MATEMATICAS Y FISICA": {
+      "n": 2,
+      "pct_mujeres": 50.0,
+      "mediana_ipc": 180.0,
+      "pct_arrendada": 50.0,
+      "pct_urbana": 50.0,
+      "pct_rural": 50.0,
+      "pct_fuera_fam": 0.0,
+      "pct_fuera_dom": 0.0,
+      "pct_ipc_bajo": 100.0,
+      "pct_primera_gen": 100.0,
+      "pct_fin_propios": 100.0,
+      "pct_trabaja": 50.0,
+      "pct_bus": 100.0,
+      "pct_discapacidad": 0.0,
+      "pct_afeccion": 0.0,
+      "pct_tratamiento_psi": 0.0,
+      "pct_otra_uc": 0.0,
+      "mediana_nota": 8.25,
+      "pct_mudarse": 0.0,
+      "pct_cuotas": 0.0,
+      "pct_indigena": 0.0
+    },
+    "CINE": {
+      "n": 213,
+      "pct_mujeres": 39.0,
+      "mediana_ipc": 200.0,
+      "pct_arrendada": 41.8,
+      "pct_urbana": 69.0,
+      "pct_rural": 31.0,
+      "pct_fuera_fam": 37.1,
+      "pct_fuera_dom": 16.9,
+      "pct_ipc_bajo": 61.0,
+      "pct_primera_gen": 56.8,
+      "pct_fin_propios": 16.0,
+      "pct_trabaja": 13.1,
+      "pct_bus": 56.3,
+      "pct_discapacidad": 2.8,
+      "pct_afeccion": 37.1,
+      "pct_tratamiento_psi": 15.5,
+      "pct_otra_uc": 10.3,
+      "mediana_nota": 8.95,
+      "pct_mudarse": 31.0,
+      "pct_cuotas": 0.9,
+      "pct_indigena": 3.8
+    },
+    "CINE Y AUDIOVISUALES": {
+      "n": 10,
+      "pct_mujeres": 0.0,
+      "mediana_ipc": 173.75,
+      "pct_arrendada": 60.0,
+      "pct_urbana": 60.0,
+      "pct_rural": 40.0,
+      "pct_fuera_fam": 40.0,
+      "pct_fuera_dom": 10.0,
+      "pct_ipc_bajo": 60.0,
+      "pct_primera_gen": 70.0,
+      "pct_fin_propios": 60.0,
+      "pct_trabaja": 40.0,
+      "pct_bus": 30.0,
+      "pct_discapacidad": 0.0,
+      "pct_afeccion": 50.0,
+      "pct_tratamiento_psi": 0.0,
+      "pct_otra_uc": 0.0,
+      "mediana_nota": 8.0,
+      "pct_mudarse": 50.0,
+      "pct_cuotas": 0.0,
+      "pct_indigena": 20.0
+    },
+    "COMUNICACION  REDISEÑO": {
+      "n": 267,
+      "pct_mujeres": 59.2,
+      "mediana_ipc": 170.0,
+      "pct_arrendada": 40.4,
+      "pct_urbana": 62.5,
+      "pct_rural": 37.5,
+      "pct_fuera_fam": 27.3,
+      "pct_fuera_dom": 20.6,
+      "pct_ipc_bajo": 61.8,
+      "pct_primera_gen": 61.0,
+      "pct_fin_propios": 22.8,
+      "pct_trabaja": 16.9,
+      "pct_bus": 74.9,
+      "pct_discapacidad": 1.5,
+      "pct_afeccion": 37.8,
+      "pct_tratamiento_psi": 16.1,
+      "pct_otra_uc": 14.2,
+      "mediana_nota": 8.95,
+      "pct_mudarse": 16.5,
+      "pct_cuotas": 2.2,
+      "pct_indigena": 1.1
+    },
+    "EDUCACION BASICA REDISEÑO": {
+      "n": 496,
+      "pct_mujeres": 79.0,
+      "mediana_ipc": 114.29,
+      "pct_arrendada": 35.9,
+      "pct_urbana": 44.2,
+      "pct_rural": 55.8,
+      "pct_fuera_fam": 25.8,
+      "pct_fuera_dom": 20.8,
+      "pct_ipc_bajo": 87.5,
+      "pct_primera_gen": 87.3,
+      "pct_fin_propios": 12.5,
+      "pct_trabaja": 9.9,
+      "pct_bus": 84.5,
+      "pct_discapacidad": 1.8,
+      "pct_afeccion": 29.4,
+      "pct_tratamiento_psi": 5.6,
+      "pct_otra_uc": 7.5,
+      "mediana_nota": 9.02,
+      "pct_mudarse": 17.3,
+      "pct_cuotas": 3.2,
+      "pct_indigena": 5.2
+    },
+    "EDUCACION GENERAL BASICA": {
+      "n": 5,
+      "pct_mujeres": 40.0,
+      "mediana_ipc": 120.0,
+      "pct_arrendada": 20.0,
+      "pct_urbana": 0.0,
+      "pct_rural": 100.0,
+      "pct_fuera_fam": 20.0,
+      "pct_fuera_dom": 20.0,
+      "pct_ipc_bajo": 100.0,
+      "pct_primera_gen": 100.0,
+      "pct_fin_propios": 60.0,
+      "pct_trabaja": 40.0,
+      "pct_bus": 100.0,
+      "pct_discapacidad": 0.0,
+      "pct_afeccion": 40.0,
+      "pct_tratamiento_psi": 0.0,
+      "pct_otra_uc": 40.0,
+      "mediana_nota": 8.26,
+      "pct_mudarse": 0.0,
+      "pct_cuotas": 0.0,
+      "pct_indigena": 0.0
+    },
+    "EDUCACION INICIAL 2023": {
+      "n": 100,
+      "pct_mujeres": 97.0,
+      "mediana_ipc": 120.71,
+      "pct_arrendada": 45.0,
+      "pct_urbana": 49.0,
+      "pct_rural": 51.0,
+      "pct_fuera_fam": 27.0,
+      "pct_fuera_dom": 19.0,
+      "pct_ipc_bajo": 82.0,
+      "pct_primera_gen": 88.0,
+      "pct_fin_propios": 6.0,
+      "pct_trabaja": 10.0,
+      "pct_bus": 91.0,
+      "pct_discapacidad": 0.0,
+      "pct_afeccion": 28.0,
+      "pct_tratamiento_psi": 6.0,
+      "pct_otra_uc": 11.0,
+      "mediana_nota": 9.22,
+      "pct_mudarse": 22.0,
+      "pct_cuotas": 5.0,
+      "pct_indigena": 12.0
+    },
+    "EDUCACION INICIAL NUEVA": {
+      "n": 139,
+      "pct_mujeres": 100.0,
+      "mediana_ipc": 128.57,
+      "pct_arrendada": 40.3,
+      "pct_urbana": 50.4,
+      "pct_rural": 49.6,
+      "pct_fuera_fam": 24.5,
+      "pct_fuera_dom": 17.3,
+      "pct_ipc_bajo": 82.0,
+      "pct_primera_gen": 78.4,
+      "pct_fin_propios": 7.9,
+      "pct_trabaja": 4.3,
+      "pct_bus": 92.1,
+      "pct_discapacidad": 0.0,
+      "pct_afeccion": 29.5,
+      "pct_tratamiento_psi": 10.1,
+      "pct_otra_uc": 5.0,
+      "mediana_nota": 9.16,
+      "pct_mudarse": 19.4,
+      "pct_cuotas": 2.2,
+      "pct_indigena": 0.7
+    },
+    "LICENCIATURA EN CIENCIAS DE LA COMUNICACION SOCIAL": {
+      "n": 22,
+      "pct_mujeres": 40.9,
+      "mediana_ipc": 124.17,
+      "pct_arrendada": 59.1,
+      "pct_urbana": 77.3,
+      "pct_rural": 22.7,
+      "pct_fuera_fam": 18.2,
+      "pct_fuera_dom": 13.6,
+      "pct_ipc_bajo": 81.8,
+      "pct_primera_gen": 68.2,
+      "pct_fin_propios": 68.2,
+      "pct_trabaja": 45.5,
+      "pct_bus": 59.1,
+      "pct_discapacidad": 0.0,
+      "pct_afeccion": 18.2,
+      "pct_tratamiento_psi": 4.5,
+      "pct_otra_uc": 18.2,
+      "mediana_nota": 8.44,
+      "pct_mudarse": 4.5,
+      "pct_cuotas": 13.6,
+      "pct_indigena": 0.0
+    },
+    "PEDAGOGIA DE LA ACTIVIDAD FISICA Y DEPORTE": {
+      "n": 537,
+      "pct_mujeres": 31.1,
+      "mediana_ipc": 121.83,
+      "pct_arrendada": 37.8,
+      "pct_urbana": 45.4,
+      "pct_rural": 54.6,
+      "pct_fuera_fam": 28.9,
+      "pct_fuera_dom": 23.1,
+      "pct_ipc_bajo": 83.4,
+      "pct_primera_gen": 79.7,
+      "pct_fin_propios": 17.5,
+      "pct_trabaja": 11.4,
+      "pct_bus": 86.8,
+      "pct_discapacidad": 1.9,
+      "pct_afeccion": 14.7,
+      "pct_tratamiento_psi": 5.4,
+      "pct_otra_uc": 10.2,
+      "mediana_nota": 8.87,
+      "pct_mudarse": 16.9,
+      "pct_cuotas": 5.4,
+      "pct_indigena": 3.9
+    },
+    "PEDAGOGIA DE LA HISTORIA Y LAS CIENCIAS SOCIALES": {
+      "n": 277,
+      "pct_mujeres": 56.7,
+      "mediana_ipc": 120.0,
+      "pct_arrendada": 33.2,
+      "pct_urbana": 43.7,
+      "pct_rural": 56.3,
+      "pct_fuera_fam": 28.2,
+      "pct_fuera_dom": 19.9,
+      "pct_ipc_bajo": 80.1,
+      "pct_primera_gen": 81.2,
+      "pct_fin_propios": 14.1,
+      "pct_trabaja": 10.8,
+      "pct_bus": 85.6,
+      "pct_discapacidad": 2.5,
+      "pct_afeccion": 26.4,
+      "pct_tratamiento_psi": 6.5,
+      "pct_otra_uc": 9.4,
+      "mediana_nota": 8.89,
+      "pct_mudarse": 20.6,
+      "pct_cuotas": 6.9,
+      "pct_indigena": 1.8
+    },
+    "PEDAGOGIA DE LA LENGUA Y LA LITERATURA": {
+      "n": 261,
+      "pct_mujeres": 69.0,
+      "mediana_ipc": 133.33,
+      "pct_arrendada": 42.1,
+      "pct_urbana": 47.1,
+      "pct_rural": 52.9,
+      "pct_fuera_fam": 30.7,
+      "pct_fuera_dom": 21.8,
+      "pct_ipc_bajo": 77.8,
+      "pct_primera_gen": 77.4,
+      "pct_fin_propios": 15.7,
+      "pct_trabaja": 10.7,
+      "pct_bus": 82.8,
+      "pct_discapacidad": 2.3,
+      "pct_afeccion": 32.2,
+      "pct_tratamiento_psi": 10.7,
+      "pct_otra_uc": 9.6,
+      "mediana_nota": 9.0,
+      "pct_mudarse": 18.8,
+      "pct_cuotas": 3.8,
+      "pct_indigena": 3.1
+    },
+    "PEDAGOGIA DE LAS ARTES Y LAS HUMANIDADES": {
+      "n": 229,
+      "pct_mujeres": 58.5,
+      "mediana_ipc": 126.5,
+      "pct_arrendada": 42.4,
+      "pct_urbana": 55.9,
+      "pct_rural": 44.1,
+      "pct_fuera_fam": 25.3,
+      "pct_fuera_dom": 18.8,
+      "pct_ipc_bajo": 78.6,
+      "pct_primera_gen": 81.7,
+      "pct_fin_propios": 18.8,
+      "pct_trabaja": 15.3,
+      "pct_bus": 77.7,
+      "pct_discapacidad": 0.9,
+      "pct_afeccion": 28.8,
+      "pct_tratamiento_psi": 10.9,
+      "pct_otra_uc": 9.6,
+      "mediana_nota": 8.64,
+      "pct_mudarse": 17.9,
+      "pct_cuotas": 5.2,
+      "pct_indigena": 0.4
+    },
+    "PEDAGOGIA DE LAS CIENCIAS EXPERIMENTALES": {
+      "n": 520,
+      "pct_mujeres": 46.9,
+      "mediana_ipc": 116.56,
+      "pct_arrendada": 39.2,
+      "pct_urbana": 47.5,
+      "pct_rural": 52.5,
+      "pct_fuera_fam": 24.2,
+      "pct_fuera_dom": 18.7,
+      "pct_ipc_bajo": 83.1,
+      "pct_primera_gen": 80.4,
+      "pct_fin_propios": 21.9,
+      "pct_trabaja": 15.6,
+      "pct_bus": 84.0,
+      "pct_discapacidad": 0.4,
+      "pct_afeccion": 22.7,
+      "pct_tratamiento_psi": 4.8,
+      "pct_otra_uc": 13.1,
+      "mediana_nota": 8.72,
+      "pct_mudarse": 17.7,
+      "pct_cuotas": 3.1,
+      "pct_indigena": 2.9
+    },
+    "PEDAGOGIA DE LOS IDIOMAS NACIONALES Y EXTRANJEROS": {
+      "n": 516,
+      "pct_mujeres": 73.6,
+      "mediana_ipc": 140.0,
+      "pct_arrendada": 39.3,
+      "pct_urbana": 58.1,
+      "pct_rural": 41.9,
+      "pct_fuera_fam": 26.9,
+      "pct_fuera_dom": 18.6,
+      "pct_ipc_bajo": 75.4,
+      "pct_primera_gen": 72.5,
+      "pct_fin_propios": 14.7,
+      "pct_trabaja": 13.2,
+      "pct_bus": 77.7,
+      "pct_discapacidad": 0.4,
+      "pct_afeccion": 29.7,
+      "pct_tratamiento_psi": 7.6,
+      "pct_otra_uc": 7.8,
+      "mediana_nota": 9.2,
+      "pct_mudarse": 19.0,
+      "pct_cuotas": 4.5,
+      "pct_indigena": 6.0
+    },
+    "PERIODISMO": {
+      "n": 216,
+      "pct_mujeres": 46.8,
+      "mediana_ipc": 127.5,
+      "pct_arrendada": 40.3,
+      "pct_urbana": 62.0,
+      "pct_rural": 38.0,
+      "pct_fuera_fam": 25.5,
+      "pct_fuera_dom": 22.7,
+      "pct_ipc_bajo": 73.6,
+      "pct_primera_gen": 75.9,
+      "pct_fin_propios": 18.1,
+      "pct_trabaja": 14.8,
+      "pct_bus": 74.5,
+      "pct_discapacidad": 2.8,
+      "pct_afeccion": 25.9,
+      "pct_tratamiento_psi": 7.9,
+      "pct_otra_uc": 6.0,
+      "mediana_nota": 8.7,
+      "pct_mudarse": 10.6,
+      "pct_cuotas": 2.8,
+      "pct_indigena": 0.9
+    }
+  },
+  "FACULTAD DE INGENIERÍA": {
+    "__GLOBAL__": {
+      "n": 2909,
+      "pct_mujeres": 21.0,
+      "mediana_ipc": 163.7,
+      "pct_arrendada": 31.8,
+      "pct_urbana": 60.1,
+      "pct_rural": 39.9,
+      "pct_fuera_fam": 24.9,
+      "pct_fuera_dom": 16.3,
+      "pct_ipc_bajo": 68.0,
+      "pct_primera_gen": 60.0,
+      "pct_fin_propios": 19.1,
+      "pct_trabaja": 14.9,
+      "pct_bus": 76.7,
+      "pct_discapacidad": 0.4,
+      "pct_afeccion": 25.4,
+      "pct_tratamiento_psi": 7.8,
+      "pct_otra_uc": 5.3,
+      "mediana_nota": 9.24,
+      "pct_mudarse": 16.2,
+      "pct_cuotas": 3.0,
+      "pct_indigena": 2.5
+    },
+    "COMPUTACION REDISEÑO": {
+      "n": 703,
+      "pct_mujeres": 18.9,
+      "mediana_ipc": 180.0,
+      "pct_arrendada": 29.3,
+      "pct_urbana": 65.0,
+      "pct_rural": 35.0,
+      "pct_fuera_fam": 20.2,
+      "pct_fuera_dom": 12.4,
+      "pct_ipc_bajo": 60.9,
+      "pct_primera_gen": 54.6,
+      "pct_fin_propios": 15.6,
+      "pct_trabaja": 11.1,
+      "pct_bus": 73.8,
+      "pct_discapacidad": 0.6,
+      "pct_afeccion": 26.9,
+      "pct_tratamiento_psi": 9.5,
+      "pct_otra_uc": 5.0,
+      "mediana_nota": 9.32,
+      "pct_mudarse": 12.1,
+      "pct_cuotas": 2.8,
+      "pct_indigena": 1.8
+    },
+    "ELECTRICIDAD": {
+      "n": 612,
+      "pct_mujeres": 11.4,
+      "mediana_ipc": 150.0,
+      "pct_arrendada": 32.7,
+      "pct_urbana": 60.5,
+      "pct_rural": 39.5,
+      "pct_fuera_fam": 27.1,
+      "pct_fuera_dom": 19.1,
+      "pct_ipc_bajo": 75.7,
+      "pct_primera_gen": 66.5,
+      "pct_fin_propios": 25.0,
+      "pct_trabaja": 20.3,
+      "pct_bus": 78.9,
+      "pct_discapacidad": 0.0,
+      "pct_afeccion": 22.5,
+      "pct_tratamiento_psi": 6.5,
+      "pct_otra_uc": 3.9,
+      "mediana_nota": 9.18,
+      "pct_mudarse": 17.6,
+      "pct_cuotas": 3.1,
+      "pct_indigena": 1.5
+    },
+    "INGENIERIA CIVIL": {
+      "n": 28,
+      "pct_mujeres": 28.6,
+      "mediana_ipc": 170.83,
+      "pct_arrendada": 32.1,
+      "pct_urbana": 75.0,
+      "pct_rural": 25.0,
+      "pct_fuera_fam": 35.7,
+      "pct_fuera_dom": 21.4,
+      "pct_ipc_bajo": 64.3,
+      "pct_primera_gen": 57.1,
+      "pct_fin_propios": 50.0,
+      "pct_trabaja": 46.4,
+      "pct_bus": 67.9,
+      "pct_discapacidad": 0.0,
+      "pct_afeccion": 64.3,
+      "pct_tratamiento_psi": 28.6,
+      "pct_otra_uc": 0.0,
+      "mediana_nota": 8.57,
+      "pct_mudarse": 32.1,
+      "pct_cuotas": 0.0,
+      "pct_indigena": 10.7
+    },
+    "INGENIERIA CIVIL REDISEÑO": {
+      "n": 910,
+      "pct_mujeres": 35.8,
+      "mediana_ipc": 177.5,
+      "pct_arrendada": 27.5,
+      "pct_urbana": 55.7,
+      "pct_rural": 44.3,
+      "pct_fuera_fam": 33.7,
+      "pct_fuera_dom": 22.0,
+      "pct_ipc_bajo": 63.2,
+      "pct_primera_gen": 55.4,
+      "pct_fin_propios": 14.4,
+      "pct_trabaja": 11.8,
+      "pct_bus": 77.3,
+      "pct_discapacidad": 0.2,
+      "pct_afeccion": 23.7,
+      "pct_tratamiento_psi": 7.1,
+      "pct_otra_uc": 7.4,
+      "mediana_nota": 9.37,
+      "pct_mudarse": 23.2,
+      "pct_cuotas": 4.2,
+      "pct_indigena": 4.4
+    },
+    "INGENIERIA ELECTRICA": {
+      "n": 3,
+      "pct_mujeres": 0.0,
+      "mediana_ipc": 175.0,
+      "pct_arrendada": 0.0,
+      "pct_urbana": 66.7,
+      "pct_rural": 33.3,
+      "pct_fuera_fam": 0.0,
+      "pct_fuera_dom": 0.0,
+      "pct_ipc_bajo": 100.0,
+      "pct_primera_gen": 100.0,
+      "pct_fin_propios": 33.3,
+      "pct_trabaja": 33.3,
+      "pct_bus": 33.3,
+      "pct_discapacidad": 0.0,
+      "pct_afeccion": 66.7,
+      "pct_tratamiento_psi": 33.3,
+      "pct_otra_uc": 0.0,
+      "mediana_nota": 8.87,
+      "pct_mudarse": 0.0,
+      "pct_cuotas": 0.0,
+      "pct_indigena": 0.0
+    },
+    "INGENIERIA EN ELECTRONICA Y TELECOMUNICACIONES": {
+      "n": 6,
+      "pct_mujeres": 16.7,
+      "mediana_ipc": 325.0,
+      "pct_arrendada": 66.7,
+      "pct_urbana": 100.0,
+      "pct_rural": 0.0,
+      "pct_fuera_fam": 16.7,
+      "pct_fuera_dom": 16.7,
+      "pct_ipc_bajo": 33.3,
+      "pct_primera_gen": 16.7,
+      "pct_fin_propios": 66.7,
+      "pct_trabaja": 50.0,
+      "pct_bus": 50.0,
+      "pct_discapacidad": 0.0,
+      "pct_afeccion": 33.3,
+      "pct_tratamiento_psi": 16.7,
+      "pct_otra_uc": 16.7,
+      "mediana_nota": 9.15,
+      "pct_mudarse": 50.0,
+      "pct_cuotas": 0.0,
+      "pct_indigena": 0.0
+    },
+    "TELECOMUNICACIONES": {
+      "n": 647,
+      "pct_mujeres": 11.4,
+      "mediana_ipc": 150.0,
+      "pct_arrendada": 39.4,
+      "pct_urbana": 59.5,
+      "pct_rural": 40.5,
+      "pct_fuera_fam": 15.1,
+      "pct_fuera_dom": 9.9,
+      "pct_ipc_bajo": 75.4,
+      "pct_primera_gen": 66.5,
+      "pct_fin_propios": 22.1,
+      "pct_trabaja": 16.7,
+      "pct_bus": 77.7,
+      "pct_discapacidad": 1.1,
+      "pct_afeccion": 27.0,
+      "pct_tratamiento_psi": 7.0,
+      "pct_otra_uc": 4.3,
+      "mediana_nota": 9.05,
+      "pct_mudarse": 8.7,
+      "pct_cuotas": 1.7,
+      "pct_indigena": 1.1
+    }
+  },
+  "FACULTAD DE JURISPRUDENCIA Y CIENCIAS POLITICAS Y SOCIALES": {
+    "__GLOBAL__": {
+      "n": 2021,
+      "pct_mujeres": 69.1,
+      "mediana_ipc": 150.0,
+      "pct_arrendada": 40.9,
+      "pct_urbana": 55.4,
+      "pct_rural": 44.6,
+      "pct_fuera_fam": 28.6,
+      "pct_fuera_dom": 21.1,
+      "pct_ipc_bajo": 72.1,
+      "pct_primera_gen": 68.6,
+      "pct_fin_propios": 22.9,
+      "pct_trabaja": 15.9,
+      "pct_bus": 80.7,
+      "pct_discapacidad": 0.7,
+      "pct_afeccion": 30.8,
+      "pct_tratamiento_psi": 11.8,
+      "pct_otra_uc": 7.9,
+      "mediana_nota": 9.0,
+      "pct_mudarse": 18.8,
+      "pct_cuotas": 5.2,
+      "pct_indigena": 4.8
+    },
+    "DERECHO": {
+      "n": 93,
+      "pct_mujeres": 40.9,
+      "mediana_ipc": 89.58,
+      "pct_arrendada": 62.4,
+      "pct_urbana": 58.1,
+      "pct_rural": 41.9,
+      "pct_fuera_fam": 18.3,
+      "pct_fuera_dom": 14.0,
+      "pct_ipc_bajo": 86.0,
+      "pct_primera_gen": 78.5,
+      "pct_fin_propios": 65.6,
+      "pct_trabaja": 49.5,
+      "pct_bus": 82.8,
+      "pct_discapacidad": 2.2,
+      "pct_afeccion": 43.0,
+      "pct_tratamiento_psi": 17.2,
+      "pct_otra_uc": 15.1,
+      "mediana_nota": 8.5,
+      "pct_mudarse": 22.6,
+      "pct_cuotas": 1.1,
+      "pct_indigena": 5.4
+    },
+    "DERECHO  REDISEÑO": {
+      "n": 875,
+      "pct_mujeres": 65.3,
+      "mediana_ipc": 174.17,
+      "pct_arrendada": 36.9,
+      "pct_urbana": 56.5,
+      "pct_rural": 43.5,
+      "pct_fuera_fam": 36.1,
+      "pct_fuera_dom": 25.4,
+      "pct_ipc_bajo": 61.7,
+      "pct_primera_gen": 56.9,
+      "pct_fin_propios": 20.2,
+      "pct_trabaja": 15.2,
+      "pct_bus": 75.2,
+      "pct_discapacidad": 0.8,
+      "pct_afeccion": 29.8,
+      "pct_tratamiento_psi": 12.8,
+      "pct_otra_uc": 8.3,
+      "mediana_nota": 9.35,
+      "pct_mudarse": 22.9,
+      "pct_cuotas": 7.0,
+      "pct_indigena": 8.1
+    },
+    "GENERO Y DESARROLLO REDISEÑO": {
+      "n": 324,
+      "pct_mujeres": 69.4,
+      "mediana_ipc": 150.0,
+      "pct_arrendada": 47.8,
+      "pct_urbana": 58.6,
+      "pct_rural": 41.4,
+      "pct_fuera_fam": 19.4,
+      "pct_fuera_dom": 17.3,
+      "pct_ipc_bajo": 75.0,
+      "pct_primera_gen": 72.5,
+      "pct_fin_propios": 24.7,
+      "pct_trabaja": 14.2,
+      "pct_bus": 84.6,
+      "pct_discapacidad": 1.9,
+      "pct_afeccion": 35.2,
+      "pct_tratamiento_psi": 15.4,
+      "pct_otra_uc": 9.3,
+      "mediana_nota": 8.6,
+      "pct_mudarse": 13.3,
+      "pct_cuotas": 3.4,
+      "pct_indigena": 0.9
+    },
+    "LICENCIATURA EN GENERO Y DESARROLLO": {
+      "n": 5,
+      "pct_mujeres": 100.0,
+      "mediana_ipc": 92.0,
+      "pct_arrendada": 40.0,
+      "pct_urbana": 80.0,
+      "pct_rural": 20.0,
+      "pct_fuera_fam": 0.0,
+      "pct_fuera_dom": 0.0,
+      "pct_ipc_bajo": 100.0,
+      "pct_primera_gen": 60.0,
+      "pct_fin_propios": 80.0,
+      "pct_trabaja": 60.0,
+      "pct_bus": 100.0,
+      "pct_discapacidad": 0.0,
+      "pct_afeccion": 80.0,
+      "pct_tratamiento_psi": 0.0,
+      "pct_otra_uc": 0.0,
+      "mediana_nota": 8.0,
+      "pct_mudarse": 20.0,
+      "pct_cuotas": 0.0,
+      "pct_indigena": 0.0
+    },
+    "ORIENTACIÓN FAMILIAR REDISEÑO": {
+      "n": 371,
+      "pct_mujeres": 68.5,
+      "mediana_ipc": 135.58,
+      "pct_arrendada": 44.7,
+      "pct_urbana": 53.6,
+      "pct_rural": 46.4,
+      "pct_fuera_fam": 22.4,
+      "pct_fuera_dom": 16.7,
+      "pct_ipc_bajo": 84.9,
+      "pct_primera_gen": 80.9,
+      "pct_fin_propios": 22.1,
+      "pct_trabaja": 12.9,
+      "pct_bus": 85.7,
+      "pct_discapacidad": 0.0,
+      "pct_afeccion": 28.3,
+      "pct_tratamiento_psi": 8.1,
+      "pct_otra_uc": 5.7,
+      "mediana_nota": 8.61,
+      "pct_mudarse": 12.7,
+      "pct_cuotas": 4.0,
+      "pct_indigena": 2.2
+    },
+    "TRABAJO SOCIAL": {
+      "n": 12,
+      "pct_mujeres": 66.7,
+      "mediana_ipc": 155.83,
+      "pct_arrendada": 58.3,
+      "pct_urbana": 41.7,
+      "pct_rural": 58.3,
+      "pct_fuera_fam": 16.7,
+      "pct_fuera_dom": 41.7,
+      "pct_ipc_bajo": 91.7,
+      "pct_primera_gen": 91.7,
+      "pct_fin_propios": 75.0,
+      "pct_trabaja": 33.3,
+      "pct_bus": 83.3,
+      "pct_discapacidad": 0.0,
+      "pct_afeccion": 58.3,
+      "pct_tratamiento_psi": 33.3,
+      "pct_otra_uc": 8.3,
+      "mediana_nota": 8.7,
+      "pct_mudarse": 25.0,
+      "pct_cuotas": 0.0,
+      "pct_indigena": 0.0
+    },
+    "TRABAJO SOCIAL REDISEÑO": {
+      "n": 341,
+      "pct_mujeres": 86.8,
+      "mediana_ipc": 130.0,
+      "pct_arrendada": 33.7,
+      "pct_urbana": 51.0,
+      "pct_rural": 49.0,
+      "pct_fuera_fam": 28.4,
+      "pct_fuera_dom": 20.2,
+      "pct_ipc_bajo": 77.1,
+      "pct_primera_gen": 78.3,
+      "pct_fin_propios": 14.7,
+      "pct_trabaja": 12.0,
+      "pct_bus": 84.8,
+      "pct_discapacidad": 0.0,
+      "pct_afeccion": 27.0,
+      "pct_tratamiento_psi": 7.9,
+      "pct_otra_uc": 5.9,
+      "mediana_nota": 8.94,
+      "pct_mudarse": 18.8,
+      "pct_cuotas": 5.0,
+      "pct_indigena": 2.9
+    }
+  },
+  "FACULTAD DE ODONTOLOGÍA": {
+    "__GLOBAL__": {
+      "n": 968,
+      "pct_mujeres": 71.8,
+      "mediana_ipc": 182.2,
+      "pct_arrendada": 33.5,
+      "pct_urbana": 59.2,
+      "pct_rural": 40.8,
+      "pct_fuera_fam": 45.9,
+      "pct_fuera_dom": 23.6,
+      "pct_ipc_bajo": 62.2,
+      "pct_primera_gen": 57.9,
+      "pct_fin_propios": 13.7,
+      "pct_trabaja": 12.0,
+      "pct_bus": 61.0,
+      "pct_discapacidad": 0.6,
+      "pct_afeccion": 35.4,
+      "pct_tratamiento_psi": 13.7,
+      "pct_otra_uc": 5.0,
+      "mediana_nota": 9.32,
+      "pct_mudarse": 35.8,
+      "pct_cuotas": 5.1,
+      "pct_indigena": 6.4
+    },
+    "ODONTOLOGIA": {
+      "n": 28,
+      "pct_mujeres": 14.3,
+      "mediana_ipc": 148.0,
+      "pct_arrendada": 50.0,
+      "pct_urbana": 78.6,
+      "pct_rural": 21.4,
+      "pct_fuera_fam": 25.0,
+      "pct_fuera_dom": 0.0,
+      "pct_ipc_bajo": 71.4,
+      "pct_primera_gen": 60.7,
+      "pct_fin_propios": 32.1,
+      "pct_trabaja": 28.6,
+      "pct_bus": 46.4,
+      "pct_discapacidad": 0.0,
+      "pct_afeccion": 42.9,
+      "pct_tratamiento_psi": 17.9,
+      "pct_otra_uc": 10.7,
+      "mediana_nota": 9.0,
+      "pct_mudarse": 28.6,
+      "pct_cuotas": 0.0,
+      "pct_indigena": 7.1
+    },
+    "ODONTOLOGIA REDISEÑO": {
+      "n": 482,
+      "pct_mujeres": 74.3,
+      "mediana_ipc": 187.5,
+      "pct_arrendada": 32.6,
+      "pct_urbana": 57.3,
+      "pct_rural": 42.7,
+      "pct_fuera_fam": 47.5,
+      "pct_fuera_dom": 24.5,
+      "pct_ipc_bajo": 60.6,
+      "pct_primera_gen": 57.9,
+      "pct_fin_propios": 12.7,
+      "pct_trabaja": 11.4,
+      "pct_bus": 60.8,
+      "pct_discapacidad": 0.6,
+      "pct_afeccion": 34.4,
+      "pct_tratamiento_psi": 12.9,
+      "pct_otra_uc": 4.4,
+      "mediana_nota": 9.39,
+      "pct_mudarse": 36.7,
+      "pct_cuotas": 6.0,
+      "pct_indigena": 7.3
+    },
+    "ODONTOLOGIA-REDISEÑO": {
+      "n": 458,
+      "pct_mujeres": 72.7,
+      "mediana_ipc": 183.33,
+      "pct_arrendada": 33.4,
+      "pct_urbana": 60.0,
+      "pct_rural": 40.0,
+      "pct_fuera_fam": 45.4,
+      "pct_fuera_dom": 24.0,
+      "pct_ipc_bajo": 63.3,
+      "pct_primera_gen": 57.6,
+      "pct_fin_propios": 13.8,
+      "pct_trabaja": 11.6,
+      "pct_bus": 62.0,
+      "pct_discapacidad": 0.7,
+      "pct_afeccion": 36.0,
+      "pct_tratamiento_psi": 14.4,
+      "pct_otra_uc": 5.2,
+      "mediana_nota": 9.28,
+      "pct_mudarse": 35.4,
+      "pct_cuotas": 4.4,
+      "pct_indigena": 5.5
+    }
+  },
+  "FACULTAD DE PSICOLOGÍA": {
+    "__GLOBAL__": {
+      "n": 1456,
+      "pct_mujeres": 74.5,
+      "mediana_ipc": 150.0,
+      "pct_arrendada": 39.3,
+      "pct_urbana": 60.8,
+      "pct_rural": 39.2,
+      "pct_fuera_fam": 29.7,
+      "pct_fuera_dom": 20.4,
+      "pct_ipc_bajo": 72.0,
+      "pct_primera_gen": 66.2,
+      "pct_fin_propios": 15.1,
+      "pct_trabaja": 12.6,
+      "pct_bus": 77.3,
+      "pct_discapacidad": 0.8,
+      "pct_afeccion": 33.1,
+      "pct_tratamiento_psi": 15.0,
+      "pct_otra_uc": 9.5,
+      "mediana_nota": 9.16,
+      "pct_mudarse": 20.4,
+      "pct_cuotas": 3.6,
+      "pct_indigena": 3.2
+    },
+    "PSICOLOGIA": {
+      "n": 846,
+      "pct_mujeres": 72.9,
+      "mediana_ipc": 150.0,
+      "pct_arrendada": 38.3,
+      "pct_urbana": 64.3,
+      "pct_rural": 35.7,
+      "pct_fuera_fam": 28.5,
+      "pct_fuera_dom": 19.5,
+      "pct_ipc_bajo": 71.9,
+      "pct_primera_gen": 65.7,
+      "pct_fin_propios": 16.8,
+      "pct_trabaja": 12.9,
+      "pct_bus": 73.8,
+      "pct_discapacidad": 0.9,
+      "pct_afeccion": 33.8,
+      "pct_tratamiento_psi": 14.8,
+      "pct_otra_uc": 11.2,
+      "mediana_nota": 9.09,
+      "pct_mudarse": 20.8,
+      "pct_cuotas": 3.5,
+      "pct_indigena": 2.6
+    },
+    "PSICOLOGIA AJUSTADA-CAMPO DE LA SALUD": {
+      "n": 515,
+      "pct_mujeres": 76.9,
+      "mediana_ipc": 153.33,
+      "pct_arrendada": 41.2,
+      "pct_urbana": 56.5,
+      "pct_rural": 43.5,
+      "pct_fuera_fam": 31.7,
+      "pct_fuera_dom": 22.3,
+      "pct_ipc_bajo": 72.6,
+      "pct_primera_gen": 65.8,
+      "pct_fin_propios": 12.6,
+      "pct_trabaja": 12.2,
+      "pct_bus": 80.8,
+      "pct_discapacidad": 0.8,
+      "pct_afeccion": 32.0,
+      "pct_tratamiento_psi": 15.9,
+      "pct_otra_uc": 7.4,
+      "mediana_nota": 9.23,
+      "pct_mudarse": 19.6,
+      "pct_cuotas": 3.5,
+      "pct_indigena": 4.3
+    },
+    "PSICOLOGIA CLINICA": {
+      "n": 5,
+      "pct_mujeres": 80.0,
+      "mediana_ipc": 140.0,
+      "pct_arrendada": 20.0,
+      "pct_urbana": 20.0,
+      "pct_rural": 80.0,
+      "pct_fuera_fam": 0.0,
+      "pct_fuera_dom": 0.0,
+      "pct_ipc_bajo": 60.0,
+      "pct_primera_gen": 60.0,
+      "pct_fin_propios": 20.0,
+      "pct_trabaja": 20.0,
+      "pct_bus": 100.0,
+      "pct_discapacidad": 0.0,
+      "pct_afeccion": 60.0,
+      "pct_tratamiento_psi": 60.0,
+      "pct_otra_uc": 0.0,
+      "mediana_nota": 8.75,
+      "pct_mudarse": 0.0,
+      "pct_cuotas": 0.0,
+      "pct_indigena": 0.0
+    },
+    "PSICOLOGIA EDUCATIVA": {
+      "n": 9,
+      "pct_mujeres": 77.8,
+      "mediana_ipc": 156.67,
+      "pct_arrendada": 44.4,
+      "pct_urbana": 44.4,
+      "pct_rural": 55.6,
+      "pct_fuera_fam": 22.2,
+      "pct_fuera_dom": 0.0,
+      "pct_ipc_bajo": 55.6,
+      "pct_primera_gen": 100.0,
+      "pct_fin_propios": 11.1,
+      "pct_trabaja": 22.2,
+      "pct_bus": 88.9,
+      "pct_discapacidad": 0.0,
+      "pct_afeccion": 55.6,
+      "pct_tratamiento_psi": 44.4,
+      "pct_otra_uc": 0.0,
+      "mediana_nota": 8.42,
+      "pct_mudarse": 11.1,
+      "pct_cuotas": 0.0,
+      "pct_indigena": 0.0
+    },
+    "PSICOLOGIA EDUCATIVA 2024": {
+      "n": 76,
+      "pct_mujeres": 76.3,
+      "mediana_ipc": 150.0,
+      "pct_arrendada": 36.8,
+      "pct_urbana": 55.3,
+      "pct_rural": 44.7,
+      "pct_fuera_fam": 35.5,
+      "pct_fuera_dom": 22.4,
+      "pct_ipc_bajo": 71.1,
+      "pct_primera_gen": 71.1,
+      "pct_fin_propios": 11.8,
+      "pct_trabaja": 6.6,
+      "pct_bus": 89.5,
+      "pct_discapacidad": 0.0,
+      "pct_afeccion": 25.0,
+      "pct_tratamiento_psi": 6.6,
+      "pct_otra_uc": 5.3,
+      "mediana_nota": 9.14,
+      "pct_mudarse": 22.4,
+      "pct_cuotas": 5.3,
+      "pct_indigena": 2.6
+    },
+    "PSICOLOGIA SOCIAL": {
+      "n": 5,
+      "pct_mujeres": 40.0,
+      "mediana_ipc": 110.0,
+      "pct_arrendada": 60.0,
+      "pct_urbana": 60.0,
+      "pct_rural": 40.0,
+      "pct_fuera_fam": 0.0,
+      "pct_fuera_dom": 0.0,
+      "pct_ipc_bajo": 80.0,
+      "pct_primera_gen": 60.0,
+      "pct_fin_propios": 40.0,
+      "pct_trabaja": 60.0,
+      "pct_bus": 100.0,
+      "pct_discapacidad": 0.0,
+      "pct_afeccion": 80.0,
+      "pct_tratamiento_psi": 0.0,
+      "pct_otra_uc": 40.0,
+      "mediana_nota": 9.0,
+      "pct_mudarse": 40.0,
+      "pct_cuotas": 0.0,
+      "pct_indigena": 0.0
+    }
+  },
+  "UNIDAD ACADÉMICA DE FORMACIÓN TÉCNICA Y TECNOLÓGICA SALVADOR ALLENDE": {
+    "__GLOBAL__": {
+      "n": 246,
+      "pct_mujeres": 17.9,
+      "mediana_ipc": 140.0,
+      "pct_arrendada": 41.9,
+      "pct_urbana": 45.1,
+      "pct_rural": 54.9,
+      "pct_fuera_fam": 12.6,
+      "pct_fuera_dom": 13.8,
+      "pct_ipc_bajo": 78.0,
+      "pct_primera_gen": 77.6,
+      "pct_fin_propios": 27.6,
+      "pct_trabaja": 22.8,
+      "pct_bus": 81.7,
+      "pct_discapacidad": 2.0,
+      "pct_afeccion": 22.0,
+      "pct_tratamiento_psi": 4.5,
+      "pct_otra_uc": 13.0,
+      "mediana_nota": 8.58,
+      "pct_mudarse": 6.5,
+      "pct_cuotas": 2.8,
+      "pct_indigena": 1.6
+    },
+    "ADMINISTRACION DE INFRAESTRUCTURA Y PLATAFORMAS TECNOLOGICAS": {
+      "n": 113,
+      "pct_mujeres": 31.0,
+      "mediana_ipc": 127.5,
+      "pct_arrendada": 40.7,
+      "pct_urbana": 45.1,
+      "pct_rural": 54.9,
+      "pct_fuera_fam": 12.4,
+      "pct_fuera_dom": 13.3,
+      "pct_ipc_bajo": 83.2,
+      "pct_primera_gen": 77.0,
+      "pct_fin_propios": 21.2,
+      "pct_trabaja": 11.5,
+      "pct_bus": 83.2,
+      "pct_discapacidad": 0.9,
+      "pct_afeccion": 22.1,
+      "pct_tratamiento_psi": 4.4,
+      "pct_otra_uc": 11.5,
+      "mediana_nota": 8.7,
+      "pct_mudarse": 3.5,
+      "pct_cuotas": 2.7,
+      "pct_indigena": 1.8
+    },
+    "AUTOMATIZACION E INSTRUMENTACION": {
+      "n": 57,
+      "pct_mujeres": 15.8,
+      "mediana_ipc": 195.0,
+      "pct_arrendada": 50.9,
+      "pct_urbana": 56.1,
+      "pct_rural": 43.9,
+      "pct_fuera_fam": 19.3,
+      "pct_fuera_dom": 17.5,
+      "pct_ipc_bajo": 57.9,
+      "pct_primera_gen": 68.4,
+      "pct_fin_propios": 31.6,
+      "pct_trabaja": 31.6,
+      "pct_bus": 73.7,
+      "pct_discapacidad": 1.8,
+      "pct_afeccion": 21.1,
+      "pct_tratamiento_psi": 5.3,
+      "pct_otra_uc": 24.6,
+      "mediana_nota": 8.5,
+      "pct_mudarse": 8.8,
+      "pct_cuotas": 1.8,
+      "pct_indigena": 0.0
+    },
+    "INSTALACIONES DE REDES ELECTRICAS": {
+      "n": 76,
+      "pct_mujeres": 0.0,
+      "mediana_ipc": 126.25,
+      "pct_arrendada": 36.8,
+      "pct_urbana": 36.8,
+      "pct_rural": 63.2,
+      "pct_fuera_fam": 7.9,
+      "pct_fuera_dom": 11.8,
+      "pct_ipc_bajo": 85.5,
+      "pct_primera_gen": 85.5,
+      "pct_fin_propios": 34.2,
+      "pct_trabaja": 32.9,
+      "pct_bus": 85.5,
+      "pct_discapacidad": 3.9,
+      "pct_afeccion": 22.4,
+      "pct_tratamiento_psi": 3.9,
+      "pct_otra_uc": 6.6,
+      "mediana_nota": 8.56,
+      "pct_mudarse": 9.2,
+      "pct_cuotas": 3.9,
+      "pct_indigena": 2.6
+    }
+  },
+  "UNIDAD DE NIVELACION": {
+    "__GLOBAL__": {
+      "n": 1243,
+      "pct_mujeres": 40.9,
+      "mediana_ipc": 138.75,
+      "pct_arrendada": 38.1,
+      "pct_urbana": 42.5,
+      "pct_rural": 57.5,
+      "pct_fuera_fam": 34.8,
+      "pct_fuera_dom": 27.7,
+      "pct_ipc_bajo": 77.6,
+      "pct_primera_gen": 79.9,
+      "pct_fin_propios": 15.8,
+      "pct_trabaja": 12.5,
+      "pct_bus": 86.0,
+      "pct_discapacidad": 0.4,
+      "pct_afeccion": 18.9,
+      "pct_tratamiento_psi": 3.1,
+      "pct_otra_uc": 5.5,
+      "mediana_nota": 8.91,
+      "pct_mudarse": 24.1,
+      "pct_cuotas": 8.7,
+      "pct_indigena": 9.4
+    },
+    "CURSO DE NIVELACION - CIENCIAS EXPERIMENTALES QUIMICA Y BIOLOGIA 2024": {
+      "n": 38,
+      "pct_mujeres": 68.4,
+      "mediana_ipc": 150.0,
+      "pct_arrendada": 52.6,
+      "pct_urbana": 52.6,
+      "pct_rural": 47.4,
+      "pct_fuera_fam": 23.7,
+      "pct_fuera_dom": 15.8,
+      "pct_ipc_bajo": 71.1,
+      "pct_primera_gen": 86.8,
+      "pct_fin_propios": 18.4,
+      "pct_trabaja": 5.3,
+      "pct_bus": 86.8,
+      "pct_discapacidad": 2.6,
+      "pct_afeccion": 23.7,
+      "pct_tratamiento_psi": 0.0,
+      "pct_otra_uc": 2.6,
+      "mediana_nota": 8.95,
+      "pct_mudarse": 21.1,
+      "pct_cuotas": 10.5,
+      "pct_indigena": 2.6
+    },
+    "CURSO DE NIVELACION - CIENCIAS EXPERIMENTALES VERSION  2023": {
+      "n": 15,
+      "pct_mujeres": 26.7,
+      "mediana_ipc": 153.33,
+      "pct_arrendada": 40.0,
+      "pct_urbana": 40.0,
+      "pct_rural": 60.0,
+      "pct_fuera_fam": 26.7,
+      "pct_fuera_dom": 26.7,
+      "pct_ipc_bajo": 86.7,
+      "pct_primera_gen": 86.7,
+      "pct_fin_propios": 26.7,
+      "pct_trabaja": 20.0,
+      "pct_bus": 73.3,
+      "pct_discapacidad": 0.0,
+      "pct_afeccion": 13.3,
+      "pct_tratamiento_psi": 0.0,
+      "pct_otra_uc": 6.7,
+      "mediana_nota": 8.42,
+      "pct_mudarse": 20.0,
+      "pct_cuotas": 13.3,
+      "pct_indigena": 6.7
+    },
+    "CURSO DE NIVELACIÓN -  BIOQUÍMICA Y FARMACIA 2024": {
+      "n": 54,
+      "pct_mujeres": 74.1,
+      "mediana_ipc": 160.0,
+      "pct_arrendada": 33.3,
+      "pct_urbana": 59.3,
+      "pct_rural": 40.7,
+      "pct_fuera_fam": 29.6,
+      "pct_fuera_dom": 24.1,
+      "pct_ipc_bajo": 70.4,
+      "pct_primera_gen": 74.1,
+      "pct_fin_propios": 5.6,
+      "pct_trabaja": 3.7,
+      "pct_bus": 85.2,
+      "pct_discapacidad": 0.0,
+      "pct_afeccion": 20.4,
+      "pct_tratamiento_psi": 1.9,
+      "pct_otra_uc": 5.6,
+      "mediana_nota": 9.09,
+      "pct_mudarse": 33.3,
+      "pct_cuotas": 11.1,
+      "pct_indigena": 9.3
+    },
+    "CURSO DE NIVELACIÓN -  INGENIERÍA CIVIL 2024": {
+      "n": 84,
+      "pct_mujeres": 42.9,
+      "mediana_ipc": 143.5,
+      "pct_arrendada": 36.9,
+      "pct_urbana": 46.4,
+      "pct_rural": 53.6,
+      "pct_fuera_fam": 35.7,
+      "pct_fuera_dom": 25.0,
+      "pct_ipc_bajo": 77.4,
+      "pct_primera_gen": 66.7,
+      "pct_fin_propios": 11.9,
+      "pct_trabaja": 9.5,
+      "pct_bus": 83.3,
+      "pct_discapacidad": 0.0,
+      "pct_afeccion": 17.9,
+      "pct_tratamiento_psi": 2.4,
+      "pct_otra_uc": 1.2,
+      "mediana_nota": 9.4,
+      "pct_mudarse": 26.2,
+      "pct_cuotas": 6.0,
+      "pct_indigena": 11.9
+    },
+    "CURSO DE NIVELACIÓN -  INGENIERÍA INDUSTRIAL 2024": {
+      "n": 50,
+      "pct_mujeres": 42.0,
+      "mediana_ipc": 151.67,
+      "pct_arrendada": 34.0,
+      "pct_urbana": 48.0,
+      "pct_rural": 52.0,
+      "pct_fuera_fam": 40.0,
+      "pct_fuera_dom": 38.0,
+      "pct_ipc_bajo": 80.0,
+      "pct_primera_gen": 88.0,
+      "pct_fin_propios": 8.0,
+      "pct_trabaja": 12.0,
+      "pct_bus": 92.0,
+      "pct_discapacidad": 0.0,
+      "pct_afeccion": 12.0,
+      "pct_tratamiento_psi": 0.0,
+      "pct_otra_uc": 2.0,
+      "mediana_nota": 8.98,
+      "pct_mudarse": 28.0,
+      "pct_cuotas": 6.0,
+      "pct_indigena": 8.0
+    },
+    "CURSO DE NIVELACIÓN -  INGENIERÍA QUÍMICA 2024": {
+      "n": 46,
+      "pct_mujeres": 47.8,
+      "mediana_ipc": 154.52,
+      "pct_arrendada": 39.1,
+      "pct_urbana": 52.2,
+      "pct_rural": 47.8,
+      "pct_fuera_fam": 43.5,
+      "pct_fuera_dom": 34.8,
+      "pct_ipc_bajo": 67.4,
+      "pct_primera_gen": 78.3,
+      "pct_fin_propios": 6.5,
+      "pct_trabaja": 10.9,
+      "pct_bus": 80.4,
+      "pct_discapacidad": 0.0,
+      "pct_afeccion": 23.9,
+      "pct_tratamiento_psi": 4.3,
+      "pct_otra_uc": 4.3,
+      "mediana_nota": 8.82,
+      "pct_mudarse": 37.0,
+      "pct_cuotas": 10.9,
+      "pct_indigena": 6.5
+    },
+    "CURSO DE NIVELACIÓN -  MEDICINA VETERINARIA 2024": {
+      "n": 89,
+      "pct_mujeres": 69.7,
+      "mediana_ipc": 144.4,
+      "pct_arrendada": 28.1,
+      "pct_urbana": 37.1,
+      "pct_rural": 62.9,
+      "pct_fuera_fam": 37.1,
+      "pct_fuera_dom": 30.3,
+      "pct_ipc_bajo": 71.9,
+      "pct_primera_gen": 82.0,
+      "pct_fin_propios": 11.2,
+      "pct_trabaja": 12.4,
+      "pct_bus": 89.9,
+      "pct_discapacidad": 0.0,
+      "pct_afeccion": 16.9,
+      "pct_tratamiento_psi": 2.2,
+      "pct_otra_uc": 3.4,
+      "mediana_nota": 8.95,
+      "pct_mudarse": 29.2,
+      "pct_cuotas": 11.2,
+      "pct_indigena": 15.7
+    },
+    "CURSO DE NIVELACIÓN -  TELECOMUNICACIONES 2024": {
+      "n": 89,
+      "pct_mujeres": 13.5,
+      "mediana_ipc": 140.0,
+      "pct_arrendada": 43.8,
+      "pct_urbana": 46.1,
+      "pct_rural": 53.9,
+      "pct_fuera_fam": 23.6,
+      "pct_fuera_dom": 22.5,
+      "pct_ipc_bajo": 76.4,
+      "pct_primera_gen": 78.7,
+      "pct_fin_propios": 19.1,
+      "pct_trabaja": 13.5,
+      "pct_bus": 83.1,
+      "pct_discapacidad": 0.0,
+      "pct_afeccion": 18.0,
+      "pct_tratamiento_psi": 5.6,
+      "pct_otra_uc": 9.0,
+      "mediana_nota": 8.64,
+      "pct_mudarse": 13.5,
+      "pct_cuotas": 4.5,
+      "pct_indigena": 9.0
+    },
+    "CURSO DE NIVELACIÓN - ADMINISTRACIÓN DE EMPRESAS 2024": {
+      "n": 58,
+      "pct_mujeres": 60.3,
+      "mediana_ipc": 145.0,
+      "pct_arrendada": 46.6,
+      "pct_urbana": 34.5,
+      "pct_rural": 65.5,
+      "pct_fuera_fam": 20.7,
+      "pct_fuera_dom": 17.2,
+      "pct_ipc_bajo": 74.1,
+      "pct_primera_gen": 87.9,
+      "pct_fin_propios": 22.4,
+      "pct_trabaja": 19.0,
+      "pct_bus": 93.1,
+      "pct_discapacidad": 1.7,
+      "pct_afeccion": 32.8,
+      "pct_tratamiento_psi": 10.3,
+      "pct_otra_uc": 8.6,
+      "mediana_nota": 8.96,
+      "pct_mudarse": 17.2,
+      "pct_cuotas": 8.6,
+      "pct_indigena": 8.6
+    },
+    "CURSO DE NIVELACIÓN - AGRONOMÍA 2024": {
+      "n": 90,
+      "pct_mujeres": 53.3,
+      "mediana_ipc": 112.5,
+      "pct_arrendada": 38.9,
+      "pct_urbana": 30.0,
+      "pct_rural": 70.0,
+      "pct_fuera_fam": 35.6,
+      "pct_fuera_dom": 30.0,
+      "pct_ipc_bajo": 87.8,
+      "pct_primera_gen": 88.9,
+      "pct_fin_propios": 23.3,
+      "pct_trabaja": 16.7,
+      "pct_bus": 93.3,
+      "pct_discapacidad": 1.1,
+      "pct_afeccion": 22.2,
+      "pct_tratamiento_psi": 1.1,
+      "pct_otra_uc": 8.9,
+      "mediana_nota": 8.32,
+      "pct_mudarse": 30.0,
+      "pct_cuotas": 8.9,
+      "pct_indigena": 7.8
+    },
+    "CURSO DE NIVELACIÓN - ARQUITECTURA 2024": {
+      "n": 59,
+      "pct_mujeres": 47.5,
+      "mediana_ipc": 125.0,
+      "pct_arrendada": 35.6,
+      "pct_urbana": 27.1,
+      "pct_rural": 72.9,
+      "pct_fuera_fam": 52.5,
+      "pct_fuera_dom": 42.4,
+      "pct_ipc_bajo": 86.4,
+      "pct_primera_gen": 83.1,
+      "pct_fin_propios": 18.6,
+      "pct_trabaja": 13.6,
+      "pct_bus": 88.1,
+      "pct_discapacidad": 0.0,
+      "pct_afeccion": 15.3,
+      "pct_tratamiento_psi": 1.7,
+      "pct_otra_uc": 1.7,
+      "mediana_nota": 9.18,
+      "pct_mudarse": 39.0,
+      "pct_cuotas": 15.3,
+      "pct_indigena": 16.9
+    },
+    "CURSO DE NIVELACIÓN - BIOQUIMICA Y FARMACIA": {
+      "n": 7,
+      "pct_mujeres": 71.4,
+      "mediana_ipc": 100.0,
+      "pct_arrendada": 42.9,
+      "pct_urbana": 14.3,
+      "pct_rural": 85.7,
+      "pct_fuera_fam": 42.9,
+      "pct_fuera_dom": 28.6,
+      "pct_ipc_bajo": 100.0,
+      "pct_primera_gen": 57.1,
+      "pct_fin_propios": 14.3,
+      "pct_trabaja": 14.3,
+      "pct_bus": 100.0,
+      "pct_discapacidad": 0.0,
+      "pct_afeccion": 42.9,
+      "pct_tratamiento_psi": 14.3,
+      "pct_otra_uc": 28.6,
+      "mediana_nota": 8.67,
+      "pct_mudarse": 14.3,
+      "pct_cuotas": 14.3,
+      "pct_indigena": 42.9
+    },
+    "CURSO DE NIVELACIÓN - CIENCIAS EXPERIMENTALES MATEMÁTICA Y FÍSICA 2024": {
+      "n": 66,
+      "pct_mujeres": 36.4,
+      "mediana_ipc": 150.0,
+      "pct_arrendada": 43.9,
+      "pct_urbana": 48.5,
+      "pct_rural": 51.5,
+      "pct_fuera_fam": 18.2,
+      "pct_fuera_dom": 13.6,
+      "pct_ipc_bajo": 78.8,
+      "pct_primera_gen": 75.8,
+      "pct_fin_propios": 15.2,
+      "pct_trabaja": 16.7,
+      "pct_bus": 84.8,
+      "pct_discapacidad": 0.0,
+      "pct_afeccion": 12.1,
+      "pct_tratamiento_psi": 1.5,
+      "pct_otra_uc": 10.6,
+      "mediana_nota": 8.6,
+      "pct_mudarse": 13.6,
+      "pct_cuotas": 7.6,
+      "pct_indigena": 1.5
+    },
+    "CURSO DE NIVELACIÓN - COMPUTACION": {
+      "n": 34,
+      "pct_mujeres": 17.6,
+      "mediana_ipc": 132.5,
+      "pct_arrendada": 50.0,
+      "pct_urbana": 52.9,
+      "pct_rural": 47.1,
+      "pct_fuera_fam": 32.4,
+      "pct_fuera_dom": 23.5,
+      "pct_ipc_bajo": 76.5,
+      "pct_primera_gen": 88.2,
+      "pct_fin_propios": 11.8,
+      "pct_trabaja": 5.9,
+      "pct_bus": 70.6,
+      "pct_discapacidad": 0.0,
+      "pct_afeccion": 29.4,
+      "pct_tratamiento_psi": 8.8,
+      "pct_otra_uc": 5.9,
+      "mediana_nota": 9.12,
+      "pct_mudarse": 20.6,
+      "pct_cuotas": 11.8,
+      "pct_indigena": 8.8
+    },
+    "CURSO DE NIVELACIÓN - COMPUTACIÓN 2024": {
+      "n": 88,
+      "pct_mujeres": 26.1,
+      "mediana_ipc": 131.25,
+      "pct_arrendada": 29.5,
+      "pct_urbana": 40.9,
+      "pct_rural": 59.1,
+      "pct_fuera_fam": 40.9,
+      "pct_fuera_dom": 28.4,
+      "pct_ipc_bajo": 78.4,
+      "pct_primera_gen": 68.2,
+      "pct_fin_propios": 19.3,
+      "pct_trabaja": 15.9,
+      "pct_bus": 84.1,
+      "pct_discapacidad": 1.1,
+      "pct_afeccion": 17.0,
+      "pct_tratamiento_psi": 3.4,
+      "pct_otra_uc": 2.3,
+      "mediana_nota": 9.14,
+      "pct_mudarse": 25.0,
+      "pct_cuotas": 8.0,
+      "pct_indigena": 11.4
+    },
+    "CURSO DE NIVELACIÓN - ECONOMÍA 2024": {
+      "n": 56,
+      "pct_mujeres": 41.1,
+      "mediana_ipc": 150.0,
+      "pct_arrendada": 35.7,
+      "pct_urbana": 37.5,
+      "pct_rural": 62.5,
+      "pct_fuera_fam": 46.4,
+      "pct_fuera_dom": 41.1,
+      "pct_ipc_bajo": 78.6,
+      "pct_primera_gen": 82.1,
+      "pct_fin_propios": 26.8,
+      "pct_trabaja": 17.9,
+      "pct_bus": 78.6,
+      "pct_discapacidad": 0.0,
+      "pct_afeccion": 21.4,
+      "pct_tratamiento_psi": 1.8,
+      "pct_otra_uc": 10.7,
+      "mediana_nota": 8.51,
+      "pct_mudarse": 30.4,
+      "pct_cuotas": 17.9,
+      "pct_indigena": 12.5
+    },
+    "CURSO DE NIVELACIÓN - ELECTRICIDAD": {
+      "n": 46,
+      "pct_mujeres": 21.7,
+      "mediana_ipc": 124.95,
+      "pct_arrendada": 28.3,
+      "pct_urbana": 30.4,
+      "pct_rural": 69.6,
+      "pct_fuera_fam": 45.7,
+      "pct_fuera_dom": 37.0,
+      "pct_ipc_bajo": 76.1,
+      "pct_primera_gen": 82.6,
+      "pct_fin_propios": 15.2,
+      "pct_trabaja": 8.7,
+      "pct_bus": 82.6,
+      "pct_discapacidad": 0.0,
+      "pct_afeccion": 21.7,
+      "pct_tratamiento_psi": 4.3,
+      "pct_otra_uc": 0.0,
+      "mediana_nota": 9.25,
+      "pct_mudarse": 19.6,
+      "pct_cuotas": 4.3,
+      "pct_indigena": 4.3
+    },
+    "CURSO DE NIVELACIÓN - ELECTRICIDAD 2024": {
+      "n": 88,
+      "pct_mujeres": 12.5,
+      "mediana_ipc": 122.11,
+      "pct_arrendada": 33.0,
+      "pct_urbana": 36.4,
+      "pct_rural": 63.6,
+      "pct_fuera_fam": 37.5,
+      "pct_fuera_dom": 29.5,
+      "pct_ipc_bajo": 79.5,
+      "pct_primera_gen": 87.5,
+      "pct_fin_propios": 18.2,
+      "pct_trabaja": 9.1,
+      "pct_bus": 89.8,
+      "pct_discapacidad": 0.0,
+      "pct_afeccion": 12.5,
+      "pct_tratamiento_psi": 0.0,
+      "pct_otra_uc": 2.3,
+      "mediana_nota": 8.91,
+      "pct_mudarse": 25.0,
+      "pct_cuotas": 11.4,
+      "pct_indigena": 11.4
+    },
+    "CURSO DE NIVELACIÓN - EMPRENDIMIENTO E INNOVACIÓN 2024": {
+      "n": 41,
+      "pct_mujeres": 46.3,
+      "mediana_ipc": 137.5,
+      "pct_arrendada": 36.6,
+      "pct_urbana": 58.5,
+      "pct_rural": 41.5,
+      "pct_fuera_fam": 29.3,
+      "pct_fuera_dom": 24.4,
+      "pct_ipc_bajo": 65.9,
+      "pct_primera_gen": 75.6,
+      "pct_fin_propios": 14.6,
+      "pct_trabaja": 19.5,
+      "pct_bus": 85.4,
+      "pct_discapacidad": 0.0,
+      "pct_afeccion": 19.5,
+      "pct_tratamiento_psi": 0.0,
+      "pct_otra_uc": 14.6,
+      "mediana_nota": 8.68,
+      "pct_mudarse": 17.1,
+      "pct_cuotas": 9.8,
+      "pct_indigena": 2.4
+    },
+    "CURSO DE NIVELACIÓN - INGENIERIA AMBIENTAL": {
+      "n": 18,
+      "pct_mujeres": 55.6,
+      "mediana_ipc": 120.83,
+      "pct_arrendada": 33.3,
+      "pct_urbana": 55.6,
+      "pct_rural": 44.4,
+      "pct_fuera_fam": 27.8,
+      "pct_fuera_dom": 27.8,
+      "pct_ipc_bajo": 77.8,
+      "pct_primera_gen": 88.9,
+      "pct_fin_propios": 27.8,
+      "pct_trabaja": 16.7,
+      "pct_bus": 77.8,
+      "pct_discapacidad": 0.0,
+      "pct_afeccion": 27.8,
+      "pct_tratamiento_psi": 0.0,
+      "pct_otra_uc": 0.0,
+      "mediana_nota": 8.16,
+      "pct_mudarse": 5.6,
+      "pct_cuotas": 0.0,
+      "pct_indigena": 5.6
+    },
+    "CURSO DE NIVELACIÓN - INGENIERIA CIVIL": {
+      "n": 24,
+      "pct_mujeres": 45.8,
+      "mediana_ipc": 151.67,
+      "pct_arrendada": 45.8,
+      "pct_urbana": 29.2,
+      "pct_rural": 70.8,
+      "pct_fuera_fam": 58.3,
+      "pct_fuera_dom": 37.5,
+      "pct_ipc_bajo": 79.2,
+      "pct_primera_gen": 75.0,
+      "pct_fin_propios": 0.0,
+      "pct_trabaja": 4.2,
+      "pct_bus": 87.5,
+      "pct_discapacidad": 0.0,
+      "pct_afeccion": 8.3,
+      "pct_tratamiento_psi": 8.3,
+      "pct_otra_uc": 0.0,
+      "mediana_nota": 9.24,
+      "pct_mudarse": 20.8,
+      "pct_cuotas": 4.2,
+      "pct_indigena": 16.7
+    },
+    "CURSO DE NIVELACIÓN - INGENIERIA INDUSTRIAL": {
+      "n": 18,
+      "pct_mujeres": 38.9,
+      "mediana_ipc": 125.0,
+      "pct_arrendada": 44.4,
+      "pct_urbana": 27.8,
+      "pct_rural": 72.2,
+      "pct_fuera_fam": 16.7,
+      "pct_fuera_dom": 16.7,
+      "pct_ipc_bajo": 94.4,
+      "pct_primera_gen": 83.3,
+      "pct_fin_propios": 11.1,
+      "pct_trabaja": 0.0,
+      "pct_bus": 94.4,
+      "pct_discapacidad": 0.0,
+      "pct_afeccion": 38.9,
+      "pct_tratamiento_psi": 11.1,
+      "pct_otra_uc": 0.0,
+      "mediana_nota": 9.01,
+      "pct_mudarse": 16.7,
+      "pct_cuotas": 5.6,
+      "pct_indigena": 0.0
+    },
+    "CURSO DE NIVELACIÓN - INGENIERIA QUIMICA": {
+      "n": 3,
+      "pct_mujeres": 33.3,
+      "mediana_ipc": 83.33,
+      "pct_arrendada": 100.0,
+      "pct_urbana": 66.7,
+      "pct_rural": 33.3,
+      "pct_fuera_fam": 33.3,
+      "pct_fuera_dom": 33.3,
+      "pct_ipc_bajo": 100.0,
+      "pct_primera_gen": 100.0,
+      "pct_fin_propios": 0.0,
+      "pct_trabaja": 0.0,
+      "pct_bus": 100.0,
+      "pct_discapacidad": 0.0,
+      "pct_afeccion": 33.3,
+      "pct_tratamiento_psi": 0.0,
+      "pct_otra_uc": 0.0,
+      "mediana_nota": 8.15,
+      "pct_mudarse": 0.0,
+      "pct_cuotas": 0.0,
+      "pct_indigena": 0.0
+    },
+    "CURSO DE NIVELACIÓN - INGENIERÍA AMBIENTAL 2024": {
+      "n": 45,
+      "pct_mujeres": 42.2,
+      "mediana_ipc": 115.0,
+      "pct_arrendada": 40.0,
+      "pct_urbana": 44.4,
+      "pct_rural": 55.6,
+      "pct_fuera_fam": 40.0,
+      "pct_fuera_dom": 28.9,
+      "pct_ipc_bajo": 86.7,
+      "pct_primera_gen": 77.8,
+      "pct_fin_propios": 17.8,
+      "pct_trabaja": 15.6,
+      "pct_bus": 80.0,
+      "pct_discapacidad": 0.0,
+      "pct_afeccion": 11.1,
+      "pct_tratamiento_psi": 2.2,
+      "pct_otra_uc": 13.3,
+      "mediana_nota": 8.54,
+      "pct_mudarse": 28.9,
+      "pct_cuotas": 2.2,
+      "pct_indigena": 13.3
+    },
+    "CURSO DE NIVELACIÓN - TELECOMUNICACIONES": {
+      "n": 37,
+      "pct_mujeres": 13.5,
+      "mediana_ipc": 155.0,
+      "pct_arrendada": 48.6,
+      "pct_urbana": 64.9,
+      "pct_rural": 35.1,
+      "pct_fuera_fam": 24.3,
+      "pct_fuera_dom": 13.5,
+      "pct_ipc_bajo": 64.9,
+      "pct_primera_gen": 67.6,
+      "pct_fin_propios": 5.4,
+      "pct_trabaja": 8.1,
+      "pct_bus": 91.9,
+      "pct_discapacidad": 2.7,
+      "pct_afeccion": 13.5,
+      "pct_tratamiento_psi": 5.4,
+      "pct_otra_uc": 2.7,
+      "mediana_nota": 8.97,
+      "pct_mudarse": 10.8,
+      "pct_cuotas": 2.7,
+      "pct_indigena": 2.7
+    }
+  }
+};
+
+/* ══ POBLAR SELECTORES ══════════════════════════════════════ */
+const selFac = document.getElementById('sel-fac');
+const selCar = document.getElementById('sel-car');
+
+const facultades = Object.keys(DATA).filter(k => k !== '__GLOBAL__').sort();
+facultades.forEach(f => {
+  const opt = document.createElement('option');
+  opt.value = f;
+  opt.textContent = toTitleCase(f);
+  selFac.appendChild(opt);
+});
+
+function toTitleCase(str) {
+  const exceptions = new Set(['de','del','y','la','las','los','en','a','e','i','o','u']);
+  return str.toLowerCase().split(' ').map((w, i) =>
+    (i === 0 || !exceptions.has(w)) ? w.charAt(0).toUpperCase() + w.slice(1) : w
+  ).join(' ');
+}
+
+function onFacChange() {
+  const fac = selFac.value;
+  // Limpiar carreras
+  selCar.innerHTML = '<option value="__GLOBAL__">— Todas —</option>';
+  if (fac !== '__GLOBAL__') {
+    const carreras = Object.keys(DATA[fac]).filter(k => k !== '__GLOBAL__').sort();
+    carreras.forEach(c => {
+      const opt = document.createElement('option');
+      opt.value = c;
+      opt.textContent = toTitleCase(c);
+      selCar.appendChild(opt);
+    });
+  }
+  render();
+}
+
+function onCarChange() { render(); }
+
+/* ══ RENDER ═════════════════════════════════════════════════ */
+function fmt(val, decimals = 1) {
+  if (val === null || val === undefined) return '—';
+  return Number(val).toFixed(decimals);
+}
+
+function setTile(id, val, isBar = true) {
+  const span = document.getElementById('t-' + id);
+  if (!span) return;
+  const display = (val === null || val === undefined) ? '—' : fmt(val);
+  span.textContent = display;
+  if (isBar) {
+    const bar = document.getElementById('b-' + id);
+    if (bar) bar.style.width = (val ? Math.min(val, 100) : 0) + '%';
+  }
+}
+
+function render() {
+  const fac = selFac.value;
+  const car = selCar.value;
+
+  let d;
+  if (fac === '__GLOBAL__') {
+    d = DATA['__GLOBAL__']['__GLOBAL__'];
+  } else if (car === '__GLOBAL__') {
+    d = DATA[fac]['__GLOBAL__'];
+  } else {
+    d = DATA[fac][car];
+  }
+
+  if (!d) return;
+
+  // Badge
+  document.getElementById('badge-count').textContent =
+    d.n.toLocaleString('es-EC');
+
+  // Bloque 1
+  setTile('mujeres',    d.pct_mujeres);
+  setTile('ipc',        d.mediana_ipc, false);
+  setTile('arrendada',  d.pct_arrendada);
+  setTile('urbana',     d.pct_urbana);
+  setTile('rural',      d.pct_rural);
+  setTile('fuera-fam',  d.pct_fuera_fam);
+  setTile('fuera-dom',  d.pct_fuera_dom);
+
+  // Bloque 2
+  setTile('ipc-bajo',   d.pct_ipc_bajo);
+  setTile('primera',    d.pct_primera_gen);
+  setTile('fin-prop',   d.pct_fin_propios);
+  setTile('trabaja',    d.pct_trabaja);
+  setTile('bus',        d.pct_bus);
+
+  // Bloque 3
+  setTile('discap',     d.pct_discapacidad);
+  setTile('afeccion',   d.pct_afeccion);
+  setTile('psi',        d.pct_tratamiento_psi);
+  setTile('otra-uc',    d.pct_otra_uc);
+  setTile('nota',       d.mediana_nota, false);
+
+  // Bloque 4
+  setTile('mudarse',    d.pct_mudarse);
+  setTile('cuotas',     d.pct_cuotas);
+  setTile('indigena',   d.pct_indigena);
+}
+
+// Inicializar
+render();
+</script>
+</body>
+</html>
